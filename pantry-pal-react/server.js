@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
 
 const groceryRouter = require("./routes/api/groceryList");
+const searchRouter = require('./routes/api/recipe-search');
 
 const app = express();
 
@@ -24,6 +25,7 @@ mongoose
 
 // Initialize routes
 app.use("/api/grocerylist", groceryRouter);
+app.use('/api/recipe-search', searchRouter);
 
 const port = process.env.PORT || 5000;
 // "process.env.PORT" is for when we deploy to Heroku

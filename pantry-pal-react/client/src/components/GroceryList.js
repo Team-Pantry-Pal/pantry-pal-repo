@@ -4,7 +4,6 @@ import "./GroceryList.css";
 import PropTypes from "prop-types";
 
 class GroceryList extends Component {
-  // itemInput = React.createRef();
 
   state = {
     groceryItems: [],
@@ -20,7 +19,7 @@ class GroceryList extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({value: event.target.value});
+    this.setState({ value: event.target.value });
   };
 
   addItem = (event, err) => {
@@ -35,7 +34,9 @@ class GroceryList extends Component {
       .then(newItem => {
         let groceryItems = [...this.state.groceryItems];
         groceryItems.push(newItem);
+        //console.log(newItem);
         this.setState({ groceryItems });
+        //console.log(this.state.groceryItems);
       })
       .catch(err);
     this.setState({ value: '' });
@@ -50,6 +51,7 @@ class GroceryList extends Component {
 
   render() {
     const { groceryItems } = this.state;
+    //console.log(groceryItems);
     return (
       <Container>
         <Form inline onSubmit={this.addItem}>

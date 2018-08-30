@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import AppNavbar from './components/AppNavbar';
 import GroceryList from './components/GroceryList';
+import RecipeSearch from './components/RecipeSearch';
 import { Container } from 'reactstrap';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -12,6 +13,7 @@ class App extends Component {
       <div className="App">
         <AppNavbar />
         <Container>
+          <RecipeSearch />
           <GroceryList />
         </Container>
       </div>
