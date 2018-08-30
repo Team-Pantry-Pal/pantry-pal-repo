@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Label } from "reactstrap";
+import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Label, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
 import PropTypes from "prop-types";
 
@@ -54,38 +54,41 @@ class GroceryList extends Component {
     //console.log(groceryItems);
     return (
       <Container>
-        <Form inline onSubmit={this.addItem}>
-          <FormGroup>
-            <Label for="newItem"></Label>
-            <Input
-              type="text"
-              name="item"
-              id="newItem"
-              placeholder="Add new grocery item"
-              value={this.state.value}
-              onChange={this.handleChange}
-            />
-            <Button type="submit">
-              Add Item
-            </Button>
-          </FormGroup>
-        </Form>
-
-        <ListGroup>
-          {groceryItems.map(({ _id, name, quantity, unitOm }) => (
-            <ListGroupItem key={_id}>
-              <Button
-                className="remove-btn"
-                color="danger"
-                size="sm"
-                onClick={this.deleteItem.bind(this, _id)}
-              >
-                &times;
+        <Jumbotron>
+          <h3>Grocery List</h3>
+          <Form inline onSubmit={this.addItem}>
+            <FormGroup>
+              <Label for="newItem"></Label>
+              <Input
+                type="text"
+                name="item"
+                id="newItem"
+                placeholder="Add new grocery item"
+                value={this.state.value}
+                onChange={this.handleChange}
+              />
+              <Button type="submit">
+                Add Item
               </Button>
-              {quantity} {unitOm} of {name}
-            </ListGroupItem>
-          ))}
-        </ListGroup>
+            </FormGroup>
+          </Form>
+          <br />
+          <ListGroup>
+            {groceryItems.map(({ _id, name, quantity, unitOm }) => (
+              <ListGroupItem key={_id}>
+                <Button
+                  className="remove-btn"
+                  color="danger"
+                  size="sm"
+                  onClick={this.deleteItem.bind(this, _id)}
+                >
+                  &times;
+                </Button>
+                {quantity} {unitOm} of {name}
+              </ListGroupItem>
+            ))}
+          </ListGroup>
+        </Jumbotron>
       </Container>
     );
   }
