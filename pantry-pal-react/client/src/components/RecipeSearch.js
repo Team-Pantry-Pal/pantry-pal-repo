@@ -1,12 +1,11 @@
 import React, { Component } from "react";
-import { Container, Form, FormGroup, Label, Input, Button, CardDeck, Card, CardImg, CardBody, CardTitle, Modal, ModalHeader, ModalBody, ModalFooter, Jumbotron } from 'reactstrap';
+import { Container, Form, FormGroup, Label, Input, Button, CardDeck, Card, CardImg, CardBody, CardTitle, Jumbotron } from 'reactstrap';
 
 class RecipeSearch extends Component {
 
   state = {
     searchResults: [],
     value: '',
-    modal: false
   };
 
   handleChange = (event) => {
@@ -40,10 +39,6 @@ class RecipeSearch extends Component {
     this.setState({ value: '' });
   };
 
-  toggle = () => {
-    this.setState({ modal: !this.state.modal });
-  };
-
   render() {
     const searchResults = this.state.searchResults;
     //console.log(searchResults);
@@ -71,30 +66,11 @@ class RecipeSearch extends Component {
                 <CardImg top width="100%" src={image} />
                 <CardBody>
                   <CardTitle>{title}</CardTitle>
-                  <Button onClick={this.toggle}>View Recipe</Button>
                 </CardBody>
               </Card>
             ))}
           </CardDeck>
         </Jumbotron>
-
-
-        <Modal
-          isOpen={this.state.modal}
-          toggle={this.toggle}
-          centered={true}
-          size="lg"
-        >
-          <ModalHeader toggle={this.toggle}>Recipe Title</ModalHeader>
-            <Jumbotron>
-              <ModalBody>
-                Some shit about the recipe. Instructions and Ingredients, shit like that...
-              </ModalBody>
-            </Jumbotron>
-              <ModalFooter>
-                <Button onClick={this.toggle}>Add to Favs</Button>
-              </ModalFooter>
-        </Modal>
       </Container>
     );
   }
