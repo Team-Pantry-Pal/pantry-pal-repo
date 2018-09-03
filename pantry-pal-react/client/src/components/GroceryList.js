@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Label, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
-import PropTypes from "prop-types";
 
 class GroceryList extends Component {
 
@@ -10,12 +9,13 @@ class GroceryList extends Component {
     value: ''
   };
 
-  componentDidMount() {
+  componentDidMount(err) {
     fetch('api/grocerylist/')
       .then(res => res.json())
       .then(data => {
         this.setState({ groceryItems: data })
-      });
+      })
+      .catch(err);
   }
 
   handleChange = (event) => {

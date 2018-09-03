@@ -5,7 +5,7 @@ class RecipeSearch extends Component {
 
   state = {
     searchResults: [],
-    value: '',
+    value: ''
   };
 
   handleChange = (event) => {
@@ -14,26 +14,19 @@ class RecipeSearch extends Component {
 
   findRecipes = (event, err) => {
     event.preventDefault();
-    let searchData = { ingredient: this.state.value};
+    let searchData = { ingredients: this.state.value};
+    console.log(searchData);
     fetch('api/recipe-search', {
       method: 'POST',
       body: JSON.stringify(searchData),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(function(res) {
-        console.log(res);
         let shit = res.json();
-        console.log(shit);
         return shit;
       })
       .then(results => {
-        //console.log(results);
-        /*
-        let searchResults = [...this.state.searchResults];
-        searchResults.push(results);
-        */
         this.setState({ searchResults: results });
-        //console.log(this.state.searchResults);
       })
       .catch(err);
     this.setState({ value: '' });
@@ -47,7 +40,8 @@ class RecipeSearch extends Component {
         <Jumbotron>
           <Form onSubmit={this.findRecipes}>
             <FormGroup>
-              <Label for="recipeSearch"><h3>Search by Ingredient</h3></Label>
+              <h3>Search by Ingredient</h3>
+              <Label for="recipeSearch">(Separate multiple ingredients with a comma)</Label>
               <Input
                 type="search"
                 name="search"

@@ -33,7 +33,7 @@ router.post("/", (req, res) => {
 // @route   DELETE api/grocerlist
 // @desc    Deleve a grocery list item
 // @access  Public
-router.delete("/:id", (req, res) => {
+router.delete("/:id", (req, res,) => {
   GroceryItem.findById(req.params.id)
     .then(groceryItem =>
       groceryItem.remove().then(() => res.json({ success: true }))
