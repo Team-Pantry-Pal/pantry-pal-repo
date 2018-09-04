@@ -110,11 +110,11 @@ class PantryList extends Component {
           <h3>Pantry List</h3>
           <Form inline onSubmit={this.addItem}>
             <FormGroup>
-              <Label for="newItem"></Label>
+              <Label for="newPantryItem"></Label>
               <Input
                 type="text"
                 name="item"
-                id="newItem"
+                id="newPantryItem"
                 placeholder="Add new pantry item"
                 value={this.state.value}
                 onChange={this.handleChange}

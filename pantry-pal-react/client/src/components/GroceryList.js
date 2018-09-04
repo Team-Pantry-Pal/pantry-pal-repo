@@ -58,11 +58,11 @@ class GroceryList extends Component {
           <h3>Grocery List</h3>
           <Form inline onSubmit={this.addItem}>
             <FormGroup>
-              <Label for="newItem"></Label>
+              <Label for="newGroceryItem"></Label>
               <Input
                 type="text"
                 name="item"
-                id="newItem"
+                id="newGroceryItem"
                 placeholder="Add new grocery item"
                 value={this.state.value}
                 onChange={this.handleChange}
