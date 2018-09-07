@@ -23,7 +23,8 @@ class Signup extends Component {
       body: JSON.stringify(userObject),
       headers: {'content-type': 'application/json'}
     })
-    .catch(err => err);
+    .then(res => console.log(res))
+    .catch(err => console.error(err));
     /*
     .then(res, err => {
        console.log(err)

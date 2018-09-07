@@ -4,7 +4,6 @@ const bodyParser = require("body-parser");
 // Passport dependencies
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const passportLocalMongoose = require('passport-local-mongoose');
 
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require('./routes/api/recipe-search');
