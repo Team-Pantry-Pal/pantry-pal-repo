@@ -38,9 +38,12 @@ app.post("/signup", function(req, res) {
     if (err) {
       console.log("something happended");
     } else {
-      passport.authenticate("local")(req, res);
-      console.log("HOORAY! YOU'RE AUTHENTICATED!!!")
-      console.log(user);
+      passport.authenticate("local")(req, res, () => {
+        console.log("HOORAY! YOU'RE AUTHENTICATED!!!")
+        console.log(user);
+        res.json(user);
+      });
+
     }
   });
 });

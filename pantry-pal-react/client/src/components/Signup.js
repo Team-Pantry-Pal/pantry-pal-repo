@@ -23,21 +23,12 @@ class Signup extends Component {
       body: JSON.stringify(userObject),
       headers: {'content-type': 'application/json'}
     })
-    .then(res => console.log(res))
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.username);
+      console.log(data._id);
+    })
     .catch(err => console.error(err));
-    /*
-    .then(res, err => {
-       console.log(err)
-       console.log(res);
-       res.json();
-      })
-      .then(res => {
-       console.log(res);
-       this.setState({ isLoggedIn: true});
-       console.log('worked');
-      })
-      .catch(err => err);
-    */
   };
 
   handleUsernameChange = (event) => {

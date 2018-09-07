@@ -12,6 +12,18 @@ const passportRoutes = require('./routes/api/passportRoutes');
 
 const app = express();
 
+// Database configuration
+const db = require("./config/keys").mongoURI;
+// Connect to MongoDB
+mongoose
+  .connect(db, { useNewUrlParser: true })
+  .then(function() {
+    console.log("MongoDB is connected...");
+  })
+  .catch(function(err) {
+    console.log(err);
+  });
+
 // bodyParser middleware
 app.use(bodyParser.json());
 
@@ -28,19 +40,6 @@ passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 app.use(bodyParser.urlencoded({extended: true}));
-
-// Database configuration
-const db = require("./config/keys").mongoURI;
-
-// Connect to MongoDB
-mongoose
-  .connect(db, { useNewUrlParser: true })
-  .then(function() {
-    console.log("MongoDB is connected...");
-  })
-  .catch(function(err) {
-    console.log(err);
-  });
 
 // Initialize routes
 app.use("/api/grocerylist", groceryRouter);
