@@ -1,9 +1,6 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 // Passport dependencies
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const passportLocalMongoose = require("passport-local-mongoose");
 const User = require("../../models/User");
 
 const app = express();

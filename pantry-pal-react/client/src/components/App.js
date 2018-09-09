@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Container } from 'reactstrap';
-import AppNavbar from './components/AppNavbar';
-import GroceryList from './components/GroceryList';
-import RecipeSearch from './components/RecipeSearch';
-import PantryList from './components/PantryList';
-import Signup from './components/Signup';
+import AppNavbar from './AppNavbar';
+import GroceryList from './GroceryList';
+import RecipeSearch from './RecipeSearch';
+import PantryList from './PantryList';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -15,7 +14,6 @@ class App extends Component {
       <div className="App">
         <AppNavbar />
         <Container>
-          <Signup />
           <PantryList />
           <RecipeSearch />
           <GroceryList />

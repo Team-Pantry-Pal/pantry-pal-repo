@@ -3,16 +3,18 @@ import { Button, Form, FormGroup, Label, Input, Jumbotron } from 'reactstrap';
 
 class Signup extends Component {
   state = {
-    username: '',
-    password: '',
-    isLoggedIn: false
+    inputUsername: '',
+    inputPassword: '',
+    user: '',
+    userId: '',
+    isLoggedIn: false,
   };
 
   submitForm = (e) => {
     e.preventDefault();
     //take in and store form data
-    const userName = this.state.username;
-    const userPassword = this.state.password;
+    const userName = this.state.inputUsername;
+    const userPassword = this.state.inputPassword;
     //send data to backend post method
     const userObject = {
       username: userName,
@@ -27,16 +29,23 @@ class Signup extends Component {
     .then(data => {
       console.log(data.username);
       console.log(data._id);
+      this.setState({
+        user: data.username,
+        userId: data._id,
+        isLoggedIn: true
+      });
+      const user = this.state.user;
+      this.props.push(`/user/${user}`);
     })
     .catch(err => console.error(err));
   };
 
   handleUsernameChange = (event) => {
-    this.setState({ username: event.target.value });
+    this.setState({ inputUsername: event.target.value });
   };
 
   handlePasswordChange = (event) => {
-    this.setState({ password: event.target.value });
+    this.setState({ inputPassword: event.target.value });
   };
 
   render() {

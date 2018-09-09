@@ -12,6 +12,10 @@ const passportRoutes = require('./routes/api/passportRoutes');
 
 const app = express();
 
+// bodyParser middleware
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
 // Database configuration
 const db = require("./config/keys").mongoURI;
 // Connect to MongoDB
@@ -23,9 +27,6 @@ mongoose
   .catch(function(err) {
     console.log(err);
   });
-
-// bodyParser middleware
-app.use(bodyParser.json());
 
 const User = require('./models/User');
 app.use(require("express-session")({
@@ -39,12 +40,11 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-app.use(bodyParser.urlencoded({extended: true}));
 
 // Initialize routes
-app.use("/api/grocerylist", groceryRouter);
+app.use("/user/api/grocerylist", groceryRouter);
 app.use('/api/recipe-search', searchRouter);
-app.use('/api/pantry', pantryRouter);
+app.use('/user/api/pantry', pantryRouter);
 app.use("/auth", passportRoutes);
 
 const port = process.env.PORT || 5000;
