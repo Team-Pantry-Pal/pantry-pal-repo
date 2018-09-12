@@ -12,6 +12,8 @@ const passportRoutes = require('./routes/api/passportRoutes');
 
 const app = express();
 
+app.use(express.static('public'));
+
 // bodyParser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -43,6 +45,9 @@ passport.deserializeUser(User.deserializeUser());
 
 // Initialize routes
 app.use("/user/api/grocerylist", groceryRouter);
+// Search from /user page
+app.use('/user/api/recipe-search', searchRouter);
+// Search from Welcomage page
 app.use('/api/recipe-search', searchRouter);
 app.use('/user/api/pantry', pantryRouter);
 app.use("/auth", passportRoutes);

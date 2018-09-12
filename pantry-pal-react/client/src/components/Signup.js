@@ -20,7 +20,7 @@ class Signup extends Component {
       username: userName,
       password: userPassword
     };
-    fetch('/auth/signup', {
+    fetch('auth/signup', {
       method: 'POST',
       body: JSON.stringify(userObject),
       headers: {'content-type': 'application/json'}
@@ -35,7 +35,7 @@ class Signup extends Component {
         isLoggedIn: true
       });
       const user = this.state.user;
-      this.props.push(`/user/${user}`);
+      this.props.push(`user/${user}`);
     })
     .catch(err => console.error(err));
   };

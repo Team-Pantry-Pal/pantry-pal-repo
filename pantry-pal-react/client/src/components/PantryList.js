@@ -27,7 +27,7 @@ class PantryList extends Component {
     event.preventDefault();
     let data = { name: this.state.value };
     //console.log(data);
-    fetch('/api/pantry', {
+    fetch('api/pantry', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
@@ -46,7 +46,7 @@ class PantryList extends Component {
     this.setState(state => ({
       pantryItems: state.pantryItems.filter(item => item._id !== _id)
     }));
-    fetch(`/api/pantry/${_id}`, { method: 'DELETE' })
+    fetch(`api/pantry/${_id}`, { method: 'DELETE' })
     .catch(err);
   };
 

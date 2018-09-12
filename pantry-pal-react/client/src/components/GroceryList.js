@@ -25,7 +25,7 @@ class GroceryList extends Component {
   addItem = (event, err) => {
     event.preventDefault();
     let data = { name: this.state.value };
-    fetch('/api/grocerylist', {
+    fetch('api/grocerylist', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
@@ -46,7 +46,7 @@ class GroceryList extends Component {
     this.setState(state => ({
       groceryItems: state.groceryItems.filter(item => item._id !== _id)
     }));
-    fetch(`/api/grocerylist/${_id}`, { method: 'DELETE' });
+    fetch(`api/grocerylist/${_id}`, { method: 'DELETE' });
   };
 
   render() {

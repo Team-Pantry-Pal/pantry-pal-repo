@@ -4,8 +4,8 @@ import AppNavbar from './AppNavbar';
 import RecipeSearch from './RecipeSearch';
 import Dummy from './Dummy';
 import MyProvider from './MyProvider';
+import WelcomeCarousel from './WelcomeCarousel';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class Welcome extends Component {
@@ -13,6 +13,10 @@ class Welcome extends Component {
     return (
       <div className="App">
         <AppNavbar />
+        <Container>
+          <WelcomeCarousel />
+        </Container>
+        <br />
         <Container>
           <MyProvider push={this.props.history.push}>
             <Dummy />
