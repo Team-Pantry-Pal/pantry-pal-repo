@@ -21,13 +21,12 @@ class Welcome extends Component {
                 <Col 
                 sm='6' 
                 className='content' tag='div'>
-                  <img alt='foodpic' className='content-img' tag='div' src='img/food.jpg' />
+                  <img alt='foodpic' className='content-img' tag='div' src='img/potato.jpg' />
                 </Col>
                 <Col 
                 sm='6' 
                 className='content' tag='div'>
-                  <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                  texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  <p>Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
                   </p>
                 </Col>
               </Row>
@@ -42,8 +41,7 @@ class Welcome extends Component {
                 className='jumbo2-content' 
                 sm='6' 
                 tag='div'>
-                  <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                  texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
                   </p>
                 </Col>
                 <Col 
@@ -52,7 +50,7 @@ class Welcome extends Component {
                   <img alt='foodpic'
                   tag='div' 
                   className='jumbo2-img'
-                  src='img/food.jpg' />
+                  src='img/grocerystore.jpg' />
                 </Col>
               </Row>
             </Container>
@@ -65,13 +63,12 @@ class Welcome extends Component {
               <Col 
               sm='6' 
               className='content'>
-                <img alt='foodpic' className='content-img' src='img/food.jpg' />
+                <img alt='foodpic' className='content-img' src='img/shoppinglist.jpg' />
               </Col>
               <Col 
               sm='6' 
               className='content'>
-                <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.
                 </p>
               </Col>
             </Row>

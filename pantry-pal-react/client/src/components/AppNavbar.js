@@ -34,7 +34,7 @@ class AppNavbar extends Component {
         color="dark" 
         dark expand="sm" 
         className="mb-5"
-        className='navpadding'
+        className="navpadding"
         >
           <Container fluid>
             <NavbarBrand href="/">Pantry Pal</NavbarBrand>
