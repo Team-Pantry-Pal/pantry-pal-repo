@@ -6,15 +6,16 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  Container, 
+  Container,
   Form,
-  FormGroup, 
+  FormGroup,
   Label,
-  Input, 
+  Input,
   Button
 } from 'reactstrap';
-import './AppNavbar.css'; 
-import Signup from './Signup'; 
+import './AppNavbar.css';
+import Dummy from './Dummy';
+import MyProvider from './MyProvider';
 
 class AppNavbar extends Component {
   state = {
@@ -30,9 +31,9 @@ class AppNavbar extends Component {
   render() {
     return (
       <div>
-        <Navbar 
-        color="dark" 
-        dark expand="sm" 
+        <Navbar
+        color="dark"
+        dark expand="sm"
         className="mb-5"
         className="navpadding"
         >
@@ -53,7 +54,7 @@ class AppNavbar extends Component {
                     </FormGroup>
                     <Button>Login</Button>
                   </Form>
-                  <Signup />
+                  <Dummy />
                 </NavItem>
               </Nav>
             </Collapse>
