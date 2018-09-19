@@ -14,51 +14,49 @@ class Welcome extends Component {
     return (
       <div className="App">
         <AppNavbar />
-        <Container fluid>
-          <WelcomeCarousel />
-        </Container>
-        <Jumbotron>
-          <Container>
-            <Row>
-              <Col 
-              sm='6' 
-              className='content' tag='div'>
-                <img className='content-img' tag='div' src='img/food.jpg' />
-              </Col>
-              <Col 
-              sm='6' 
-              className='content' tag='div'>
-                <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                </p>
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
+          <WelcomeCarousel fluid/>
+          <Jumbotron>
+            <Container>
+              <Row>
+                <Col 
+                sm='6' 
+                className='content' tag='div'>
+                  <img alt='foodpic' className='content-img' tag='div' src='img/food.jpg' />
+                </Col>
+                <Col 
+                sm='6' 
+                className='content' tag='div'>
+                  <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  </p>
+                </Col>
+              </Row>
+            </Container>
+          </Jumbotron>
 
 
-        <Jumbotron className='jumbo2' tag='div'>
-          <Container>
-            <Row>
-            <Col
-              className='jumbo2-content' 
-              sm='6' 
-              tag='div'>
-                <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
-                </p>
-              </Col>
-              <Col 
-              sm='6' 
-              tag='div'>
-                <img 
-                tag='div' 
-                className='jumbo2-img'
-                src='img/food.jpg' />
-              </Col>
-            </Row>
-          </Container>
-        </Jumbotron>
+          <Jumbotron className='jumbo2' tag='div'>
+            <Container>
+              <Row>
+              <Col
+                className='jumbo2-content' 
+                sm='6' 
+                tag='div'>
+                  <p>texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  texgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfgtexgkls;gjls;gjsal;gjlfg
+                  </p>
+                </Col>
+                <Col 
+                sm='6' 
+                tag='div'>
+                  <img alt='foodpic'
+                  tag='div' 
+                  className='jumbo2-img'
+                  src='img/food.jpg' />
+                </Col>
+              </Row>
+            </Container>
+          </Jumbotron>
 
 
         <Jumbotron>
@@ -67,7 +65,7 @@ class Welcome extends Component {
               <Col 
               sm='6' 
               className='content'>
-                <img className='content-img' src='img/food.jpg' />
+                <img alt='foodpic' className='content-img' src='img/food.jpg' />
               </Col>
               <Col 
               sm='6' 

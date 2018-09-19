@@ -12,8 +12,7 @@ const items = [
   {
     src:
       "img/food.jpg",
-    altText: "Slide 1",
-    caption: "Slide 1"
+    caption: "Slide 1",
   },
   {
     src:
