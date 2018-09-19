@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Button, Form, FormGroup, Label, Input, Jumbotron } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 class Signup extends Component {
   state = {
@@ -7,7 +7,8 @@ class Signup extends Component {
     inputPassword: '',
     user: '',
     userId: '',
-    isLoggedIn: false,
+    modal: false,
+    isLoggedIn: false
   };
 
   submitForm = (e) => {
@@ -48,11 +49,20 @@ class Signup extends Component {
     this.setState({ inputPassword: event.target.value });
   };
 
+  toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  }; 
+
   render() {
     return (
-      <Jumbotron>
+      <div>
+      <Button onClick={this.toggle}>Signup</Button>
+      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+      <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
+        <ModalBody>
         <Form onSubmit={this.submitForm}>
-          <h3>Sign Up</h3>
           <FormGroup>
             <Label for="username">Username</Label>
             <Input
@@ -73,7 +83,9 @@ class Signup extends Component {
           </FormGroup>
           <Button>Submit</Button>
         </Form>
-      </Jumbotron>
+        </ModalBody>
+      </Modal>
+      </div>
     );
   }
 }
