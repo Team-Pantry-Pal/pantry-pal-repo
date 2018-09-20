@@ -10,12 +10,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class App extends Component {
+  state = {
+    user: ''
+  };
+
+  componentDidMount () {
+    this.setState({ user: this.props.match.params.id });
+  }
+
+  componentDidUpdate() {
+    console.log(this.state.user);
+  }
+
   render() {
     return (
       <div className="App">
-        <DashNav /> 
         <Container>
-          <RecipeSearch />
+          <RecipeSearch userParam={this.state.user}/>
         </Container>
       </div>
     );

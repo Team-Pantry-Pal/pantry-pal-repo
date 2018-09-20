@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DashNav from "./DashNav";
 import { Container, Jumbotron, Form, FormGroup, Label, Input, Button, ListGroup, ListGroupItem, CardDeck, Card, CardImg, CardBody, CardTitle } from 'reactstrap';
 
 class PantryList extends Component {
@@ -8,10 +9,13 @@ class PantryList extends Component {
     value: '',
     pantrySelections: [],
     searchResults: [],
-    pantryCheckbox: {}
+    pantryCheckbox: {},
+    user: ''
   };
 
   componentDidMount() {
+    this.setState({ user: this.props.match.params.id });
+
     fetch('api/pantry/')
       .then(res => res.json())
       .then(data => {
@@ -104,72 +108,76 @@ class PantryList extends Component {
   render() {
     const { pantryItems } = this.state;
     const { searchResults } = this.state;
+    const { userParam } = this.props;
     return (
-      <Container>
-        <Jumbotron>
-          <h3>Pantry List</h3>
-          <Form inline onSubmit={this.addItem}>
-            <FormGroup>
-              <Label for="newPantryItem"></Label>
-              <Input
-                type="text"
-                name="item"
-                id="newPantryItem"
-                placeholder="Add new pantry item"
-                value={this.state.value}
-                onChange={this.handleChange}
-              />
-              <Button type="submit">
-                Add Item
-              </Button>
-            </FormGroup>
-          </Form>
-          <br />
-          <Form onSubmit={this.pantrySearch}>
-            <ListGroup>
-              <FormGroup check>
-                {pantryItems.map(({ _id, name, quantity, unitOm }) => (
-                  <ListGroupItem key={_id}>
-                    <Label check>
-                      <Input
-                        addon
-                        type="checkbox"
-                        id={_id}
-                        name="pantryIng"
-                        value={name}
-                        onChange={this.handleTick}
-                      />
-                      {' '} {quantity} {unitOm} of {name}
-                    </Label>
-                    <Button
-                      className="remove-btn"
-                      color="danger"
-                      size="sm"
-                      style={{float: "right"}}
-                      onClick={this.deleteItem.bind(this, _id)}
-                    >
-                      &times;
-                    </Button>
-                  </ListGroupItem>
-                ))}
-                <br />
-                <Button type="submit">Get Recipes</Button>
+      <div className="pantrylist">
+        <DashNav userParam={userParam}/>
+        <Container>
+          <Jumbotron>
+            <h3>Pantry List</h3>
+            <Form inline onSubmit={this.addItem}>
+              <FormGroup>
+                <Label for="newPantryItem"></Label>
+                <Input
+                  type="text"
+                  name="item"
+                  id="newPantryItem"
+                  placeholder="Add new pantry item"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+                <Button type="submit">
+                  Add Item
+                </Button>
               </FormGroup>
-            </ListGroup>
-          </Form>
-          <br />
-          <CardDeck>
-            {searchResults.map(({ id, title, image }) => (
-              <Card key={id}>
-                <CardImg top width="100%" src={image} />
-                <CardBody>
-                  <CardTitle>{title}</CardTitle>
-                </CardBody>
-              </Card>
-            ))}
-          </CardDeck>
-        </Jumbotron>
-      </Container>
+            </Form>
+            <br />
+            <Form onSubmit={this.pantrySearch}>
+              <ListGroup>
+                <FormGroup check>
+                  {pantryItems.map(({ _id, name, quantity, unitOm }) => (
+                    <ListGroupItem key={_id}>
+                      <Label check>
+                        <Input
+                          addon
+                          type="checkbox"
+                          id={_id}
+                          name="pantryIng"
+                          value={name}
+                          onChange={this.handleTick}
+                        />
+                        {' '} {quantity} {unitOm} of {name}
+                      </Label>
+                      <Button
+                        className="remove-btn"
+                        color="danger"
+                        size="sm"
+                        style={{float: "right"}}
+                        onClick={this.deleteItem.bind(this, _id)}
+                      >
+                        &times;
+                      </Button>
+                    </ListGroupItem>
+                  ))}
+                  <br />
+                  <Button type="submit">Get Recipes</Button>
+                </FormGroup>
+              </ListGroup>
+            </Form>
+            <br />
+            <CardDeck>
+              {searchResults.map(({ id, title, image }) => (
+                <Card key={id}>
+                  <CardImg top width="100%" src={image} />
+                  <CardBody>
+                    <CardTitle>{title}</CardTitle>
+                  </CardBody>
+                </Card>
+              ))}
+            </CardDeck>
+          </Jumbotron>
+        </Container>
+      </div>
     );
   }
 }

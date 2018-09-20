@@ -1,12 +1,18 @@
 import React, { Component } from "react";
+import DashNav from "./DashNav";
 import { Container, Form, FormGroup, Label, Input, Button, CardDeck, Card, CardImg, CardBody, CardTitle, Jumbotron } from 'reactstrap';
 
 class RecipeSearch extends Component {
 
   state = {
     searchResults: [],
-    value: ''
+    value: '',
+    user: ''
   };
+
+  componentDidMount() {
+    // this.setState({ user: this.props.match.params.id });
+  }
 
   handleChange = (event) => {
     this.setState({ value: event.target.value });
@@ -34,38 +40,41 @@ class RecipeSearch extends Component {
 
   render() {
     const searchResults = this.state.searchResults;
-    //console.log(searchResults);
+    const { userParam } = this.props;
     return (
-      <Container fluid={true}>
-        <Jumbotron>
-          <Form onSubmit={this.findRecipes}>
-            <FormGroup>
-              <h3>Search by Ingredient</h3>
-              <Label for="recipeSearch">(Separate multiple ingredients with a comma)</Label>
-              <Input
-                type="search"
-                name="search"
-                id="recipeSearch"
-                value={this.state.value}
-                onChange={this.handleChange}
-                placeholder="Enter ingredient"
-              />
-            </FormGroup>
-            <Button>Submit</Button>
-          </Form>
-            <br />
-          <CardDeck>
-            {searchResults.map(({ id, title, image }) => (
-              <Card key={id}>
-                <CardImg top width="100%" src={image} />
-                <CardBody>
-                  <CardTitle>{title}</CardTitle>
-                </CardBody>
-              </Card>
-            ))}
-          </CardDeck>
-        </Jumbotron>
-      </Container>
+      <div className="search-results">
+        <DashNav userParam={userParam}/>
+        <Container fluid={true}>
+          <Jumbotron>
+            <Form onSubmit={this.findRecipes}>
+              <FormGroup>
+                <h3>Search by Ingredient</h3>
+                <Label for="recipeSearch">(Separate multiple ingredients with a comma)</Label>
+                <Input
+                  type="search"
+                  name="search"
+                  id="recipeSearch"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                  placeholder="Enter ingredient"
+                />
+              </FormGroup>
+              <Button>Submit</Button>
+            </Form>
+              <br />
+            <CardDeck>
+              {searchResults.map(({ id, title, image }) => (
+                <Card key={id}>
+                  <CardImg top width="100%" src={image} />
+                  <CardBody>
+                    <CardTitle>{title}</CardTitle>
+                  </CardBody>
+                </Card>
+              ))}
+            </CardDeck>
+          </Jumbotron>
+        </Container>
+      </div>
     );
   }
 }

@@ -11,7 +11,7 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem } from 'reactstrap';
-  import { Link } from 'react-router-dom'; 
+  import { Link } from 'react-router-dom';
 
 export default class DashNav extends React.Component {
   constructor(props) {
@@ -28,6 +28,7 @@ export default class DashNav extends React.Component {
     });
   }
   render() {
+    const userParam = this.props.userParam;
     return (
       <div>
         <Navbar color="light" light expand="md">
@@ -36,13 +37,13 @@ export default class DashNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink ><Link to="/user/:id/grocerylist">Grocery List</Link></NavLink>
+                <Link to={`/user/${userParam}/grocerylist`}>Grocery List</Link>
               </NavItem>
               <NavItem>
-              <NavLink ><Link to="/pantrylist">Pantry List</Link></NavLink>
+              <Link to={`/user/${userParam}/pantrylist`}>Pantry List</Link>
               </NavItem>
               <NavItem>
-              <NavLink ><Link to="/shoppinglist">Shopping List</Link></NavLink>
+              <Link to={`/user/${userParam}/recipesearch`}>Recipe Search</Link>
               </NavItem>
             </Nav>
           </Collapse>

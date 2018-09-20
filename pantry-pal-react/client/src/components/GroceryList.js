@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DashNav from "./DashNav";
 import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Label, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
 
@@ -6,10 +7,15 @@ class GroceryList extends Component {
 
   state = {
     groceryItems: [],
-    value: ''
+    value: '',
+    user: ''
   };
 
   componentDidMount(err) {
+    // Accessing username from URL param
+    this.setState({ user: this.props.match.params.id });
+
+    // GET request to load grocerylist
     fetch('api/grocerylist/')
       .then(res => res.json())
       .then(data => {
@@ -51,45 +57,48 @@ class GroceryList extends Component {
 
   render() {
     const { groceryItems } = this.state;
-    //console.log(groceryItems);
+    const userParam = this.props.match.params.id;
     return (
-      <Container>
-        <Jumbotron>
-          <h3>Grocery List</h3>
-          <Form inline onSubmit={this.addItem}>
-            <FormGroup>
-              <Label for="newGroceryItem"></Label>
-              <Input
-                type="text"
-                name="item"
-                id="newGroceryItem"
-                placeholder="Add new grocery item"
-                value={this.state.value}
-                onChange={this.handleChange}
-              />
-              <Button type="submit">
-                Add Item
-              </Button>
-            </FormGroup>
-          </Form>
-          <br />
-          <ListGroup>
-            {groceryItems.map(({ _id, name, quantity, unitOm }) => (
-              <ListGroupItem key={_id}>
-                <Button
-                  className="remove-btn"
-                  color="danger"
-                  size="sm"
-                  onClick={this.deleteItem.bind(this, _id)}
-                >
-                  &times;
+      <div className="grocery-list">
+        <DashNav userParam={userParam}/>
+        <Container>
+          <Jumbotron>
+            <h3>Grocery List</h3>
+            <Form inline onSubmit={this.addItem}>
+              <FormGroup>
+                <Label for="newGroceryItem"></Label>
+                <Input
+                  type="text"
+                  name="item"
+                  id="newGroceryItem"
+                  placeholder="Add new grocery item"
+                  value={this.state.value}
+                  onChange={this.handleChange}
+                />
+                <Button type="submit">
+                  Add Item
                 </Button>
-                {quantity} {unitOm} of {name}
-              </ListGroupItem>
-            ))}
-          </ListGroup>
-        </Jumbotron>
-      </Container>
+              </FormGroup>
+            </Form>
+            <br />
+            <ListGroup>
+              {groceryItems.map(({ _id, name, quantity, unitOm }) => (
+                <ListGroupItem key={_id}>
+                  <Button
+                    className="remove-btn"
+                    color="danger"
+                    size="sm"
+                    onClick={this.deleteItem.bind(this, _id)}
+                  >
+                    &times;
+                  </Button>
+                  {quantity} {unitOm} of {name}
+                </ListGroupItem>
+              ))}
+            </ListGroup>
+          </Jumbotron>
+        </Container>
+      </div>
     );
   }
 }
