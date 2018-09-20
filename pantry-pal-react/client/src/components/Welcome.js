@@ -75,7 +75,7 @@ class Welcome extends Component {
               </Col>
             </Row>
           </Container>
-        </Jumbotron>
+        </Jumbotron> 
       </div>
     );
   }

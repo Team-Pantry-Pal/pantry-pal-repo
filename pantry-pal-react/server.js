@@ -44,12 +44,12 @@ passport.deserializeUser(User.deserializeUser());
 
 
 // Initialize routes
-app.use("/user/api/grocerylist", groceryRouter);
+app.use("/user/:id/api/grocerylist", groceryRouter);
 // Search from /user page
 app.use('/user/api/recipe-search', searchRouter);
 // Search from Welcomage page
 app.use('/api/recipe-search', searchRouter);
-app.use('/user/api/pantry', pantryRouter);
+app.use('/user/:id/api/pantry', pantryRouter);
 app.use("/auth", passportRoutes);
 
 const port = process.env.PORT || 5000;
