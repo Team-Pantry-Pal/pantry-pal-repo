@@ -36,7 +36,7 @@ export default class DashNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink ><Link to="/user/{:id}/grocerylist">Grocery List</Link></NavLink>
+                <NavLink ><Link to="/user/:id/grocerylist">Grocery List</Link></NavLink>
               </NavItem>
               <NavItem>
               <NavLink ><Link to="/pantrylist">Pantry List</Link></NavLink>
