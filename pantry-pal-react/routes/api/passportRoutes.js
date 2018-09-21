@@ -8,11 +8,6 @@ const User = require("../../models/User");
 
 const app = express();
 
-//route to signup page
-app.get("/signup", function(req, res) {
-  res.render("signup.ejs");
-});
-
 //islogged in
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
@@ -20,16 +15,6 @@ function isLoggedIn(req, res, next) {
   }
   res.redirect("/login");
 }
-
-//login route
-app.get("/login", function(req, res) {
-  res.render("login.ejs");
-});
-
-//Should not be able to see newsfeed unless user is logged in
-app.get("/newsfeed", isLoggedIn, function(req, res) {
-  res.render("newsfeed.ejs");
-});
 
 //Logic for registering a user
 app.post("/signup", function(req, res) {
