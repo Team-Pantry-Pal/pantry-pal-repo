@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Jumbotron, Row, Col } from 'reactstrap';
 import AppNavbar from './AppNavbar';
-import Dummy from './Dummy';
 import MyProvider from './MyProvider';
 import WelcomeCarousel from './WelcomeCarousel';
 import './Welcome.css';
@@ -13,8 +12,14 @@ class Welcome extends Component {
   render() {
     return (
       <div className="App">
-        <MyProvider push={this.props.history.push}>
-          <AppNavbar />
+        <MyProvider
+          push={this.props.history.push}
+          logInUser={this.props.logInUser}
+        >
+          <AppNavbar
+            push={this.props.history.push}
+            logInUser={this.props.logInUser}
+          />
         </MyProvider>
           <WelcomeCarousel fluid/>
           <Jumbotron>
@@ -75,7 +80,7 @@ class Welcome extends Component {
               </Col>
             </Row>
           </Container>
-        </Jumbotron> 
+        </Jumbotron>
       </div>
     );
   }

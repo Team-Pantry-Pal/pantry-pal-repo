@@ -28,25 +28,23 @@ app.post("/signup", function(req, res) {
         console.log(user);
         res.json(user);
       });
-
     }
   });
 });
 
 //login logic
-app.post(
-  "/login",
-  passport.authenticate("local", {
-    successRedirect: "/newsfeed",
-    failureRedirect: "/login"
-  }),
-  function(req, res) {}
+app.post("/login",
+  passport.authenticate("local"), function(req, res) {
+    console.log(req.user);
+    res.json(req.user);
+  }
 );
 
 //logout logic
-app.get("/logout", function(req, res) {
+app.post("/logout", function(req, res) {
+  console.log("user/auth/logout works");
   req.logout();
-  res.redirect("/");
+  res.send({ msg: 'logging out' });
 });
 
 module.exports = app;

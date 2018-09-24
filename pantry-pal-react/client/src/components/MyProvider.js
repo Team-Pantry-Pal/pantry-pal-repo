@@ -8,8 +8,12 @@ class MyProvider extends Component {
   };
 
   render() {
+    const context = {
+      push: this.state.push,
+      logInUser: this.props.logInUser
+    };
     return (
-      <MyContext.Provider value={this.state.push}>
+      <MyContext.Provider value={context}>
         {this.props.children}
       </MyContext.Provider>
     );

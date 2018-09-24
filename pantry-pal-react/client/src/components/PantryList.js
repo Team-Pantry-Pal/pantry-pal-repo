@@ -108,10 +108,12 @@ class PantryList extends Component {
   render() {
     const { pantryItems } = this.state;
     const { searchResults } = this.state;
-    const { userParam } = this.props;
     return (
       <div className="pantrylist">
-        <DashNav userParam={userParam}/>
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
+        />
         <Container>
           <Jumbotron>
             <h3>Pantry List</h3>

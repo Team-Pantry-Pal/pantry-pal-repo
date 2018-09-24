@@ -5,10 +5,7 @@ class Signup extends Component {
   state = {
     inputUsername: '',
     inputPassword: '',
-    user: '',
-    userId: '',
     modal: false,
-    isLoggedIn: false
   };
 
   submitForm = (e) => {
@@ -28,15 +25,10 @@ class Signup extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data.username);
-      console.log(data._id);
-      this.setState({
-        user: data.username,
-        userId: data._id,
-        isLoggedIn: true
-      });
-      const user = this.state.user;
-      this.props.push(`user/${user}`);
+      //console.log(data.username);
+      //console.log(data._id);
+      this.props.logInUser(data.username);
+      this.props.push(`user/${data.username}`);
     })
     .catch(err => console.error(err));
   };
@@ -53,7 +45,7 @@ class Signup extends Component {
     this.setState({
       modal: !this.state.modal
     });
-  }; 
+  };
 
   render() {
     return (

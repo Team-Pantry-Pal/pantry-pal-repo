@@ -1,9 +1,4 @@
 .login{
-    display: flex; 
-    justify-content: flex-end; 
+    display: flex;
+    justify-content: flex-end;
 }
-
-.navpadding {
-    padding-bottom: 0px; 
-}
-

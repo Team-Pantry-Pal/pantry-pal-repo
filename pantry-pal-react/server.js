@@ -10,6 +10,8 @@ const searchRouter = require('./routes/api/recipe-search');
 const pantryRouter = require('./routes/api/pantry');
 const passportRoutes = require('./routes/api/passportRoutes');
 
+const User = require('./models/User');
+
 const app = express();
 
 app.use(express.static('public'));
@@ -30,15 +32,16 @@ mongoose
     console.log(err);
   });
 
-const User = require('./models/User');
 app.use(require("express-session")({
   secret: "blah blah blah",
   resave: false,
   saveUninitialized: false
 }));
 
+// Initialize Passport
 app.use(passport.initialize());
-app.use(passport.session());
+// Necessary to use persistent login sessions
+app.use(passport.session()); // Make sure express-session is called first
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
@@ -51,6 +54,7 @@ app.use('/user/api/recipe-search', searchRouter);
 // Search from Welcomage page
 app.use('/api/recipe-search', searchRouter);
 app.use('/user/:id/api/pantry', pantryRouter);
+app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
 
 const port = process.env.PORT || 5000;

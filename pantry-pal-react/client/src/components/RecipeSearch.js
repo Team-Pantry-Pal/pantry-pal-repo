@@ -6,13 +6,8 @@ class RecipeSearch extends Component {
 
   state = {
     searchResults: [],
-    value: '',
-    user: ''
+    value: ''
   };
-
-  componentDidMount() {
-    // this.setState({ user: this.props.match.params.id });
-  }
 
   handleChange = (event) => {
     this.setState({ value: event.target.value });
@@ -39,11 +34,13 @@ class RecipeSearch extends Component {
   };
 
   render() {
-    const searchResults = this.state.searchResults;
-    const { userParam } = this.props;
+    const { searchResults } = this.state;
     return (
       <div className="search-results">
-        <DashNav userParam={userParam}/>
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
+        />
         <Container fluid={true}>
           <Jumbotron>
             <Form onSubmit={this.findRecipes}>

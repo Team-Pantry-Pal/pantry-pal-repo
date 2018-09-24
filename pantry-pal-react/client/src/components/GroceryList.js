@@ -7,14 +7,10 @@ class GroceryList extends Component {
 
   state = {
     groceryItems: [],
-    value: '',
-    user: ''
+    value: ''
   };
 
   componentDidMount(err) {
-    // Accessing username from URL param
-    this.setState({ user: this.props.match.params.id });
-
     // GET request to load grocerylist
     fetch('api/grocerylist/')
       .then(res => res.json())
@@ -57,10 +53,12 @@ class GroceryList extends Component {
 
   render() {
     const { groceryItems } = this.state;
-    const userParam = this.props.match.params.id;
     return (
       <div className="grocery-list">
-        <DashNav userParam={userParam}/>
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
+        />
         <Container>
           <Jumbotron>
             <h3>Grocery List</h3>
