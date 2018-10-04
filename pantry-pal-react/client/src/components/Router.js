@@ -7,20 +7,18 @@ import RecipeSearch from './RecipeSearch';
 import GroceryList from './GroceryList';
 // import NotFound from './NotFound';
 
-
-
 class Router extends Component {
   state = {
     user: null,
     isLoggedIn: false
   };
 
-  componentDidMount() {
+  componentWillMount() {
     let user = localStorage.getItem('user');
-    let isLoggedIn = localStorage.getItem('isLoggedIn');
-    console.log(user, isLoggedIn);
+    let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
+    // console.log(user, isLoggedIn);
     this.setState({ user, isLoggedIn });
-  };
+  }
 
   logInUser = (user) => {
     this.setState({
@@ -32,12 +30,22 @@ class Router extends Component {
   };
 
   logOutUser = () => {
-    this.setState({
-      user: null,
-      isLoggedIn: false
-    });
-    localStorage.removeItem('user');
-    localStorage.removeItem('isLoggedIn');
+    fetch('auth/logout', {
+      method: 'POST',
+      headers: {'content-type': 'application/json'}
+    })
+    .then(res => {
+      console.log(res);
+      if (res.status === 200) {
+        this.setState({
+          user: null,
+          isLoggedIn: false
+        });
+        localStorage.removeItem('user');
+        localStorage.removeItem('isLoggedIn');
+      }
+    })
+    .catch(err => console.error(err));
   };
 
   render() {
@@ -45,16 +53,21 @@ class Router extends Component {
     const PrivateRoute = ({ component: Component, ...rest }) => {
       return (
         <Route {...rest} render={(props) => {
+          //console.log(this);
           // rest is all the props passed to PrivateRoute
           // props is all of Route's props
           // I need to get all of them passed to the component being rendered on the route so that props can be passed from here
-          let both = { ...rest, ...props };
+          const both = { ...rest, ...props };
           // Now the component being rendered takes with it any prop given straight to the PrivateRoute inline
-          return (
-            this.state.isLoggedIn === true
-              ? <Component {...both} />
-              : <Redirect to="/" />
-          );
+          if (this.state.isLoggedIn === true) {
+            return (
+              <Component {...both} />
+            )
+          } else {
+              return (
+                <Redirect to="/" />
+              )
+            }
         }} />
       );
     };

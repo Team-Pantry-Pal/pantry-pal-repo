@@ -1,16 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-// Passport dependencies
-const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const db = require("./config/keys").mongoURI;
+const passport = require("./config/passport-setup");
 
+// import routes
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require('./routes/api/recipe-search');
 const pantryRouter = require('./routes/api/pantry');
 const passportRoutes = require('./routes/api/passportRoutes');
-
-const User = require('./models/User');
 
 const app = express();
 
@@ -20,8 +18,6 @@ app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
-// Database configuration
-const db = require("./config/keys").mongoURI;
 // Connect to MongoDB
 mongoose
   .connect(db, { useNewUrlParser: true })
@@ -32,33 +28,27 @@ mongoose
     console.log(err);
   });
 
+// set up Express session
 app.use(require("express-session")({
   secret: "blah blah blah",
   resave: false,
   saveUninitialized: false
 }));
 
-// Initialize Passport
+// initialize Passport
 app.use(passport.initialize());
-// Necessary to use persistent login sessions
-app.use(passport.session()); // Make sure express-session is called first
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// necessary to use persistent login sessions
+app.use(passport.session()); // make sure express-session is called first
 
-
-// Initialize routes
+// initialize routes
 app.use("/user/:id/api/grocerylist", groceryRouter);
-// Search from /user page
-app.use('/user/api/recipe-search', searchRouter);
-// Search from Welcomage page
-app.use('/api/recipe-search', searchRouter);
+app.use('/user/api/recipe-search', searchRouter); // search from /user page
+app.use('/api/recipe-search', searchRouter); // search from Welcomage page
 app.use('/user/:id/api/pantry', pantryRouter);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
 
-const port = process.env.PORT || 5000;
-// "process.env.PORT" is for when we deploy to Heroku
+const port = process.env.PORT || 5000; // "process.env.PORT" is for when we deploy to Heroku
 
 app.listen(port, function() {
   console.log(`Server started on port ${port}...`);

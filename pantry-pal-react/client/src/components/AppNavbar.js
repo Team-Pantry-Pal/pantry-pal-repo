@@ -53,11 +53,11 @@ class AppNavbar extends Component {
     })
     .then(res => res.json())
     .then(user => {
-      console.log(user);
+      //console.log(user);
       this.props.logInUser(user.username);
       this.props.push(`user/${user.username}`);
     })
-    .catch(err => console.error(err));
+    .catch(err => console.log(err));
   };
 
   render() {

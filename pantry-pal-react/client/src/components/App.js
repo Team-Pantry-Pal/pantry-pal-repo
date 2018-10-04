@@ -5,11 +5,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
 class App extends Component {
-  componentDidMount() {
-    console.log(this.props.user);
-    console.log(this.props.isLoggedIn);
-  };
-
   render() {
     return (
       <div className="App">

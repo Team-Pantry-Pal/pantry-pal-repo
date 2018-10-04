@@ -24,17 +24,7 @@ export default class DashNav extends React.Component {
   }
 
   logout = () => {
-    fetch('auth/logout', {
-      method: 'POST',
-      headers: {'content-type': 'application/json'}
-    })
-    .then(res => {
-      console.log(res);
-      if (res.status === 200) {
-        this.props.logOutUser();
-      }
-    })
-    .catch(err => console.error(err));
+    this.props.logOutUser();
   };
 
   render() {

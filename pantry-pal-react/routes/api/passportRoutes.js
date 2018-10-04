@@ -2,8 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 // Passport dependencies
 const passport = require("passport");
-const LocalStrategy = require("passport-local");
-const passportLocalMongoose = require("passport-local-mongoose");
+const LocalStrategy = require("passport-local"); // required to call req.logout()
 const User = require("../../models/User");
 
 const app = express();
@@ -40,10 +39,29 @@ app.post("/login",
   }
 );
 
+/*
+// **MAYBE*** For user session verification on <PrivateRoutes />
+app.get("/user", (req, res) => {
+  if (req.user) {
+    console.log("req.user is TRUE");
+    return res.status(200).json({
+      user: req.user,
+      authenticated: true
+    });
+  } else {
+    console.log("req.user is FALSE");
+    return res.status(401).json({
+      error: 'User is not authenticated',
+      authenticated: false
+    });
+  }
+});
+*/
+
 //logout logic
 app.post("/logout", function(req, res) {
   console.log("user/auth/logout works");
-  req.logout();
+  req.logout(); // requires passport-local be imported
   res.send({ msg: 'logging out' });
 });
 
