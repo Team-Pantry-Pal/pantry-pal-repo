@@ -13,13 +13,14 @@ class Router extends Component {
     isLoggedIn: false
   };
 
+  // Persist state with data from local storage on page refresh
   componentWillMount() {
     let user = localStorage.getItem('user');
     let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
-    // console.log(user, isLoggedIn);
     this.setState({ user, isLoggedIn });
   }
 
+  // Put user info in state and local storage upon successful sign in
   logInUser = (user) => {
     this.setState({
       user: user,
@@ -29,6 +30,7 @@ class Router extends Component {
     localStorage.setItem('isLoggedIn', true);
   };
 
+  // Send logout request to back-end, set state to back to defaults, remove user info from local storage
   logOutUser = () => {
     fetch('auth/logout', {
       method: 'POST',
@@ -53,7 +55,6 @@ class Router extends Component {
     const PrivateRoute = ({ component: Component, ...rest }) => {
       return (
         <Route {...rest} render={(props) => {
-          //console.log(this);
           // rest is all the props passed to PrivateRoute
           // props is all of Route's props
           // I need to get all of them passed to the component being rendered on the route so that props can be passed from here
