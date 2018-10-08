@@ -37,7 +37,6 @@ class Router extends Component {
       headers: {'content-type': 'application/json'}
     })
     .then(res => {
-      console.log(res);
       if (res.status === 200) {
         this.setState({
           user: null,
@@ -45,9 +44,11 @@ class Router extends Component {
         });
         localStorage.removeItem('user');
         localStorage.removeItem('isLoggedIn');
+        return res.json();
       }
     })
-    .catch(err => console.error(err));
+    .then(res => console.log(res))
+    .catch(err => console.log(err));
   };
 
   render() {

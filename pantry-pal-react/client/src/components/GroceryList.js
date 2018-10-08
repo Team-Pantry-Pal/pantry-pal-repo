@@ -7,17 +7,28 @@ class GroceryList extends Component {
 
   state = {
     groceryItems: [],
-    value: ''
+    value: '',
+    user: ''
   };
 
-  componentDidMount(err) {
-    // GET request to load grocerylist
-    fetch('api/grocerylist/')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ groceryItems: data })
-      })
-      .catch(err);
+  componentDidMount() {
+    let { user } = this.props;
+    this.setState({ user });
+    let userPayload = {
+      user: user
+    };
+
+    fetch('api/grocerylist/list', {
+      method: 'POST',
+      body: JSON.stringify(userPayload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.grocerylist);
+      this.setState({ groceryItems: data.grocerylist })
+    })
+    .catch(err => console.error(err));
   }
 
   handleChange = (event) => {
@@ -26,7 +37,10 @@ class GroceryList extends Component {
 
   addItem = (event, err) => {
     event.preventDefault();
-    let data = { name: this.state.value };
+    let data = {
+      name: { name: this.state.value },
+      user: this.props.user
+    };
     fetch('api/grocerylist', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -34,21 +48,31 @@ class GroceryList extends Component {
     })
       .then(res => res.json())
       .then(newItem => {
+        console.log(newItem);
         let groceryItems = [...this.state.groceryItems];
         groceryItems.push(newItem);
-        //console.log(newItem);
         this.setState({ groceryItems });
-        //console.log(this.state.groceryItems);
       })
       .catch(err);
     this.setState({ value: '' });
   };
 
-  deleteItem = (_id) => {
+  deleteItem = (_id, err) => {
     this.setState(state => ({
       groceryItems: state.groceryItems.filter(item => item._id !== _id)
     }));
-    fetch(`api/grocerylist/${_id}`, { method: 'DELETE' });
+    let payload = {
+      user: this.props.user,
+      itemId: _id
+    };
+    fetch('api/grocerylist', {
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(success => console.log(success))
+    .catch(err);
   };
 
   render() {

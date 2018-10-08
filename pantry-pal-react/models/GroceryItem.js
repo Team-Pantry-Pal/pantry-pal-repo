@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const GrocerySchema = new Schema({
   name: {
-    type: String,
-    required: [true, "Food item name is required"]
+    type: String
+    //required: [true, "Food item name is required"]
   },
   quantity: {
     type: Number,
@@ -16,6 +16,6 @@ const GrocerySchema = new Schema({
   }
 });
 
-const GroceryItem = mongoose.model("groceryItem", GrocerySchema);
+// const GroceryItem = mongoose.model("groceryItem", GrocerySchema);
 
-module.exports = GroceryItem;
+module.exports = GrocerySchema;

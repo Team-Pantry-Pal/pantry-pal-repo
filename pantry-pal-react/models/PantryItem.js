@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 
 const PantrySchema = new Schema({
   name: {
-    type: String,
-    required: [true, "Pantry item name is required"]
+    type: String
+    //required: [true, "Pantry item name is required"]
   },
   quantity: {
     type: Number,
@@ -16,6 +16,6 @@ const PantrySchema = new Schema({
   }
 });
 
-const PantryItem = mongoose.model("pantryItem", PantrySchema);
+//const PantryItem = mongoose.model("pantryItem", PantrySchema);
 
-module.exports = PantryItem;
+module.exports = PantrySchema;

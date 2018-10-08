@@ -1,31 +1,43 @@
 const express = require("express");
 const router = express.Router();
-const GroceryItem = require("../../models/GroceryItem");
+const User = require("../../models/User");
 
-// @route    GET api/grocerylist
-// @desc     Get entire grocery list
+// @route    POST api/grocerylist/list
+// @desc     Get entire grocery list on page load
 // @access   Public
-router.get("/", (req, res) => {
-  GroceryItem.find({}) // .find() returns a promise, so we can chain it with .then()
-    .then(grocerylist => res.json(grocerylist));
+router.post('/list', (req, res) => {
+  let user = req.body.user;
+
+  User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
+    if (err) {
+      console.log('ERROR');
+      return handleError(err);
+    } else {
+      //console.log(result);
+      res.json(result);
+    }
+  });
 });
 
 // @route     POST api/grocerylist
 // @desc      Add item to grocery list
 // @access    Public
-router.post("/", (req, res) => {
-  // req.body.quantity = parseInt(req.body.quantity);
-  let addedGroceryItem = req.body;
-  console.log(addedGroceryItem);
+router.post('/', (req, res) => {
+  let newItem = req.body.name;
+  let user = req.body.user;
 
-  GroceryItem.create(addedGroceryItem, (err, newGroceryItem) => {
+  User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {
-      console.log("There was an error saving...");
-      console.log(err);
+      return handleError(err)
     } else {
-      console.log("The data was saved successfully!!!");
-      console.log(res);
-      res.json(newGroceryItem);
+      result.grocerylist.push(newItem);
+      result.save(err => {
+        if (err) {
+          return handleError(err);
+        } else {
+          res.json(result.grocerylist[result.grocerylist.length - 1]);
+        }
+      });
     }
   });
 });
@@ -33,12 +45,26 @@ router.post("/", (req, res) => {
 // @route   DELETE api/grocerlist
 // @desc    Deleve a grocery list item
 // @access  Public
-router.delete("/:id", (req, res,) => {
-  GroceryItem.findById(req.params.id)
-    .then(groceryItem =>
-      groceryItem.remove().then(() => res.json({ success: true }))
-    )
-    .catch(err => res.status(404).json({ success: false }));
+router.delete("/", (req, res) => {
+  let user = req.body.user;
+  let itemId = req.body.itemId;
+
+  User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      result.grocerylist.id(itemId).remove();
+      result.save(err => {
+        if (err) {
+          res.status(404).json({ success: false });
+          return handleError(err);
+        } else {
+          console.log('item DELETED successfully');
+          res.json({ success: true });
+        }
+      })
+    }
+  });
 });
 
 module.exports = router;

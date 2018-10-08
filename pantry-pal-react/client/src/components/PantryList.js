@@ -13,14 +13,25 @@ class PantryList extends Component {
     user: ''
   };
 
-  componentDidMount() {
-    this.setState({ user: this.props.match.params.id });
 
-    fetch('api/pantry/')
-      .then(res => res.json())
-      .then(data => {
-        this.setState({ pantryItems: data })
-      });
+  componentDidMount() {
+    let { user } = this.props;
+    this.setState({ user });
+    let userPayload = {
+      user: user
+    };
+
+    fetch('api/pantry/list', {
+      method: 'POST',
+      body: JSON.stringify(userPayload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data.pantrylist);
+      this.setState({ pantryItems: data.pantrylist })
+    })
+    .catch(err => console.error(err));
   }
 
   handleChange = (event) => {
@@ -29,8 +40,10 @@ class PantryList extends Component {
 
   addItem = (event, err) => {
     event.preventDefault();
-    let data = { name: this.state.value };
-    //console.log(data);
+    let data = {
+      name: { name: this.state.value },
+      user: this.props.user
+    };
     fetch('api/pantry', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -38,6 +51,7 @@ class PantryList extends Component {
     })
       .then(res => res.json())
       .then(newItem => {
+        console.log(newItem);
         let pantryItems = [...this.state.pantryItems];
         pantryItems.push(newItem);
         this.setState({ pantryItems });
@@ -50,7 +64,17 @@ class PantryList extends Component {
     this.setState(state => ({
       pantryItems: state.pantryItems.filter(item => item._id !== _id)
     }));
-    fetch(`api/pantry/${_id}`, { method: 'DELETE' })
+    let payload = {
+      user: this.props.user,
+      itemId: _id
+    };
+    fetch('api/pantry', {
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(success => console.log(success))
     .catch(err);
   };
 

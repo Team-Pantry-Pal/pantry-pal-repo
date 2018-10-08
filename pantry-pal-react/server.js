@@ -45,6 +45,7 @@ app.use("/user/:id/api/grocerylist", groceryRouter);
 app.use('/user/api/recipe-search', searchRouter); // search from /user page
 app.use('/api/recipe-search', searchRouter); // search from Welcomage page
 app.use('/user/:id/api/pantry', pantryRouter);
+app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
 

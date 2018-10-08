@@ -1,31 +1,70 @@
 const express = require("express");
 const router = express.Router();
-const PantryItem = require("../../models/PantryItem");
+const User = require("../../models/User");
 
-router.get('/', (req, res) => {
-  PantryItem.find({})
-    .then(pantrylist => res.json(pantrylist));
-});
+// @route    POST api/pantrylist/list
+// @desc     Get entire pantry list on page load
+// @access   Public
+router.post('/list', (req, res) => {
+  let user = req.body.user;
 
-router.post('/', (req, res) => {
-  PantryItem.create(req.body, (err, newPantryItem) => {
+  User.findOne({ 'username': user }, 'pantrylist', (err, result) => {
     if (err) {
-      console.log("There was an error saving...");
-      console.log(err);
+      console.log('ERROR');
+      return handleError(err);
     } else {
-      console.log("The data was saved successfully!!!");
-      //console.log(res);
-      res.json(newPantryItem);
+      //console.log(result);
+      res.json(result);
     }
   });
 });
 
-router.delete("/:id", (req, res) => {
-  PantryItem.findById(req.params.id)
-    .then(pantryItem =>
-      pantryItem.remove().then(() => res.json({ success: true }))
-    )
-    .catch(err => res.status(404).json({ success: false }));
+// @route     POST api/pantrylist
+// @desc      Add item to pantry list
+// @access    Public
+router.post('/', (req, res) => {
+  let newItem = req.body.name;
+  let user = req.body.user;
+
+  User.findOne({ 'username': user }, 'pantrylist', (err, result) => {
+    if (err) {
+      return handleError(err)
+    } else {
+      result.pantrylist.push(newItem);
+      result.save(err => {
+        if (err) {
+          return handleError(err);
+        } else {
+          res.json(result.pantrylist[result.pantrylist.length - 1]);
+        }
+      });
+    }
+  });
+});
+
+// @route   DELETE api/pantrylist
+// @desc    Deleve a pantry list item
+// @access  Public
+router.delete("/", (req, res) => {
+  let user = req.body.user;
+  let itemId = req.body.itemId;
+
+  User.findOne({ 'username': user }, 'pantrylist', (err, result) => {
+    if (err) {
+      return handleError(err);
+    } else {
+      result.pantrylist.id(itemId).remove();
+      result.save(err => {
+        if (err) {
+          res.status(404).json({ success: false });
+          return handleError(err);
+        } else {
+          console.log('item DELETED successfully');
+          res.json({ success: true });
+        }
+      })
+    }
+  });
 });
 
 module.exports = router;
