@@ -42,4 +42,34 @@ router.post('/', (req, res) => {
 
 });
 
+//route for recipe details 
+router.post('/recipedetails', (req, res) => {
+  // Process user input for API query string
+  let recipeId = req.body.idNumber;
+  console.log('req body below')
+  console.log(req.body.idNumber);
+  
+
+  let recipeDetailsRequest = {
+    url: 
+    `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${recipeId}/information?includeNutrition=false`,
+    headers: {
+      'X-Mashape-Key': 'oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ',
+      'X-Mashape-Host': 'spoonacular-recipe-food-nutrition-v1.p.mashape.com'
+    }
+  };
+
+  callback = (err, resp, body) => {
+    if (!err && resp.statusCode == 200) {
+      console.log('it works'); 
+      var returnData = JSON.parse(body);
+      console.log(returnData);
+      res.json(returnData);
+    }
+  };
+
+  request(recipeDetailsRequest, callback);
+
+});
+
 module.exports = router;
