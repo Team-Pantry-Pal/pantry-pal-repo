@@ -72,6 +72,8 @@ class RecipeSearch extends Component {
   render() {
     const { searchResults } = this.state;
     const { recipeDetails } = this.state;
+    const aisle = recipeDetails.extendedIngredients; 
+    console.log(aisle);
     return (
       <div className="search-results">
         <DashNav
@@ -113,7 +115,9 @@ class RecipeSearch extends Component {
             <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                 <ModalHeader toggle={this.toggle}>{recipeDetails.title}</ModalHeader>
                 <ModalBody>
-                <img id="myImg" src={recipeDetails.image} alt="" ></img>
+                <img id="myImg" src={recipeDetails.image} alt="recipe image" ></img>
+                <h1>Cooking time: {recipeDetails.readyInMinutes} Minutes</h1>
+                <h2>Aisle:</h2>
                 </ModalBody>
       </Modal>
           </Jumbotron>
