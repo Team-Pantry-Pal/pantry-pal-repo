@@ -34,7 +34,7 @@ app.post("/signup", function(req, res) {
 //login logic
 app.post("/login",
   passport.authenticate("local"), function(req, res) {
-    console.log(req.user);
+    // console.log(req.user);
     res.json(req.user);
   }
 );
