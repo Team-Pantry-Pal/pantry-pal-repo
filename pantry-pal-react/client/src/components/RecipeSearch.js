@@ -47,7 +47,9 @@ class RecipeSearch extends Component {
       .then(res => res.json())
       .then(result => {
         this.setState({ recipeDetails: result });
-        this.toggle();
+        if (this.state.recipeDetails.extendedIngredients) {
+          this.toggle();
+        }
       })
       .catch(err);
       this.setState({ ID: '' });
@@ -63,18 +65,9 @@ class RecipeSearch extends Component {
   render() {
     const { searchResults } = this.state;
     const { recipeDetails } = this.state;
-
+    let aisle;
     if (this.state.recipeDetails.extendedIngredients) {
-      return (
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-          <ModalHeader toggle={this.toggle}>{recipeDetails.title}</ModalHeader>
-          <ModalBody>
-            <img id="myImg" src={recipeDetails.image} alt="recipe"></img>
-            <h1>Cooking time: {recipeDetails.readyInMinutes} Minutes</h1>
-            <h2>Aisle: {recipeDetails.extendedIngredients[0].aisle}</h2>
-          </ModalBody>
-        </Modal>
-      );
+      aisle = recipeDetails.extendedIngredients[0].aisle;
     }
 
     return (
@@ -115,6 +108,14 @@ class RecipeSearch extends Component {
               }
             </CardDeck>
           </Jumbotron>
+          <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+            <ModalHeader toggle={this.toggle}>{recipeDetails.title}</ModalHeader>
+            <ModalBody>
+              <img id="myImg" src={recipeDetails.image} alt="recipe"></img>
+              <h1>Cooking time: {recipeDetails.readyInMinutes} Minutes</h1>
+              <h2>Aisle: {aisle}</h2>
+            </ModalBody>
+          </Modal>
         </Container>
       </div>
     );
