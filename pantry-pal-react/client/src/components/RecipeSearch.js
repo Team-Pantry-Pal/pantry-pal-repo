@@ -55,11 +55,35 @@ class RecipeSearch extends Component {
       this.setState({ ID: '' });
   };
 
+  addToFavs = () => {
+    let { recipeDetails } = this.state;
+    let favPayload = {
+      user: this.props.user,
+      newFav: {
+        servings: recipeDetails.servings,
+        extendedIngredients: recipeDetails.extendedIngredients,
+        id: recipeDetails.id,
+        title: recipeDetails.title,
+        readyInMinutes: recipeDetails.readyInMinutes,
+        image: recipeDetails.image,
+        instructions: recipeDetails.instructions
+      }
+    };
+    fetch('api/fav-recipes/addfav', {
+      method: 'POST',
+      body: JSON.stringify(favPayload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(success => {
+      // show user confirmation
+      console.log(success);
+    })
+    .catch(err => console.log(err.message));
+  };
 
   toggle = () => {
-    this.setState({
-      modal: !this.state.modal
-    });
+    this.setState({ modal: !this.state.modal });
   };
 
   render() {
@@ -115,6 +139,7 @@ class RecipeSearch extends Component {
               <h1>Cooking time: {recipeDetails.readyInMinutes} Minutes</h1>
               <h2>Aisle: {aisle}</h2>
             </ModalBody>
+            <Button onClick={this.addToFavs}>Add to Favs</Button>
           </Modal>
         </Container>
       </div>

@@ -16,6 +16,4 @@ const PantrySchema = new Schema({
   }
 });
 
-//const PantryItem = mongoose.model("pantryItem", PantrySchema);
-
 module.exports = PantrySchema;

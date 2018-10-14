@@ -21,7 +21,6 @@ router.post('/', (req, res) => {
   var searchString = searchInput.join();
   console.log(searchString);
 
-
   let recipeRequest = {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${searchString}&number=3`,
     headers: {
@@ -33,7 +32,6 @@ router.post('/', (req, res) => {
   callback = (err, resp, body) => {
     if (!err && resp.statusCode == 200) {
       var returnData = JSON.parse(body);
-      console.log(returnData);
       res.json(returnData);
     }
   };
@@ -42,16 +40,12 @@ router.post('/', (req, res) => {
 
 });
 
-//route for recipe details 
+//route for recipe details
 router.post('/recipedetails', (req, res) => {
   // Process user input for API query string
   let recipeId = req.body.idNumber;
-  console.log('req body below')
-  console.log(req.body.idNumber);
-  
-
   let recipeDetailsRequest = {
-    url: 
+    url:
     `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${recipeId}/information?includeNutrition=false`,
     headers: {
       'X-Mashape-Key': 'oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ',
@@ -61,9 +55,7 @@ router.post('/recipedetails', (req, res) => {
 
   callback = (err, resp, body) => {
     if (!err && resp.statusCode == 200) {
-      console.log('it works'); 
       var returnData = JSON.parse(body);
-      console.log(returnData);
       res.json(returnData);
     }
   };

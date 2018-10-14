@@ -5,6 +5,7 @@ import App from './App';
 import PantryList from './PantryList';
 import RecipeSearch from './RecipeSearch';
 import GroceryList from './GroceryList';
+import FavRecipes from './FavRecipes';
 // import NotFound from './NotFound';
 
 class Router extends Component {
@@ -98,6 +99,13 @@ class Router extends Component {
           <PrivateRoute
             path="/user/:id/recipesearch"
             component={RecipeSearch}
+            user={this.state.user}
+            isLoggedIn={this.state.isLoggedIn}
+            logOutUser={this.logOutUser}
+          />
+          <PrivateRoute
+            path="/user/:id/fav_recipes"
+            component={FavRecipes}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             logOutUser={this.logOutUser}

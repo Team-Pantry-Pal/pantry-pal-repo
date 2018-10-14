@@ -16,6 +16,4 @@ const GrocerySchema = new Schema({
   }
 });
 
-// const GroceryItem = mongoose.model("groceryItem", GrocerySchema);
-
 module.exports = GrocerySchema;

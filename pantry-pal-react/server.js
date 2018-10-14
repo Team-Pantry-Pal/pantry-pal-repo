@@ -8,6 +8,7 @@ const passport = require("./config/passport-setup");
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require('./routes/api/recipe-search');
 const pantryRouter = require('./routes/api/pantry');
+const favRouter = require('./routes/api/fav-recipes');
 const passportRoutes = require('./routes/api/passportRoutes');
 
 const app = express();
@@ -42,9 +43,11 @@ app.use(passport.session()); // make sure express-session is called first
 
 // initialize routes
 app.use("/user/:id/api/grocerylist", groceryRouter);
+app.use('/user/:id/api/recipe-search', searchRouter); // search from /user page
 app.use('/user/api/recipe-search', searchRouter); // search from /user page
 app.use('/api/recipe-search', searchRouter); // search from Welcomage page
 app.use('/user/:id/api/pantry', pantryRouter);
+app.use('/user/:id/api/fav-recipes', favRouter);
 app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);

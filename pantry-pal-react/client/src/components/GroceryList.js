@@ -7,16 +7,11 @@ class GroceryList extends Component {
 
   state = {
     groceryItems: [],
-    value: '',
-    user: ''
+    value: ''
   };
 
   componentDidMount() {
-    let { user } = this.props;
-    this.setState({ user });
-    let userPayload = {
-      user: user
-    };
+    let userPayload = { user: this.props.user };
 
     fetch('api/grocerylist/list', {
       method: 'POST',

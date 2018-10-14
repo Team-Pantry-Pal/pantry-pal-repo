@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import {
   Collapse,
   Navbar,
@@ -6,7 +7,9 @@ import {
   Nav,
   NavItem,
   Button } from 'reactstrap';
-  import { Link } from 'react-router-dom';
+import './DashNav.css';
+
+
 
 export default class DashNav extends React.Component {
   constructor(props) {
@@ -33,19 +36,22 @@ export default class DashNav extends React.Component {
       <div>
         <Navbar color="dark" dark expand="sm">
           <div className="navbar-brand">
-            <Link to={`/user/${user}`}>Pantry Pal</Link>
+            <NavLink to={`/user/${user}`}>Pantry Pal</NavLink>
           </div>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <Link to={`/user/${user}/grocerylist`}>Grocery List</Link>
+              <NavItem className="nav-item" tag="div">
+                <NavLink to={`/user/${user}/grocerylist`}>Grocery List</NavLink>
               </NavItem>
               <NavItem>
-              <Link to={`/user/${user}/pantrylist`}>Pantry List</Link>
+                <NavLink to={`/user/${user}/pantrylist`}>Pantry List</NavLink>
               </NavItem>
               <NavItem>
-              <Link to={`/user/${user}/recipesearch`}>Recipe Search</Link>
+                <NavLink to={`/user/${user}/recipesearch`}>Recipe Search</NavLink>
+              </NavItem>
+              <NavItem style={{marginRight: '10px'}}>
+                <NavLink to={`/user/${user}/fav_recipes`}>Fav Recipes</NavLink>
               </NavItem>
             </Nav>
             <Button onClick={this.logout}>Logout</Button>
