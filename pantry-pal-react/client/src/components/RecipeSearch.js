@@ -138,7 +138,9 @@ class RecipeSearch extends Component {
                   <CardImg top width="100%" src={image} />
                   <CardBody>
                     <CardTitle>{title}</CardTitle>
-                    <Button onClick={this.recipeDetails.bind(this, id)}>View Recipe</Button>
+                    <Button onClick={this.recipeDetails.bind(this, id)}>
+                      View Recipe
+                    </Button>
                   </CardBody>
                 </Card>
               ))}
@@ -171,8 +173,8 @@ class RecipeSearch extends Component {
                   </li>
                 ))}
               </ul>
+              <Button onClick={this.addToFavs}>Add to Favs</Button>
             </ModalBody>
-            <Button onClick={this.addToFavs}>Add to Favs</Button>
           </Modal>
         </Container>
       </div>
