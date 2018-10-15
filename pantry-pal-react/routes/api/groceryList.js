@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/User");
 
+const handleError = (err) => console.error(err);
+
 // @route    POST api/grocerylist/list
 // @desc     Get entire grocery list on page load
 // @access   Public
@@ -10,7 +12,7 @@ router.post('/list', (req, res) => {
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {
-      console.log('ERROR');
+      res.status(404).json({ success: false });
       return handleError(err);
     } else {
       //console.log(result);
@@ -28,11 +30,13 @@ router.post('/', (req, res) => {
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {
+      res.status(404).json({ success: false });
       return handleError(err)
     } else {
       result.grocerylist.push(newItem);
       result.save(err => {
         if (err) {
+          res.status(404).json({ success: false });
           return handleError(err);
         } else {
           res.json(result.grocerylist[result.grocerylist.length - 1]);
@@ -43,7 +47,7 @@ router.post('/', (req, res) => {
 });
 
 // @route   DELETE api/grocerlist
-// @desc    Deleve a grocery list item
+// @desc    Delete a grocery list item
 // @access  Public
 router.delete("/", (req, res) => {
   let user = req.body.user;
@@ -51,6 +55,7 @@ router.delete("/", (req, res) => {
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {
+      res.status(404).json({ success: false });
       return handleError(err);
     } else {
       result.grocerylist.id(itemId).remove();

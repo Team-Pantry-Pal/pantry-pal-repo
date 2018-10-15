@@ -33,6 +33,9 @@ router.post('/', (req, res) => {
     if (!err && resp.statusCode == 200) {
       var returnData = JSON.parse(body);
       res.json(returnData);
+    } else if (err) {
+      res.status(404).json({ success: false });
+      console.error(err);
     }
   };
 

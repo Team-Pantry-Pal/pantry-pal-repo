@@ -125,8 +125,9 @@ class RecipeSearch extends Component {
                   <CardImg top width="100%" src={image} />
                   <CardBody>
                     <CardTitle>{title}</CardTitle>
+                    <Button onClick={this.recipeDetails.bind(this, id)}>View Recipe</Button>
                   </CardBody>
-                  <Button onClick={this.recipeDetails.bind(this, id)}>View Recipe</Button>
+
                 </Card>
               ))
               }

@@ -52,10 +52,7 @@ class GroceryList extends Component {
     this.setState({ value: '' });
   };
 
-  deleteItem = (_id, err) => {
-    this.setState(state => ({
-      groceryItems: state.groceryItems.filter(item => item._id !== _id)
-    }));
+  deleteItem = (_id) => {
     let payload = {
       user: this.props.user,
       itemId: _id
@@ -66,8 +63,13 @@ class GroceryList extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
     .then(res => res.json())
-    .then(success => console.log(success))
-    .catch(err);
+    .then(success => {
+      this.setState(state => ({
+        groceryItems: state.groceryItems.filter(item => item._id !== _id)
+      }));
+      console.log(success);
+    })
+    .catch(err => console.log(err));
   };
 
   render() {

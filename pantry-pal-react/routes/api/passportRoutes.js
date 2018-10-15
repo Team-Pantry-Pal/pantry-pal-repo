@@ -20,7 +20,8 @@ app.post("/signup", function(req, res) {
   var newUser = new User({ username: req.body.username });
   User.register(newUser, req.body.password, function(err, user) {
     if (err) {
-      console.log("something happended");
+      res.status(404).json({ success: false });
+      console.error(err);
     } else {
       passport.authenticate("local")(req, res, () => {
         console.log("HOORAY! YOU'RE AUTHENTICATED!!!")
@@ -42,7 +43,7 @@ app.post("/login",
 //logout logic
 app.post("/logout", function(req, res) {
   req.logout(); // requires passport-local be imported
-  res.send({ msg: 'logging out' });
+  res.json({ msg: 'logging out' });
 });
 
 module.exports = app;

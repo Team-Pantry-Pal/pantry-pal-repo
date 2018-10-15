@@ -61,9 +61,6 @@ class PantryList extends Component {
   };
 
   deleteItem = (_id, err) => {
-    this.setState(state => ({
-      pantryItems: state.pantryItems.filter(item => item._id !== _id)
-    }));
     let payload = {
       user: this.props.user,
       itemId: _id
@@ -74,7 +71,12 @@ class PantryList extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
     .then(res => res.json())
-    .then(success => console.log(success))
+    .then(success => {
+      console.log(success);
+      this.setState(state => ({
+        pantryItems: state.pantryItems.filter(item => item._id !== _id)
+      }));
+    })
     .catch(err);
   };
 

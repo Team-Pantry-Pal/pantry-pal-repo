@@ -26,7 +26,24 @@ class FavRecipes extends Component {
   }
 
   deleteFav = (_id) => {
-    // code to delete fav
+    const payload = {
+      user: this.props.user,
+      recipeId: _id
+    };
+
+    fetch('api/fav-recipes', {
+      method: 'DELETE',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(success => {
+      console.log(success);
+      let newFavs = this.state.favRecipes.filter(recipe => recipe._id !== _id);
+      console.log(newFavs);
+      this.setState({ favRecipes: newFavs });
+    })
+    .catch(err => console.log(err));
   }
 
   viewDetails = (_id) => {
@@ -69,7 +86,7 @@ class FavRecipes extends Component {
               <CardBody>
                 <CardTitle>{title}</CardTitle>
                 <CardSubtitle>Card subtitle</CardSubtitle>
-                <CardText>This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</CardText>
+                <CardText></CardText>
                 <Button onClick={this.viewDetails.bind(this, _id)}>View Details</Button>
 
                 <Button
