@@ -171,8 +171,8 @@ class RecipeSearch extends Component {
                   </li>
                 ))}
               </ul>
+              <Button onClick={this.addToFavs}>Add to Favs</Button>
             </ModalBody>
-            <Button onClick={this.addToFavs}>Add to Favs</Button>
           </Modal>
         </Container>
       </div>

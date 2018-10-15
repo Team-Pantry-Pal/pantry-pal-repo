@@ -1,7 +1,8 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyParser = require("body-parser");
-const db = require("./config/keys").mongoURI;
+// const db = require("./config/keys").mongoURI;
+const mLab = require('./config/keys').mLab;
 const passport = require("./config/passport-setup");
 
 // import routes
@@ -21,7 +22,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 
 // Connect to MongoDB
 mongoose
-  .connect(db, { useNewUrlParser: true })
+  .connect(mLab, { useNewUrlParser: true })
   .then(function() {
     console.log("MongoDB is connected...");
   })
