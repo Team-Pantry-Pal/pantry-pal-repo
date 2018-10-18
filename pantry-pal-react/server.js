@@ -39,6 +39,7 @@ app.use('/user/api/recipe-search', searchRouter); // search from /user page
 app.use('/api/recipe-search', searchRouter); // search from Welcomage page
 app.use('/user/:id/api/pantry', pantryRouter);
 app.use('/user/:id/api/fav-recipes', favRouter);
+app.use('/user/api/fav-recipes', favRouter); // For "addToFavs" requests from user homepage (user/:id)
 app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
