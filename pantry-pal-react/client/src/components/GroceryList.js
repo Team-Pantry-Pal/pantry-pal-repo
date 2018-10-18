@@ -74,7 +74,6 @@ class GroceryList extends Component {
       }
     }
     addItemDB();
-
   };
 
   deleteItem = (_id) => {
