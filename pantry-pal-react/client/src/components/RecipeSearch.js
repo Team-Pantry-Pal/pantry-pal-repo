@@ -167,9 +167,9 @@ class RecipeSearch extends Component {
               <h6>Source: {recipeDetails.sourceName}</h6>
               <h6>Ingredients:</h6>
               <ul style={{ listStyleType: "none" }}>
-                {ingredients.map(({ id, name }) => (
+                {ingredients.map(({ id, name, amount, unit }) => (
                   <li key={id} style={{ listStyleType: "square" }}>
-                    {name}
+                    {name} {amount} {unit}
                   </li>
                 ))}
               </ul>
