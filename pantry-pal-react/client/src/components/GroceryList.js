@@ -36,6 +36,8 @@ class GroceryList extends Component {
       name: { name: this.state.value },
       user: this.props.user
     };
+/*
+    // Promise method
     fetch('api/grocerylist', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -46,10 +48,33 @@ class GroceryList extends Component {
         console.log(newItem);
         let groceryItems = [...this.state.groceryItems];
         groceryItems.push(newItem);
-        this.setState({ groceryItems });
+        this.setState({ groceryItems, value: '' });
       })
       .catch(err);
-    this.setState({ value: '' });
+*/
+
+    // Async-await method
+    const addItemDB = async () => {
+      try {
+        const res = await fetch('api/grocerylist', {
+          method: 'POST',
+          body: JSON.stringify(data),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        const newItem = await res.json();
+        let groceryItems = [...this.state.groceryItems];
+        groceryItems.push(newItem);
+        this.setState({
+          groceryItems: groceryItems,
+          value: ''
+        });
+      }
+      catch (err) {
+        console.error(err.message);
+      }
+    }
+    addItemDB();
+
   };
 
   deleteItem = (_id) => {
