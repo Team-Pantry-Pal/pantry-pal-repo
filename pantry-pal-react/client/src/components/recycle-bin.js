@@ -32,3 +32,4 @@ auth = {
     .catch(err => console.log('Error fetching authorized user.', err))
   }
 };
+

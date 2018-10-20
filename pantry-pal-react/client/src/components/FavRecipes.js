@@ -71,8 +71,48 @@ class FavRecipes extends Component {
     this.toggle();
   };
 
+  makeRecipe = () => {
+    console.log(this.state.favDetails.id);
+    let ingList = [];
+    this.state.favDetails.extendedIngredients.map((elem, index, array) => {
+      //console.log(elem.name);
+      let ing = {
+        name: elem.name,
+        quantity: elem.measures.us.amount,
+        unitOm: elem.measures.us.unitLong
+      };
+      ingList.push(ing);
+      return ingList;
+    });
+    //console.log(ingList);
+    let payload = {
+      user: this.props.user,
+      newItems: ingList
+    };
+    fetch('api/grocerylist', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(sumn => console.log(sumn))
+    .catch(err => console.error(err.message));
+  }
+
   toggle = () => {
-    this.setState({ modal: !this.state.modal });
+    // favModalReset clears favDetails when modal closes
+    // Put the modal toggle in a Promise
+    const favModalReset = new Promise((resolve, reject) => {
+      this.setState({ modal: !this.state.modal });
+      resolve();
+    });
+    // Use Promise to reference modal status AFTER it's been set
+    favModalReset
+      .then(() => {
+        if (this.state.modal === false) {
+          this.setState({ favDetails: {} });
+        }
+      });
   };
 
   render() {
@@ -81,7 +121,7 @@ class FavRecipes extends Component {
     let ingredients;
     if (this.state.favDetails.extendedIngredients) {
       ingredients = this.state.favDetails.extendedIngredients;
-      console.log(ingredients);
+      //console.log(ingredients);
     } else {
       ingredients = [];
     }
@@ -135,6 +175,7 @@ class FavRecipes extends Component {
                   </ul>
                   <h6>Instructions:</h6>
                   <p>{favDetails.instructions}</p>
+                  <Button onClick={this.makeRecipe}>Make Recipe</Button>
                 </CardBody>
               </Card>
             </ModalBody>

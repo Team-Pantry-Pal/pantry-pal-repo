@@ -25,21 +25,28 @@ router.post('/list', (req, res) => {
 // @desc      Add item to grocery list
 // @access    Public
 router.post('/', (req, res) => {
-  let newItem = req.body.name;
-  let user = req.body.user;
+  const newItems = req.body.newItems;
+  const user = req.body.user;
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
+    let newCount = 0;
     if (err) {
       res.status(404).json({ success: false });
       return handleError(err)
     } else {
-      result.grocerylist.push(newItem);
+      newItems.forEach((item) => {
+        result.grocerylist.push(item);
+        newCount += 1;
+      });
+      newCount = newCount - newCount * 2;
+      const payload = result.grocerylist.slice(newCount);
+      console.log(payload);
       result.save(err => {
         if (err) {
           res.status(404).json({ success: false });
           return handleError(err);
         } else {
-          res.json(result.grocerylist[result.grocerylist.length - 1]);
+          res.json(payload);
         }
       });
     }

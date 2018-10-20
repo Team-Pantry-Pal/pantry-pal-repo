@@ -1,10 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 // const db = require("./config/keys").mongoURI;
 const mLab = require('./config/keys').mLab;
 const passport = require("./config/passport-setup");
-// import routes
+// Import routes
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require('./routes/api/recipe-search');
 const pantryRouter = require('./routes/api/pantry');
@@ -19,20 +18,19 @@ mongoose.connect(mLab, { useNewUrlParser: true })
   .catch((err) => console.error(err));
 
 app.use(express.static('public'));
-// bodyParser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
-// set up Express session
+// Express JSON-parsing middleware
+app.use(express.json());
+// Set up Express session
 app.use(require("express-session")({
   secret: "blah blah blah",
   resave: false,
   saveUninitialized: false
 }));
-// initialize Passport
+// Initialize Passport
 app.use(passport.initialize());
-// necessary to use persistent login sessions
+// Necessary to use persistent login sessions
 app.use(passport.session()); // make sure express-session is called first
-// initialize routes
+// Initialize routes
 app.use("/user/:id/api/grocerylist", groceryRouter);
 app.use('/user/:id/api/recipe-search', searchRouter); // search from /user page
 app.use('/user/api/recipe-search', searchRouter); // search from /user page

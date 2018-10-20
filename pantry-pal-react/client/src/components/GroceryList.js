@@ -20,7 +20,6 @@ class GroceryList extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      console.log(data.grocerylist);
       this.setState({ groceryItems: data.grocerylist })
     })
     .catch(err => console.error(err));
@@ -33,11 +32,11 @@ class GroceryList extends Component {
   addItem = (event, err) => {
     event.preventDefault();
     let data = {
-      name: { name: this.state.value },
+      newItems: [{ name: this.state.value }],
       user: this.props.user
     };
 /*
-    // Promise method
+    // Promise approach
     fetch('api/grocerylist', {
       method: 'POST',
       body: JSON.stringify(data),
@@ -50,10 +49,9 @@ class GroceryList extends Component {
         groceryItems.push(newItem);
         this.setState({ groceryItems, value: '' });
       })
-      .catch(err);
+      .catch(err => console.error(err.message));
 */
-
-    // Async-await method
+    // Async/await approach
     const addItemDB = async () => {
       try {
         const res = await fetch('api/grocerylist', {
@@ -61,13 +59,12 @@ class GroceryList extends Component {
           body: JSON.stringify(data),
           headers: { 'Content-Type': 'application/json' }
         });
-        const newItem = await res.json();
+        let newItem = await res.json();
+        newItem = newItem[0];
+        console.log(newItem);
         let groceryItems = [...this.state.groceryItems];
         groceryItems.push(newItem);
-        this.setState({
-          groceryItems: groceryItems,
-          value: ''
-        });
+        this.setState({ groceryItems, value: '' });
       }
       catch (err) {
         console.error(err.message);
@@ -135,7 +132,7 @@ class GroceryList extends Component {
                   >
                     &times;
                   </Button>
-                  {quantity} {unitOm} of {name}
+                  {name} ({quantity} {unitOm})
                 </ListGroupItem>
               ))}
             </ListGroup>

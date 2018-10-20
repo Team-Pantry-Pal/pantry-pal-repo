@@ -1,5 +1,4 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 // Passport dependencies
 const passport = require("passport");
 const LocalStrategy = require("passport-local"); // required to call req.logout()
