@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-// const db = require("./config/keys").mongoURI;
+//const mongoD = require("./config/keys").mongoURI;
 const mLab = require('./config/keys').mLab;
 const passport = require("./config/passport-setup");
 // Import routes
@@ -12,8 +12,15 @@ const passportRoutes = require('./routes/api/passportRoutes');
 
 const app = express();
 
+// Database switch (Local Mongo or mLab)
+let db;
+if (typeof mongoD === 'undefined') {
+  db = mLab;
+} else if (typeof mLab === 'undefined') {
+  db = mongoD;
+}
 // Connect to MongoDB
-mongoose.connect(mLab, { useNewUrlParser: true })
+mongoose.connect(db, { useNewUrlParser: true })
   .then(() => console.log("MongoDB is connected..."))
   .catch((err) => console.error(err));
 
