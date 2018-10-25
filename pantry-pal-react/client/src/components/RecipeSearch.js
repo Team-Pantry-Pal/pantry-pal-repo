@@ -12,16 +12,19 @@ import {
   CardImg,
   CardBody,
   CardTitle,
-  Jumbotron
+  Jumbotron,
+  Alert
 } from "reactstrap";
 //imports for modal
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import "./RecipeSearch.css"
 
 class RecipeSearch extends Component {
   state = {
     searchResults: [],
     value: "",
-    recipeDetails: {}
+    recipeDetails: {},
+    alertVisible: false
   };
 
   handleChange = event => {
@@ -90,12 +93,22 @@ class RecipeSearch extends Component {
       .then(success => {
         // show user confirmation
         console.log(success);
+        if (success.success === true) {
+          this.favToggle();
+        }
       })
       .catch(err => console.log(err.message));
   };
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
+  };
+
+  favToggle = () => {
+    this.setState({ alertVisible: true });
+    setTimeout(() => {
+      this.setState({ alertVisible: false});
+    }, 4000);
   };
 
   render() {
@@ -174,6 +187,15 @@ class RecipeSearch extends Component {
                 ))}
               </ul>
               <Button onClick={this.addToFavs}>Add to Favs</Button>
+              <Alert
+                className="fav-alert"
+                color="success"
+                isOpen={this.state.alertVisible}
+                tag="div"
+              >
+                <i className="fas fa-check" tag="div"></i>
+                Recipe added to Favs!
+              </Alert>
             </ModalBody>
           </Modal>
         </Container>

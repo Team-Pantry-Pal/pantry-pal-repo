@@ -33,3 +33,28 @@ auth = {
   }
 };
 
+
+
+
+
+
+
+
+
+User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
+  if (err) {
+    res.status(404).json({ success: false });
+    return handleError(err)
+  } else {
+    result.grocerylist.push(newItem);
+    result.save(err => {
+      if (err) {
+        res.status(404).json({ success: false });
+        return handleError(err);
+      } else {
+        res.json(result.grocerylist[result.grocerylist.length - 1]);
+        res.json(payload);
+      }
+    });
+  }
+});
