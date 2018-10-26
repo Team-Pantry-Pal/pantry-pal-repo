@@ -12,19 +12,18 @@ import {
   CardImg,
   CardBody,
   CardTitle,
-  Jumbotron,
-  Alert
+  Jumbotron
 } from "reactstrap";
 //imports for modal
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import Alert from 'react-s-alert';
 import "./RecipeSearch.css"
 
 class RecipeSearch extends Component {
   state = {
     searchResults: [],
     value: "",
-    recipeDetails: {},
-    alertVisible: false
+    recipeDetails: {}
   };
 
   handleChange = event => {
@@ -94,7 +93,12 @@ class RecipeSearch extends Component {
         // show user confirmation
         console.log(success);
         if (success.success === true) {
-          this.favToggle();
+          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
+            position: 'bottom-right',
+            effect: 'stackslide',
+            html: true,
+            timeout: 4000
+          });
         }
       })
       .catch(err => console.log(err.message));
@@ -102,13 +106,6 @@ class RecipeSearch extends Component {
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
-  };
-
-  favToggle = () => {
-    this.setState({ alertVisible: true });
-    setTimeout(() => {
-      this.setState({ alertVisible: false});
-    }, 4000);
   };
 
   render() {
@@ -187,18 +184,10 @@ class RecipeSearch extends Component {
                 ))}
               </ul>
               <Button onClick={this.addToFavs}>Add to Favs</Button>
-              <Alert
-                className="fav-alert"
-                color="success"
-                isOpen={this.state.alertVisible}
-                tag="div"
-              >
-                <i className="fas fa-check" tag="div"></i>
-                Recipe added to Favs!
-              </Alert>
             </ModalBody>
           </Modal>
         </Container>
+        <Alert stack={{limit: 1}} />
       </div>
     );
   }

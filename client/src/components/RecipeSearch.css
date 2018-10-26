@@ -1,6 +1,5 @@
-.fav-alert {
-  float: right;
-  width: 50%;
+.s-alert-box {
+  z-index: 1051 !important;
 }
 
 .fas {
