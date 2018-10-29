@@ -34,13 +34,6 @@ auth = {
 };
 
 
-
-
-
-
-
-
-
 User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
   if (err) {
     res.status(404).json({ success: false });

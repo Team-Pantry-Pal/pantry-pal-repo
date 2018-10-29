@@ -95,9 +95,9 @@ class FavRecipes extends Component {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
-    .then(res => res.json())
-    .then(sumn => console.log(sumn))
-    .catch(err => console.error(err.message));
+      .then(res => res.json())
+      .then(sumn => console.log(sumn))
+      .catch(err => console.error(err.message));
   }
 
   toggle = () => {

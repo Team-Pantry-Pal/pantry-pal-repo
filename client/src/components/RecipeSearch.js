@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DashNav from "./DashNav";
+import SearchCard from "./SearchCard";
 import {
   Container,
   Form,
@@ -8,15 +9,11 @@ import {
   Input,
   Button,
   CardDeck,
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  Jumbotron,
-  Alert
+  Jumbotron
 } from "reactstrap";
 //imports for modal
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
+import Alert from 'react-s-alert';
 import "./RecipeSearch.css"
 
 class RecipeSearch extends Component {
@@ -24,14 +21,14 @@ class RecipeSearch extends Component {
     searchResults: [],
     value: "",
     recipeDetails: {},
-    alertVisible: false
+    modal: false
   };
 
   handleChange = event => {
     this.setState({ value: event.target.value });
   };
 
-  findRecipes = (event, err) => {
+  findRecipes = (event) => {
     event.preventDefault();
     let searchData = { ingredients: this.state.value };
     // console.log(searchData);
@@ -40,18 +37,14 @@ class RecipeSearch extends Component {
       body: JSON.stringify(searchData),
       headers: { "Content-Type": "application/json" }
     })
-      .then(function(res) {
-        let shit = res.json();
-        return shit;
-      })
-      .then(results => {
-        this.setState({ searchResults: results });
-      })
-      .catch(err);
+      .then(res => res.json())
+      .then(results => this.setState({ searchResults: results }))
+      .catch(err => console.error(err.message));
     this.setState({ value: "" });
   };
+
   //second api request to get recipe details
-  recipeDetails = (id, event, err) => {
+  recipeDetails = (id, event) => {
     event.preventDefault();
     let recipeId = { idNumber: id };
     fetch("api/recipe-search/recipedetails", {
@@ -60,14 +53,9 @@ class RecipeSearch extends Component {
       headers: { "Content-Type": "application/json" }
     })
       .then(res => res.json())
-      .then(result => {
-        this.setState({ recipeDetails: result });
-        if (this.state.recipeDetails.extendedIngredients) {
-          this.toggle();
-        }
-      })
-      .catch(err);
-    this.setState({ ID: "" });
+      .then(result => this.setState({ recipeDetails: result }))
+      .then(() => this.toggle())
+      .catch(err => console.error(err.message));
   };
 
   addToFavs = () => {
@@ -94,7 +82,12 @@ class RecipeSearch extends Component {
         // show user confirmation
         console.log(success);
         if (success.success === true) {
-          this.favToggle();
+          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
+            position: 'bottom-right',
+            effect: 'stackslide',
+            html: true,
+            timeout: 4000
+          });
         }
       })
       .catch(err => console.log(err.message));
@@ -102,13 +95,6 @@ class RecipeSearch extends Component {
 
   toggle = () => {
     this.setState({ modal: !this.state.modal });
-  };
-
-  favToggle = () => {
-    this.setState({ alertVisible: true });
-    setTimeout(() => {
-      this.setState({ alertVisible: false});
-    }, 4000);
   };
 
   render() {
@@ -146,16 +132,12 @@ class RecipeSearch extends Component {
             </Form>
             <br />
             <CardDeck>
-              {searchResults.map(({ id, title, image }) => (
-                <Card key={id}>
-                  <CardImg top width="100%" src={image} />
-                  <CardBody>
-                    <CardTitle>{title}</CardTitle>
-                    <Button onClick={this.recipeDetails.bind(this, id)}>
-                      View Recipe
-                    </Button>
-                  </CardBody>
-                </Card>
+              {searchResults.map(recipe => (
+                <SearchCard
+                  key={recipe.id}
+                  recipeInfo={recipe}
+                  recipeDetails={this.recipeDetails}
+                />
               ))}
             </CardDeck>
           </Jumbotron>
@@ -187,18 +169,10 @@ class RecipeSearch extends Component {
                 ))}
               </ul>
               <Button onClick={this.addToFavs}>Add to Favs</Button>
-              <Alert
-                className="fav-alert"
-                color="success"
-                isOpen={this.state.alertVisible}
-                tag="div"
-              >
-                <i className="fas fa-check" tag="div"></i>
-                Recipe added to Favs!
-              </Alert>
             </ModalBody>
           </Modal>
         </Container>
+        <Alert stack={{limit: 1}} />
       </div>
     );
   }
