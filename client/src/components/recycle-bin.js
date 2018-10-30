@@ -51,3 +51,43 @@ User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     });
   }
 });
+
+pantrySearch = (e) => {
+  e.preventDefault();
+  let { pantrySelections, pantryCheckbox } = this.state;
+  let searchData = { ingredients: pantrySelections.toString() };
+  fetch('api/recipe-search', {
+    method: 'POST',
+    body: JSON.stringify(searchData),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(res => res.json())
+    .then(results => this.setState({ searchResults: results }))
+    .catch(err => console.error(err.message));
+  console.log(pantryCheckbox);
+  // Clear all checkboxes
+};
+
+handleTick = (event) => {
+  let target = event.target;
+  let pantrySelections = [...this.state.pantrySelections];
+  let pantryCheckbox = { ...this.state.pantryCheckbox };
+  let checkStatus = {
+    pantryItem: target.value,
+    checked: target.checked
+  };
+  if(target.checked) {
+    // Add checked item to pantrySelections array
+    pantrySelections.push(target.value);
+    this.setState({ pantrySelections });
+    console.log(pantrySelections);
+    // Track PantryItem's checked status in state
+    pantryCheckbox[target.id] = checkStatus;
+    this.setState({ pantryCheckbox });
+  } else if (!target.checked) {
+    // Remove the target.value from pantrySelections
+    pantrySelections = pantrySelections.filter(name => name !== target.value);
+    delete pantryCheckbox[target.id];
+    this.setState({ pantrySelections, pantryCheckbox });
+  }
+};

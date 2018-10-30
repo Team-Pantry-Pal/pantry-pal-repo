@@ -6,24 +6,19 @@ import Alert from 'react-s-alert';
 import './PantryList.css';
 
 class PantryList extends Component {
-
   state = {
+    user: '',
     pantryItems: [],
     value: '',
-    pantrySelections: [],
     searchResults: [],
-    pantryCheckbox: {},
-    user: '',
     recipeDetails: {},
     modal: false
   };
 
   componentDidMount() {
-    let { user } = this.props;
+    const { user } = this.props;
     this.setState({ user });
-    let userPayload = {
-      user: user
-    };
+    const userPayload = { user };
 
     fetch('api/pantry/list', {
       method: 'POST',
@@ -31,7 +26,14 @@ class PantryList extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
     .then(res => res.json())
-    .then(data => this.setState({ pantryItems: data.pantrylist }))
+    .then(data => {
+      // Add a "checked" property for each item to track its checkbox
+      const pantryItems = data.pantrylist.map(item => {
+        item.checked = false;
+        return item;
+      });
+      this.setState({ pantryItems });
+    })
     .catch(err => console.error(err.message));
   }
 
@@ -41,7 +43,7 @@ class PantryList extends Component {
 
   addItem = (e) => {
     e.preventDefault();
-    let data = {
+    const data = {
       name: { name: this.state.value },
       user: this.props.user
     };
@@ -52,8 +54,8 @@ class PantryList extends Component {
     })
       .then(res => res.json())
       .then(newItem => {
-        console.log(newItem);
-        let pantryItems = [...this.state.pantryItems];
+        let { pantryItems } = this.state;
+        newItem.checked = false; // Add "checked" property
         pantryItems.push(newItem);
         this.setState({ pantryItems });
       })
@@ -62,7 +64,7 @@ class PantryList extends Component {
   };
 
   deleteItem = (_id) => {
-    let payload = {
+    const payload = {
       user: this.props.user,
       itemId: _id
     };
@@ -83,9 +85,16 @@ class PantryList extends Component {
 
   pantrySearch = (e) => {
     e.preventDefault();
-    let { pantrySelections, pantryCheckbox } = this.state;
-    let searchData = { ingredients: pantrySelections.toString() };
-    console.log(searchData);
+    let { pantryItems } = this.state;
+    let searchArray = []; // Array we'll populate with ingredients to search by
+    // Check each pantry item for a checked checkbox
+    pantryItems.forEach(item => {
+      if (item.checked === true) {
+        // Add it to the searchArray is its checkbox is checked
+        searchArray.push(item.name);
+      }
+    });
+    const searchData = { ingredients: searchArray.toString() };
     fetch('api/recipe-search', {
       method: 'POST',
       body: JSON.stringify(searchData),
@@ -94,41 +103,50 @@ class PantryList extends Component {
       .then(res => res.json())
       .then(results => this.setState({ searchResults: results }))
       .catch(err => console.error(err.message));
-    console.log(pantryCheckbox);
-    // Clear all checkboxes
   };
 
   handleTick = (event) => {
-    let target = event.target;
-    console.log(target);
-    let pantrySelections = [...this.state.pantrySelections];
-    let checkStatus = {
-      pantryItem: target.value,
-      checked: target.checked
-    };
-    if(target.checked) {
-      //console.log(target.checked);
-      pantrySelections.push(target.value);
-      this.setState({ pantrySelections });
-      //console.log(pantrySelections);
-
-      // Track PantryItem's checked status in state
-      let pantryCheckbox = { ...this.state.pantryCheckbox };
-      pantryCheckbox[target.id] = checkStatus;
-      this.setState({ pantryCheckbox });
-
-    } if (!target.checked) {
-      //console.log(target.checked);
-      // Remove the target.value from pantrySelections
-      pantrySelections = pantrySelections.filter(name => name !== target.value);
-      //console.log(pantrySelections);
-      this.setState({ pantrySelections });
-
-      // Track PantryItem's checked status in state
-      let pantryCheckbox = { ...this.state.pantryCheckbox };
-      pantryCheckbox[target.id].checked = target.checked;
-      this.setState({ pantryCheckbox });
+    const target = event.target;
+    let { pantryItems } = this.state;
+    // If the checkbox was checked...
+    if (target.checked === true) {
+      pantryItems = pantryItems.map(item => {
+        // ... find that item and set its "checked" property to true
+        if (item._id === target.id) {
+          item.checked = true;
+          return item;
+        } else {
+          return item;
+        }
+      });
+      this.setState({ pantryItems });
+      // If the checkbox was unchecked...
+    } else if (target.checked === false) {
+      pantryItems = pantryItems.map((item) => {
+        // ... find that item and set its "checked" property to false
+        if (item._id === target.id) {
+          item.checked = false;
+          return item;
+        } else {
+          return item;
+        }
+      });
+      this.setState({ pantryItems });
     }
+  };
+
+  clearChecks = () => {
+    let { pantryItems } = this.state;
+    pantryItems = pantryItems.map(item => {
+      // Look for any checked boxes and set them to false
+      if (item.checked === true) {
+        item.checked = false;
+        return item;
+      } else {
+        return item;
+      }
+    });
+    this.setState({ pantryItems });
   };
 
   recipeDetails = (id, event) => {
@@ -184,7 +202,6 @@ class PantryList extends Component {
       .catch(err => console.error(err.message));
   };
 
-
   render() {
     const { pantryItems } = this.state;
     const { searchResults } = this.state;
@@ -227,7 +244,7 @@ class PantryList extends Component {
             <Form onSubmit={this.pantrySearch}>
               <ListGroup>
                 <FormGroup check>
-                  {pantryItems.map(({ _id, name, quantity, unitOm }) => (
+                  {pantryItems.map(({ _id, name, quantity, unitOm, checked }) => (
                     <ListGroupItem key={_id}>
                       <Label check>
                         <Input
@@ -236,7 +253,8 @@ class PantryList extends Component {
                           id={_id}
                           name="pantryIng"
                           value={name}
-                          onChange={this.handleTick.bind(this, _id)}
+                          checked={checked}
+                          onChange={this.handleTick}
                         />
                         {' '} {quantity} {unitOm} of {name}
                       </Label>
@@ -253,6 +271,7 @@ class PantryList extends Component {
                   ))}
                   <br />
                   <Button type="submit">Get Recipes</Button>
+                  <Button onClick={this.clearChecks}>Clear checkboxes</Button>
                 </FormGroup>
               </ListGroup>
             </Form>
