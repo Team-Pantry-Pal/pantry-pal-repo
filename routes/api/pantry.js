@@ -25,8 +25,12 @@ router.post('/list', (req, res) => {
 // @desc      Add item to pantry list
 // @access    Public
 router.post('/', (req, res) => {
-  let newItem = req.body.name;
+  let newItem = req.body.newItem;
   let user = req.body.user;
+  console.log(newItem);
+
+
+  //res.json("Lemme alone! We're testing!!!");
 
   User.findOne({ 'username': user }, 'pantrylist', (err, result) => {
     if (err) {

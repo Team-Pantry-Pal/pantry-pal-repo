@@ -7,7 +7,10 @@ class GroceryList extends Component {
 
   state = {
     groceryItems: [],
-    value: ''
+    value: '',
+    qtyVal: '',
+    unitOm: '',
+    gotIt: {}
   };
 
   componentDidMount() {
@@ -26,26 +29,43 @@ class GroceryList extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value });
+    const target = event.target;
+    if (target.id === "newGroceryItem") {
+      this.setState({ value: target.value });
+    } else if (target.id === "newGroceryQty") {
+      // So value for qtyVal in state won't be null if input box is cleared
+      if (target.value) {
+        const qtyVal = parseInt(target.value, 10);
+        this.setState({ qtyVal });
+        } else if (!target.value) {
+          this.setState({ qtyVal: ''});
+        }
+    } else if (target.id === "newGroceryUnit") {
+      this.setState({ unitOm: target.value });
+    }
   };
 
-  addItem = (event, err) => {
-    event.preventDefault();
-    let data = {
-      newItems: [{ name: this.state.value }],
+  addItem = (e) => {
+    e.preventDefault();
+    let payload = {
+      newItems: [{
+        name: this.state.value,
+        quantity: this.state.qtyVal,
+        unitOm: this.state.unitOm
+      }],
       user: this.props.user
     };
 /*
     // Promise approach
     fetch('api/grocerylist', {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
       .then(newItem => {
         console.log(newItem);
-        let groceryItems = [...this.state.groceryItems];
+        let groceryItems = this.state.groceryItems;
         groceryItems.push(newItem);
         this.setState({ groceryItems, value: '' });
       })
@@ -56,13 +76,13 @@ class GroceryList extends Component {
       try {
         const res = await fetch('api/grocerylist', {
           method: 'POST',
-          body: JSON.stringify(data),
+          body: JSON.stringify(payload),
           headers: { 'Content-Type': 'application/json' }
         });
         let newItem = await res.json();
         newItem = newItem[0];
         console.log(newItem);
-        let groceryItems = [...this.state.groceryItems];
+        const groceryItems = this.state.groceryItems;
         groceryItems.push(newItem);
         this.setState({ groceryItems, value: '' });
       }
@@ -93,6 +113,10 @@ class GroceryList extends Component {
     .catch(err => console.log(err));
   };
 
+  gotIt = (_id) => {
+    this.setState({ gotIt: {textDecoration: "line-through"}});
+  };
+
   render() {
     const { groceryItems } = this.state;
     return (
@@ -104,7 +128,7 @@ class GroceryList extends Component {
         <Container>
           <Jumbotron>
             <h3>Grocery List</h3>
-            <Form inline onSubmit={this.addItem}>
+            <Form onSubmit={this.addItem}>
               <FormGroup>
                 <Label for="newGroceryItem"></Label>
                 <Input
@@ -115,6 +139,22 @@ class GroceryList extends Component {
                   value={this.state.value}
                   onChange={this.handleChange}
                 />
+                <Input
+                  type="number"
+                  name="quantity"
+                  id="newGroceryQty"
+                  placeholder="Enter quantity"
+                  value={this.state.qtyVal}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  type="text"
+                  name="unitOm"
+                  id="newGroceryUnit"
+                  placeholder="Enter unit of measure"
+                  value={this.state.unitOm}
+                  onChange={this.handleChange}
+                />
                 <Button type="submit">
                   Add Item
                 </Button>
@@ -123,7 +163,7 @@ class GroceryList extends Component {
             <br />
             <ListGroup>
               {groceryItems.map(({ _id, name, quantity, unitOm }) => (
-                <ListGroupItem key={_id}>
+                <ListGroupItem key={_id} style={this.state.gotIt}>
                   <Button
                     className="remove-btn"
                     color="danger"
@@ -133,6 +173,14 @@ class GroceryList extends Component {
                     &times;
                   </Button>
                   {name} ({quantity} {unitOm})
+                  <Button
+                    color="primary"
+                    size="sm"
+                    style={{float: "right"}}
+                    onClick={this.gotIt.bind(this, _id)}
+                  >
+                    Got it!
+                  </Button>
                 </ListGroupItem>
               ))}
             </ListGroup>

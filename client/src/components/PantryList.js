@@ -10,6 +10,8 @@ class PantryList extends Component {
     user: '',
     pantryItems: [],
     value: '',
+    qtyVal: '',
+    unitOm: '',
     searchResults: [],
     recipeDetails: {},
     modal: false
@@ -38,13 +40,30 @@ class PantryList extends Component {
   }
 
   handleChange = (event) => {
-    this.setState({ value: event.target.value });
+    const target = event.target;
+    if (target.id === "newPantryItem") {
+      this.setState({ value: target.value });
+    } else if (target.id === "newPantryQty") {
+      // So value for qtyVal in state won't be null if input box is cleared
+      if (target.value) {
+        const qtyVal = parseInt(target.value, 10);
+        this.setState({ qtyVal });
+        } else if (!target.value) {
+          this.setState({ qtyVal: ''});
+        }
+    } else if (target.id === "newPantryUnit") {
+      this.setState({ unitOm: target.value });
+    }
   };
 
   addItem = (e) => {
     e.preventDefault();
     const data = {
-      name: { name: this.state.value },
+      newItem: {
+        name: this.state.value,
+        quantity: this.state.qtyVal,
+        unitOm: this.state.unitOm
+      },
       user: this.props.user
     };
     fetch('api/pantry', {
@@ -53,6 +72,7 @@ class PantryList extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
+      //.then(msg => console.log(msg))
       .then(newItem => {
         let { pantryItems } = this.state;
         newItem.checked = false; // Add "checked" property
@@ -224,7 +244,7 @@ class PantryList extends Component {
         <Container>
           <Jumbotron>
             <h3>Pantry List</h3>
-            <Form inline onSubmit={this.addItem}>
+            <Form onSubmit={this.addItem}>
               <FormGroup>
                 <Label for="newPantryItem"></Label>
                 <Input
@@ -233,6 +253,22 @@ class PantryList extends Component {
                   id="newPantryItem"
                   placeholder="Add new pantry item"
                   value={this.state.value}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  type="number"
+                  name="quantity"
+                  id="newPantryQty"
+                  placeholder="Enter quantity"
+                  value={this.state.qtyVal}
+                  onChange={this.handleChange}
+                />
+                <Input
+                  type="text"
+                  name="unitOm"
+                  id="newPantryUnit"
+                  placeholder="Enter unit of measure"
+                  value={this.state.unitOm}
                   onChange={this.handleChange}
                 />
                 <Button type="submit">
@@ -256,7 +292,7 @@ class PantryList extends Component {
                           checked={checked}
                           onChange={this.handleTick}
                         />
-                        {' '} {quantity} {unitOm} of {name}
+                        {} {name} ({quantity} {unitOm})
                       </Label>
                       <Button
                         className="remove-btn"
@@ -271,7 +307,7 @@ class PantryList extends Component {
                   ))}
                   <br />
                   <Button type="submit">Get Recipes</Button>
-                  <Button onClick={this.clearChecks}>Clear checkboxes</Button>
+                  <Button style={{'float': 'right'}} onClick={this.clearChecks}>Clear checkboxes</Button>
                 </FormGroup>
               </ListGroup>
             </Form>
