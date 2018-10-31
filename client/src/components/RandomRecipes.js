@@ -67,5 +67,5 @@ class RandomRecipes extends Component {
   }
 }
 
-//just some code to make a change so I can push
+//Next look at carousel
 export default RandomRecipes;
