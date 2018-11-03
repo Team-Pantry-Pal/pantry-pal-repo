@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   Container,
@@ -6,6 +7,8 @@ import {
   CardImg,
   CardBody,
   CardTitle,
+  CardSubtitle,
+  CardText,
   Button
 } from "reactstrap";
 //import things here
@@ -63,4 +66,6 @@ class RandomRecipes extends Component {
     );
   }
 }
+
+//Next look at carousel
 export default RandomRecipes;
