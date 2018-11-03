@@ -73,7 +73,6 @@ class FavRecipes extends Component {
   };
 
   makeRecipe = () => {
-    console.log(this.state.favDetails.id);
     let ingList = [];
     this.state.favDetails.extendedIngredients.map((elem, index, array) => {
       //console.log(elem.name);

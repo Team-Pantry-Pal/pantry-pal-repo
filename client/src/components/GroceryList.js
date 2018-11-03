@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import DashNav from "./DashNav";
-import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Label, Jumbotron } from "reactstrap";
+import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
 
 class GroceryList extends Component {
 
   state = {
     groceryItems: [],
+    shoppingCart: [],
     value: '',
     qtyVal: '',
     unitOm: '',
@@ -114,11 +115,51 @@ class GroceryList extends Component {
   };
 
   gotIt = (_id) => {
-    this.setState({ gotIt: {textDecoration: "line-through"}});
+    const groceryItems = this.state.groceryItems.filter(item => item._id !== _id);
+    const shoppingCart = this.state.shoppingCart;
+    this.state.groceryItems.forEach(item => {
+      if (item._id === _id) {
+        shoppingCart.push(item);
+      }
+    });
+    this.setState({ groceryItems, shoppingCart });
+  };
+
+  dontGotIt = (_id) => {
+    const shoppingCart = this.state.shoppingCart.filter(item => item._id !== _id);
+    const groceryItems = this.state.groceryItems;
+    this.state.shoppingCart.forEach(item => {
+      if (item._id === _id) {
+        groceryItems.push(item);
+      }
+    });
+    this.setState({ shoppingCart, groceryItems });
+  };
+
+  checkout = () => {
+    const payload = {
+      user: this.props.user,
+      newItems: this.state.shoppingCart
+    }
+    fetch('api/pantry', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' }
+    })
+      .then(res => res.json())
+      .then(msg => {
+        console.log(msg);
+        if (msg.success === true) {
+          this.setState({ shoppingCart: [] });
+        }
+        return msg;
+      })
+      .catch(err => console.error(err.message))
   };
 
   render() {
     const { groceryItems } = this.state;
+    const { shoppingCart } = this.state;
     return (
       <div className="grocery-list">
         <DashNav
@@ -130,11 +171,12 @@ class GroceryList extends Component {
             <h3>Grocery List</h3>
             <Form onSubmit={this.addItem}>
               <FormGroup>
-                <Label for="newGroceryItem"></Label>
                 <Input
                   type="text"
                   name="item"
                   id="newGroceryItem"
+                  bsSize="sm"
+                  style={{maxWidth: "18em"}}
                   placeholder="Add new grocery item"
                   value={this.state.value}
                   onChange={this.handleChange}
@@ -143,6 +185,8 @@ class GroceryList extends Component {
                   type="number"
                   name="quantity"
                   id="newGroceryQty"
+                  bsSize="sm"
+                  style={{maxWidth: "6em"}}
                   placeholder="Enter quantity"
                   value={this.state.qtyVal}
                   onChange={this.handleChange}
@@ -151,14 +195,16 @@ class GroceryList extends Component {
                   type="text"
                   name="unitOm"
                   id="newGroceryUnit"
+                  bsSize="sm"
+                  style={{maxWidth: "10em"}}
                   placeholder="Enter unit of measure"
                   value={this.state.unitOm}
                   onChange={this.handleChange}
                 />
-                <Button type="submit">
-                  Add Item
-                </Button>
               </FormGroup>
+              <Button type="submit">
+                Add Item
+              </Button>
             </Form>
             <br />
             <ListGroup>
@@ -185,6 +231,28 @@ class GroceryList extends Component {
               ))}
             </ListGroup>
           </Jumbotron>
+          {this.state.shoppingCart.length > 0 &&
+            <Jumbotron>
+              <h3>Shopping Cart</h3>
+              <ListGroup>
+                {shoppingCart.map(({_id, name, quantity, unitOm}) => (
+                  <ListGroupItem key={_id}>
+                    {name} ({quantity} {unitOm})
+                    <Button
+                      color="danger"
+                      size="sm"
+                      style={{float: "right"}}
+                      onClick={this.dontGotIt.bind(this, _id)}
+                    >
+                      Don't got it!
+                    </Button>
+                  </ListGroupItem>
+              ))}
+              </ListGroup>
+              <br />
+              <Button onClick={this.checkout} style={{float: "right"}}>Checkout</Button>
+            </Jumbotron>
+          }
         </Container>
       </div>
     );

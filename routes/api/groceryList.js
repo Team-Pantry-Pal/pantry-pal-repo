@@ -15,7 +15,6 @@ router.post('/list', (req, res) => {
       res.status(404).json({ success: false });
       return handleError(err);
     } else {
-      //console.log(result);
       res.json(result);
     }
   });
@@ -40,7 +39,6 @@ router.post('/', (req, res) => {
       });
       newCount = newCount - newCount * 2;
       const payload = result.grocerylist.slice(newCount);
-      console.log(payload);
       result.save(err => {
         if (err) {
           res.status(404).json({ success: false });

@@ -59,28 +59,33 @@ class PantryList extends Component {
   addItem = (e) => {
     e.preventDefault();
     const data = {
-      newItem: {
+      user: this.props.user,
+      newItems: [{
         name: this.state.value,
         quantity: this.state.qtyVal,
         unitOm: this.state.unitOm
-      },
-      user: this.props.user
+      }]
     };
+    console.log(data);
     fetch('api/pantry', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      //.then(msg => console.log(msg))
-      .then(newItem => {
+      .then(payload => {
+        console.log(payload);
         let { pantryItems } = this.state;
-        newItem.checked = false; // Add "checked" property
-        pantryItems.push(newItem);
+        payload.addedItem.checked = false; // Add "checked" property
+        pantryItems.push(payload.addedItem);
         this.setState({ pantryItems });
       })
       .catch(err => console.error(err.message));
-    this.setState({ value: '' });
+    this.setState({
+      value: '',
+      qtyVal: '',
+      unitOm: ''
+    });
   };
 
   deleteItem = (_id) => {
@@ -246,11 +251,12 @@ class PantryList extends Component {
             <h3>Pantry List</h3>
             <Form onSubmit={this.addItem}>
               <FormGroup>
-                <Label for="newPantryItem"></Label>
                 <Input
                   type="text"
                   name="item"
                   id="newPantryItem"
+                  bsSize="sm"
+                  style={{maxWidth: "18em"}}
                   placeholder="Add new pantry item"
                   value={this.state.value}
                   onChange={this.handleChange}
@@ -259,7 +265,9 @@ class PantryList extends Component {
                   type="number"
                   name="quantity"
                   id="newPantryQty"
-                  placeholder="Enter quantity"
+                  bsSize="sm"
+                  style={{maxWidth: "6em"}}
+                  placeholder="Qty"
                   value={this.state.qtyVal}
                   onChange={this.handleChange}
                 />
@@ -267,14 +275,16 @@ class PantryList extends Component {
                   type="text"
                   name="unitOm"
                   id="newPantryUnit"
-                  placeholder="Enter unit of measure"
+                  bsSize="sm"
+                  style={{maxWidth: "10em"}}
+                  placeholder="Unit of measure"
                   value={this.state.unitOm}
                   onChange={this.handleChange}
                 />
-                <Button type="submit">
-                  Add Item
-                </Button>
               </FormGroup>
+              <Button type="submit">
+                Add Item
+              </Button>
             </Form>
             <br />
             <Form onSubmit={this.pantrySearch}>
