@@ -139,7 +139,7 @@ class GroceryList extends Component {
   checkout = () => {
     const payload = {
       user: this.props.user,
-      newItems: this.state.shoppingCart
+      shoppingCart: this.state.shoppingCart
     }
     fetch('api/pantry', {
       method: 'POST',

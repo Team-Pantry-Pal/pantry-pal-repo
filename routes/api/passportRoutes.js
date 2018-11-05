@@ -1,8 +1,8 @@
 const express = require("express");
+const User = require("../../models/User");
 // Passport dependencies
 const passport = require("passport");
 const LocalStrategy = require("passport-local"); // required to call req.logout()
-const User = require("../../models/User");
 
 const app = express();
 

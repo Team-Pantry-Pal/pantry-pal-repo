@@ -8,7 +8,7 @@ const handleError = (err) => console.error(err);
 // @desc     Get entire pantry list on page load
 // @access   Public
 router.post('/list', (req, res) => {
-  let user = req.body.user;
+  const user = req.body.user;
 
   User.findOne({ 'username': user }, 'pantrylist', (err, result) => {
     if (err) {
@@ -24,59 +24,65 @@ router.post('/list', (req, res) => {
 // @desc      Add items to pantry list
 // @access    Public
 router.post('/', (req, res) => {
-  let newItems = req.body.newItems;
   const user = req.body.user;
+  const newItem = req.body.newItem;
+  const shoppingCart = req.body.shoppingCart;
   const source = req.get('referer'); // Gets request URL
 
-  //res.json("Lemme alone! We're testing!!!");
-
-  User.findOne({ username: user }, (err, result) => {
-    if (err) {
-      res.status(404).json({ success: false });
-      return handleError(err);
-    } else {
-      // This function takes in the newItems array, and lets you pass in a grocery item to see if it's on the newItems list. It it is, it returns true, if not, false.
-      const newItemsCheck = (newItems, groceryItem) => {
+  async function getUserData() {
+    try {
+      const userData = await User.findOne({ username: user });
+      // This function takes in the shoppingCart array, and lets you pass in a grocery item to see if it's in the shoppingCart. If it is, it returns true, if not, false.
+      const shoppingCartChecker = (shoppingCart, groceryItem) => {
         const groceryItemId = groceryItem._id.toString(); // Apparently, Mongo doesn't want to let you change the query results into a string (had to store the string value in a new const)
-        for (let i = 0; i < newItems.length; i++) {
-          if (newItems[i]._id === groceryItemId) {
+        for (let i = 0; i < shoppingCart.length; i++) {
+          if (shoppingCart[i]._id === groceryItemId) {
             return true;
           }
         }
         return false;
       };
 
-      const newGroceryList = result.grocerylist.filter((grocery) => {
-        // We can use the newItemsCheck function in here to pass it the current grocery item from the filter method.
-        if (newItemsCheck(newItems, grocery)) {
-          // If the newItemsCheck function returns true, we'll have the filter method return false, thereby NOT putting that grocery item onto the newGroceryList.
+      const newGroceryList = userData.grocerylist.filter((grocery) => {
+        // We can use the shoppingCartChecker function in here and pass it the current grocery item from the filter method.
+        if (shoppingCartChecker(shoppingCart, grocery)) {
+          // If the shoppingCartChecker function returns true, we'll have the filter method return false, thereby NOT putting that grocery item onto the newGroceryList.
           return false;
         }
         return true;
       });
 
-      result.grocerylist = newGroceryList;
-      result.pantrylist = result.pantrylist.concat(newItems);
+      // Update grocerylist and pantrylist before saving to Mongo
+      userData.grocerylist = newGroceryList;
+      userData.pantrylist = userData.pantrylist.concat(shoppingCart || newItem);
 
-      result.save(err => {
-        if (err) {
-          res.status(404).json({ success: false });
-          return handleError(err);
-        } else {
+      async function saveUserData() {
+        try {
+          const savedData = await userData.save();
           const regex = /grocerylist$/; // RegEx to check if URL ends with "grocerlist"
-          if (regex.test(source) === true) { // If req came from shopping cart
+          if (regex.test(source) === true) { // If req came from shopping cart...
             res.json({ success: true });
-          } else { // If request is coming from PantryList
+          } else { // If request is coming from PantryList...
             const payload = {
-              addedItem: result.pantrylist[result.pantrylist.length - 1],
+              addedItem: savedData.pantrylist[savedData.pantrylist.length - 1],
               success: true
             };
             res.json(payload);
           }
         }
-      });
+        catch (err) {
+          res.status(404).json({ success: false });
+          console.error(err);
+        }
+      }
+      saveUserData();
     }
-  });
+    catch (err) {
+      res.status(404).json({ success: false });
+      console.error(err);
+    }
+  }
+  getUserData();
 });
 
 // @route   DELETE api/pantrylist

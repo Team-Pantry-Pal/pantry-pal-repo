@@ -60,7 +60,7 @@ class PantryList extends Component {
     e.preventDefault();
     const data = {
       user: this.props.user,
-      newItems: [{
+      newItem: [{
         name: this.state.value,
         quantity: this.state.qtyVal,
         unitOm: this.state.unitOm
