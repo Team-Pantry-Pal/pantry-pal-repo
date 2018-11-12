@@ -17,8 +17,7 @@ import {
 class RandomRecipes extends Component {
   state = {
     randomRecipes: [],
-    modal: false, 
-    ingredients: []
+    modal: false
   };
 
   componentDidMount(err) {
@@ -49,14 +48,14 @@ class RandomRecipes extends Component {
   };
   render() {
     if (this.state.randomRecipes.recipes) {
+      console.log("it works");
       var details = this.state.randomRecipes.recipes[0];
-      var ingredients = details.extendedIngredients; 
-      // this.setState({ingredients}); 
+      var ingredients = this.state.randomRecipes.recipes[0].extendedIngredients;
+      console.log("ingredients below");
+      console.log(ingredients);
     } else {
       details = [];
     }
-    console.log(details); 
-    console.log(ingredients); 
 
     return (
       <div className="random-recipe">
@@ -79,9 +78,6 @@ class RandomRecipes extends Component {
               <h6>Servings: {details.servings}</h6>
               <h6>Source: {details.sourceName}</h6>
               <h6>Ingredients:</h6>
-              {/* <ul style={{ listStyleType: "none" }}>
-                {ingredients.map}
-              </ul> */}
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.toggle}>
