@@ -15,8 +15,8 @@ import {
 } from "reactstrap";
 //imports for modal
 import { Modal, ModalHeader, ModalBody } from "reactstrap";
-import Alert from 'react-s-alert';
-import "./RecipeSearch.css"
+import Alert from "react-s-alert";
+import "./RecipeSearch.css";
 
 class RecipeSearch extends Component {
   state = {
@@ -30,7 +30,7 @@ class RecipeSearch extends Component {
     this.setState({ value: event.target.value });
   };
 
-  findRecipes = (event) => {
+  findRecipes = event => {
     event.preventDefault();
     let searchData = { ingredients: this.state.value };
     fetch("api/recipe-search", {
@@ -95,12 +95,15 @@ class RecipeSearch extends Component {
         // show user confirmation
         console.log(success);
         if (success.success === true) {
-          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
-            position: 'bottom-right',
-            effect: 'stackslide',
-            html: true,
-            timeout: 4000
-          });
+          Alert.success(
+            "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
+            {
+              position: "bottom-right",
+              effect: "stackslide",
+              html: true,
+              timeout: 4000
+            }
+          );
         }
       })
       .catch(err => console.log(err.message));
