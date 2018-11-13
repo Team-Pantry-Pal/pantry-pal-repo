@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import DashNav from "./DashNav";
 import SearchCard from "./SearchCard";
+import AutoComp from './AutoComp';
+
 import {
   Container,
   Form,
@@ -19,7 +21,7 @@ import "./RecipeSearch.css";
 class RecipeSearch extends Component {
   state = {
     searchResults: [],
-    value: "",
+    value: '',
     recipeDetails: {},
     modal: false
   };
@@ -31,17 +33,28 @@ class RecipeSearch extends Component {
   findRecipes = event => {
     event.preventDefault();
     let searchData = { ingredients: this.state.value };
-    // console.log(searchData);
     fetch("api/recipe-search", {
       method: "POST",
       body: JSON.stringify(searchData),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => res.json())
-      .then(results => this.setState({ searchResults: results }))
-      .catch(err => console.error(err.message));
-    this.setState({ value: "" });
+    .then(res => res.json())
+    .then(results => this.setState({ searchResults: results }))
+    .catch(err => console.error(err.message));
+    this.setState({ value: '' });
   };
+
+  autoCompSearch = (autoCompItems) => {
+    let searchData = { ingredients: autoCompItems };
+    fetch("api/recipe-search", {
+      method: "POST",
+      body: JSON.stringify(searchData),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(res => res.json())
+    .then(searchResults => this.setState({ searchResults }))
+    .catch(err => console.error(err.message));
+  }
 
   //second api request to get recipe details
   recipeDetails = (id, event) => {
@@ -114,26 +127,29 @@ class RecipeSearch extends Component {
     return (
       <div className="search-results">
         <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
-        <Container fluid={true}>
-          <Jumbotron>
-            <Form onSubmit={this.findRecipes}>
-              <FormGroup>
-                <h3>Search by Ingredient</h3>
-                <Label for="recipeSearch">
-                  (Separate multiple ingredients with a comma)
-                </Label>
-                <Input
-                  type="search"
-                  name="search"
-                  id="recipeSearch"
-                  value={this.state.value}
-                  onChange={this.handleChange}
-                  placeholder="Enter ingredient"
-                />
-              </FormGroup>
-              <Button>Submit</Button>
-            </Form>
-            <br />
+          <AutoComp
+            search={this.autoCompSearch}
+          />
+          <Container>
+            <Jumbotron>
+              <Form onSubmit={this.findRecipes}>
+                <FormGroup>
+                  <h3>Search by Ingredient</h3>
+                  <Label for="recipeSearch">
+                    (Separate multiple ingredients with a comma)
+                  </Label>
+                  <Input
+                    type="search"
+                    name="search"
+                    id="recipeSearch"
+                    value={this.state.value}
+                    onChange={this.handleChange}
+                    placeholder="Enter ingredient"
+                  />
+                </FormGroup>
+                <Button>Submit</Button>
+              </Form>
+            </Jumbotron>
             <CardDeck>
               {searchResults.map(recipe => (
                 <SearchCard
@@ -143,7 +159,7 @@ class RecipeSearch extends Component {
                 />
               ))}
             </CardDeck>
-          </Jumbotron>
+          </Container>
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}
@@ -174,8 +190,7 @@ class RecipeSearch extends Component {
               <Button onClick={this.addToFavs}>Add to Favs</Button>
             </ModalBody>
           </Modal>
-        </Container>
-        <Alert stack={{ limit: 1 }} />
+        <Alert stack={{limit: 1}} />
       </div>
     );
   }

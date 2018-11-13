@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import DashNav from './DashNav';
 import {
   Container,
   CardDeck,
@@ -60,7 +61,9 @@ class RandomRecipes extends Component {
 
     return (
       <div className="random-recipe">
+        <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
         <Container>
+          <h1>What's popular now</h1>
           <CardDeck>
             <Card>
               <CardImg top width="100%" src={details.image} />

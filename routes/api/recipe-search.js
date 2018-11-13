@@ -7,13 +7,13 @@ router.post('/', (req, res) => {
   let searchInput = req.body.ingredients;
   console.log(searchInput);
 
-  // Split the input sting into an array
+  // Split the input string into an array
   searchInput = searchInput.split(", ");
   console.log(searchInput);
 
   // Trim any errant white space from beg/end of search terms
-  searchInput.forEach((ing, i, array) => {
-    array[i] = ing.replace(/^\s+|\s+$/g, '');
+  searchInput.forEach(ing => {
+    ing = ing.replace(/^\s+|\s+$/g, '');
   });
   console.log(searchInput);
 
