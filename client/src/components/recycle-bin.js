@@ -1,15 +1,16 @@
-// Potential object to how auth info
-auth = {
-  isAuth: false,
-  authenticate() {
-    fetch('auth/user', {
-      credentials: 'include'
-    })
-    .then(res => {
-      this.isAuth = true;
-      console.log(res);
-      console.log(this.isAuth);
-    })
-    .catch(err => console.log('Error fetching authorized user.', err))
+let selectedOptions = [
+  {
+    label: "banana",
+    value: 0
+  },
+  {
+    label: "applesauce",
+    value: 1
+  },
+  {
+    label: "baby carrots",
+    value: 4
   }
-};
+];
+
+let stateTerms = ["bananas"];
