@@ -17,10 +17,12 @@ import {
 class RandomRecipes extends Component {
   state = {
     randomRecipes: [],
-    modal: false
+    modal: false,
+    ingredients: [],
+    details: {}
   };
 
-  componentDidMount(err) {
+  componentWillMount(err) {
     console.log("componentWillMount worked");
     //fired before the render method
     fetch(
@@ -35,8 +37,14 @@ class RandomRecipes extends Component {
       .then(res => res.json())
       .then(randomRecipe => {
         this.setState({ randomRecipes: randomRecipe });
+        this.setState({
+          ingredients: randomRecipe.recipes[0].extendedIngredients
+        });
+        this.setState({
+          details: randomRecipe.recipes[0]
+        });
       })
-      .catch(err);
+      .catch(err => console.log(err));
   }
 
   viewDetails = _id => {
@@ -47,15 +55,8 @@ class RandomRecipes extends Component {
     this.setState({ modal: !this.state.modal });
   };
   render() {
-    if (this.state.randomRecipes.recipes) {
-      console.log("it works");
-      var details = this.state.randomRecipes.recipes[0];
-      var ingredients = this.state.randomRecipes.recipes[0].extendedIngredients;
-      console.log("ingredients below");
-      console.log(ingredients);
-    } else {
-      details = [];
-    }
+    const ingredients = this.state.ingredients;
+    const details = this.state.details;
 
     return (
       <div className="random-recipe">
@@ -71,13 +72,32 @@ class RandomRecipes extends Component {
           </CardDeck>
           <Modal isOpen={this.state.modal} toggle={this.toggle}>
             <ModalHeader toggle={this.toggle}>{details.title}</ModalHeader>
-            <CardImg top width="100%" src={details.image} />
             <ModalBody>
-              <h6>Prep Time: {details.preparationMinutes} Minutes</h6>
-              <h6>Cooking Time: {details.readyInMinutes} Minutes</h6>
-              <h6>Servings: {details.servings}</h6>
-              <h6>Source: {details.sourceName}</h6>
-              <h6>Ingredients:</h6>
+              <Card>
+                <CardImg
+                  top
+                  width="100%"
+                  src={details.image}
+                  alt={details.title}
+                />
+                <CardBody>
+                  <CardTitle>{details.title}</CardTitle>
+                  <h6>Prep Time: {details.preparationMinutes} Minutes</h6>
+                  <h6>Cooking Time: {details.readyInMinutes} Minutes</h6>
+                  <h6>Servings: {details.servings}</h6>
+                  <h6>Source: {details.sourceName}</h6>
+                  <h6>Ingredients:</h6>
+                  <ul style={{ listStyleType: "none" }}>
+                    {this.state &&
+                      this.state.ingredients &&
+                      ingredients.map(({ id, name }) => (
+                        <li key={id} style={{ listStyleType: "square" }}>
+                          {name}
+                        </li>
+                      ))}
+                  </ul>
+                </CardBody>
+              </Card>
             </ModalBody>
             <ModalFooter>
               <Button color="primary" onClick={this.toggle}>
