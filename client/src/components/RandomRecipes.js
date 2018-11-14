@@ -62,7 +62,9 @@ class RandomRecipes extends Component {
     return (
       <div className="random-recipe">
         <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
+
         <Container>
+          <h2>What's popular now</h2>
           <CardDeck>
             <Card>
               <h1>What's popular now</h1>
