@@ -1,15 +1,14 @@
 import React, { Component } from "react";
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
 import DashNav from "./DashNav";
+import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
 
 class GroceryList extends Component {
+
   state = {
     groceryItems: [],
     shoppingCart: [],
-    autoCompInput: '',
-    newGrocery: '',
+    value: '',
     qtyVal: '',
     unitOm: '',
     gotIt: {}
@@ -30,28 +29,28 @@ class GroceryList extends Component {
     .catch(err => console.error(err));
   }
 
-  handleChange = event => {
+  handleChange = (event) => {
     const target = event.target;
-    if (target.id === "newGroceryQty") {
+    if (target.id === "newGroceryItem") {
+      this.setState({ value: target.value });
+    } else if (target.id === "newGroceryQty") {
       // So value for qtyVal in state won't be null if input box is cleared
       if (target.value) {
         const qtyVal = parseInt(target.value, 10);
         this.setState({ qtyVal });
-      }
-      if (!target.value) {
+        } else if (!target.value) {
           this.setState({ qtyVal: ''});
-      }
-    }
-    if (target.id === "newGroceryUnit") {
+        }
+    } else if (target.id === "newGroceryUnit") {
       this.setState({ unitOm: target.value });
     }
   };
 
-  addItem = e => {
+  addItem = (e) => {
     e.preventDefault();
     let payload = {
       newItems: [{
-        name: this.state.newGrocery,
+        name: this.state.value,
         quantity: this.state.qtyVal,
         unitOm: this.state.unitOm
       }],
@@ -158,52 +157,6 @@ class GroceryList extends Component {
       .catch(err => console.error(err.message))
   };
 
-  autoCompChange = newValue => {
-    const autoCompInput = newValue;
-    this.setState({ autoCompInput });
-    return autoCompInput;
-  };
-
-  promiseOptions = inputValue => {
-    return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
-      method: 'GET',
-      headers: {
-        'X-Mashape-Key': 'oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ',
-        'Accept': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then((spoonData) => {
-      let options = spoonData.map((item, index) => {
-        return {
-          label: item.name,
-          value: index
-        }
-      });
-      return options;
-    })
-    .catch(err => console.error(err));
-  };
-
-  autoCompSelect = (selection) => {
-    this.setState({ newGrocery: selection.label });
-  };
-
-  autoCompStyles = {
-    container: (provided) => ({
-      ...provided,
-      maxWidth: '18em'
-    })
-  };
-  // Needed for a bug fix
-  bugFix = (inputValue, selectValue, selectOptions) => {
-    const isNotDuplicated = !selectOptions
-      .map(option => option.label)
-      .includes(inputValue);
-    const isNotEmpty = inputValue !== '';
-    return isNotEmpty && isNotDuplicated;
-  }
-
   render() {
     const { groceryItems } = this.state;
     const { shoppingCart } = this.state;
@@ -218,14 +171,15 @@ class GroceryList extends Component {
             <h3>Grocery List</h3>
             <Form onSubmit={this.addItem}>
               <FormGroup>
-                <AsyncCreatableSelect
-                  inputValue={this.state.autoCompInput}
-                  onInputChange={this.autoCompChange}
-                  loadOptions={this.promiseOptions}
-                  onChange={this.autoCompSelect}
-                  styles={this.autoCompStyles}
-                  cacheOptions
-                  isValidNewOption={this.bugFix}
+                <Input
+                  type="text"
+                  name="item"
+                  id="newGroceryItem"
+                  bsSize="sm"
+                  style={{maxWidth: "18em"}}
+                  placeholder="new grocery item"
+                  value={this.state.value}
+                  onChange={this.handleChange}
                 />
                 <Input
                   type="number"

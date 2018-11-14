@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import Alert from 'react-s-alert';
 import DashNav from "./DashNav";
 import {
   Container,
@@ -75,16 +76,14 @@ class FavRecipes extends Component {
   makeRecipe = () => {
     let ingList = [];
     this.state.favDetails.extendedIngredients.map((elem, index, array) => {
-      //console.log(elem.name);
       let ing = {
         name: elem.name,
         quantity: elem.measures.us.amount,
-        unitOm: elem.measures.us.unitLong
+        unitOm: elem.measures.us.unitShort
       };
       ingList.push(ing);
       return ingList;
     });
-    //console.log(ingList);
     let payload = {
       user: this.props.user,
       newItems: ingList
@@ -95,7 +94,16 @@ class FavRecipes extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
       .then(res => res.json())
-      .then(sumn => console.log(sumn))
+      .then(addedGroceries => {
+        if (addedGroceries.length > 0) {
+          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Ingredients added to Grocery List!</p>", {
+            position: 'bottom-right',
+            effect: 'stackslide',
+            html: true,
+            timeout: 4000
+          });
+        }
+      })
       .catch(err => console.error(err.message));
   }
 
@@ -183,6 +191,7 @@ class FavRecipes extends Component {
             <ModalFooter />
           </Modal>
         </Container>
+        <Alert stack={{limit: 1}} />
       </div>
     );
   }

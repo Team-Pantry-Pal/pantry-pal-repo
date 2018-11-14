@@ -30,13 +30,14 @@ class AutoComp extends Component {
     .catch(err => console.error(err));
   };
 
-  handleInputChange = (newValue) => {
+  handleInputChange = newValue => {
     const inputValue = newValue;
     this.setState({ inputValue });
     return inputValue;
   };
 
   selectHandler = (selected, action) => {
+    console.log(selected, action)
     let stateItems = this.state.stateItems;
     let selectArray = selected;
     // 1. For every item of the selectArray we fire the stateChecker function on it.
@@ -58,11 +59,18 @@ class AutoComp extends Component {
       return false;
     }
     // If search bar is cleared, remove stateItems from state
-    console.log(action.action)
-    if (action.action === "clear"
-      || action.action === "remove-value"
-      || action.action === "pop-value") {
-        this.setState({ stateItems: [] });
+    if (action.action === "clear") {
+      this.setState({ stateItems: [] });
+    }
+    if (action.action === "pop-value") {
+      stateItems.pop(stateItems[stateItems.length - 1]);
+    }
+    if (action.action === "remove-value") {
+      console.log(action.removedValue.label);
+      stateItems = stateItems.filter((item) => {
+        return item !== action.removedValue.label;
+      });
+      this.setState({ stateItems });
     }
   };
 

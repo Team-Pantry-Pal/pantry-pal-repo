@@ -21,6 +21,7 @@ class PantryList extends Component {
     const { user } = this.props;
     this.setState({ user });
     const userPayload = { user };
+    let pantryItems;
 
     fetch('api/pantry/list', {
       method: 'POST',
@@ -30,7 +31,7 @@ class PantryList extends Component {
     .then(res => res.json())
     .then(data => {
       // Add a "checked" property for each item to track its checkbox
-      const pantryItems = data.pantrylist.map(item => {
+      pantryItems = data.pantrylist.map(item => {
         item.checked = false;
         return item;
       });
@@ -257,7 +258,7 @@ class PantryList extends Component {
                   id="newPantryItem"
                   bsSize="sm"
                   style={{maxWidth: "18em"}}
-                  placeholder="Add new pantry item"
+                  placeholder="new pantry item"
                   value={this.state.value}
                   onChange={this.handleChange}
                 />
@@ -267,7 +268,7 @@ class PantryList extends Component {
                   id="newPantryQty"
                   bsSize="sm"
                   style={{maxWidth: "6em"}}
-                  placeholder="Qty"
+                  placeholder="qty"
                   value={this.state.qtyVal}
                   onChange={this.handleChange}
                 />
@@ -277,7 +278,7 @@ class PantryList extends Component {
                   id="newPantryUnit"
                   bsSize="sm"
                   style={{maxWidth: "10em"}}
-                  placeholder="Unit of measure"
+                  placeholder="unit"
                   value={this.state.unitOm}
                   onChange={this.handleChange}
                 />

@@ -21,7 +21,7 @@ router.post('/list', (req, res) => {
 });
 
 // @route     POST api/grocerylist
-// @desc      Add item to grocery list
+// @desc      Add items to grocery list
 // @access    Public
 router.post('/', (req, res) => {
   const newItems = req.body.newItems;

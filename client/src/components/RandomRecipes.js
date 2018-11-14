@@ -65,6 +65,7 @@ class RandomRecipes extends Component {
         <Container>
           <CardDeck>
             <Card>
+              <h1>What's popular now</h1>
               <CardImg top width="100%" src={details.image} />
               <CardBody>
                 <CardTitle>{details.title}</CardTitle>
