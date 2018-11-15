@@ -75,13 +75,16 @@ class FavRecipes extends Component {
 
   makeRecipe = () => {
     let ingList = [];
-    this.state.favDetails.extendedIngredients.map((elem, index, array) => {
-      let ing = {
-        name: elem.name,
-        quantity: elem.measures.us.amount,
-        unitOm: elem.measures.us.unitShort
+    const recipeId = this.state.favDetails.id;
+    this.state.favDetails.extendedIngredients.map(ing => {
+      let ingredient = {
+        name: ing.name,
+        spoonId: ing.id,
+        qty: ing.measures.us.amount,
+        unit: ing.measures.us.unitShort,
+        recipeId
       };
-      ingList.push(ing);
+      ingList.push(ingredient);
       return ingList;
     });
     let payload = {
@@ -93,18 +96,18 @@ class FavRecipes extends Component {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(addedGroceries => {
-        if (addedGroceries.length > 0) {
-          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Ingredients added to Grocery List!</p>", {
-            position: 'bottom-right',
-            effect: 'stackslide',
-            html: true,
-            timeout: 4000
-          });
-        }
-      })
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(res => {
+      if (res.success === true) {
+        Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Ingredients added to Grocery List!</p>", {
+          position: 'bottom-right',
+          effect: 'stackslide',
+          html: true,
+          timeout: 4000
+        });
+      }
+    })
+    .catch(err => console.error(err.message));
   }
 
   toggle = () => {

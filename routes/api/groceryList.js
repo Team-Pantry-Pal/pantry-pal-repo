@@ -44,7 +44,10 @@ router.post('/', (req, res) => {
           res.status(404).json({ success: false });
           return handleError(err);
         } else {
-          res.json(payload);
+          res.json({
+            success: true,
+            payload
+          });
         }
       });
     }

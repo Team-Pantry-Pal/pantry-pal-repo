@@ -6,13 +6,18 @@ const GrocerySchema = new Schema({
     type: String
     //required: [true, "Food item name is required"]
   },
-  quantity: {
+  spoonId: {
+    type: Number
+  },
+  qty: {
     type: Number,
     default: 1
   },
-  unitOm: {
-    type: String,
-    default: "unit"
+  unit: {
+    type: String
+  },
+  recipeId: {
+    type: Number
   }
 });
 

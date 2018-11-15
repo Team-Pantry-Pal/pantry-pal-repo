@@ -40,8 +40,8 @@ class PantryList extends Component {
     .catch(err => console.error(err.message));
   }
 
-  handleChange = (event) => {
-    const target = event.target;
+  handleChange = e => {
+    const target = e.target;
     if (target.id === "newPantryItem") {
       this.setState({ value: target.value });
     } else if (target.id === "newPantryQty") {
@@ -57,31 +57,32 @@ class PantryList extends Component {
     }
   };
 
-  addItem = (e) => {
+  addItem = e => {
     e.preventDefault();
     const data = {
       user: this.props.user,
       newItem: [{
         name: this.state.value,
-        quantity: this.state.qtyVal,
-        unitOm: this.state.unitOm
+        qty: this.state.qtyVal,
+        unit: this.state.unitOm
       }]
     };
-    console.log(data);
+
     fetch('api/pantry', {
       method: 'POST',
       body: JSON.stringify(data),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(payload => {
-        console.log(payload);
-        let { pantryItems } = this.state;
-        payload.addedItem.checked = false; // Add "checked" property
-        pantryItems.push(payload.addedItem);
-        this.setState({ pantryItems });
-      })
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(payload => {
+      console.log(payload);
+      let { pantryItems } = this.state;
+      payload.addedItem.checked = false; // Add "checked" property
+      pantryItems.push(payload.addedItem);
+      this.setState({ pantryItems });
+    })
+    .catch(err => console.error(err.message));
+
     this.setState({
       value: '',
       qtyVal: '',
@@ -89,27 +90,28 @@ class PantryList extends Component {
     });
   };
 
-  deleteItem = (_id) => {
+  deleteItem = _id => {
     const payload = {
       user: this.props.user,
       itemId: _id
     };
+
     fetch('api/pantry', {
       method: 'DELETE',
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(success => {
-        console.log(success);
-        this.setState(state => ({
-          pantryItems: state.pantryItems.filter(item => item._id !== _id)
-        }));
-      })
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(success => {
+      console.log(success);
+      this.setState(state => ({
+        pantryItems: state.pantryItems.filter(item => item._id !== _id)
+      }));
+    })
+    .catch(err => console.error(err.message));
   };
 
-  pantrySearch = (e) => {
+  pantrySearch = e => {
     e.preventDefault();
     let { pantryItems } = this.state;
     let searchArray = []; // Array we'll populate with ingredients to search by
@@ -121,18 +123,19 @@ class PantryList extends Component {
       }
     });
     const searchData = { ingredients: searchArray.toString() };
+
     fetch('api/recipe-search', {
       method: 'POST',
       body: JSON.stringify(searchData),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(results => this.setState({ searchResults: results }))
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(results => this.setState({ searchResults: results }))
+    .catch(err => console.error(err.message));
   };
 
-  handleTick = (event) => {
-    const target = event.target;
+  handleTick = e => {
+    const target = e.target;
     let { pantryItems } = this.state;
     // If the checkbox was checked...
     if (target.checked === true) {
@@ -175,18 +178,19 @@ class PantryList extends Component {
     this.setState({ pantryItems });
   };
 
-  recipeDetails = (id, event) => {
-    event.preventDefault();
+  recipeDetails = (id, e) => {
+    e.preventDefault();
     let recipeId = { idNumber: id };
+
     fetch("api/recipe-search/recipedetails", {
       method: "POST",
       body: JSON.stringify(recipeId),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => res.json())
-      .then(result => this.setState({ recipeDetails: result }))
-      .then(() => this.toggle())
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(result => this.setState({ recipeDetails: result }))
+    .then(() => this.toggle())
+    .catch(err => console.error(err.message));
   };
 
   toggle = () => {
@@ -194,8 +198,8 @@ class PantryList extends Component {
   };
 
   addToFavs = () => {
-    let { recipeDetails } = this.state;
-    let favPayload = {
+    const { recipeDetails } = this.state;
+    const favPayload = {
       user: this.props.user,
       newFav: {
         servings: recipeDetails.servings,
@@ -207,38 +211,38 @@ class PantryList extends Component {
         instructions: recipeDetails.instructions
       }
     };
+
     fetch("api/fav-recipes/addfav", {
       method: "POST",
       body: JSON.stringify(favPayload),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => res.json())
-      .then(success => {
-        // show user confirmation
-        console.log(success);
-        if (success.success === true) {
-          Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
-            position: 'bottom-right',
-            effect: 'stackslide',
-            html: true,
-            timeout: 4000
-          });
-        }
-      })
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(success => {
+      // show user confirmation
+      console.log(success);
+      if (success.success === true) {
+        Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
+          position: 'bottom-right',
+          effect: 'stackslide',
+          html: true,
+          timeout: 4000
+        });
+      }
+    })
+    .catch(err => console.error(err.message));
   };
 
   render() {
-    const { pantryItems } = this.state;
-    const { searchResults } = this.state;
-    const { recipeDetails } = this.state;
+    const {
+      pantryItems,
+      searchResults,
+      recipeDetails
+    } = this.state;
 
-    let ingredients;
+    let ingredients = [];
     if (this.state.recipeDetails.extendedIngredients) {
       ingredients = this.state.recipeDetails.extendedIngredients;
-      console.log(ingredients);
-    } else {
-      ingredients = [];
     }
 
     return (
@@ -264,7 +268,7 @@ class PantryList extends Component {
                 />
                 <Input
                   type="number"
-                  name="quantity"
+                  name="qty"
                   id="newPantryQty"
                   bsSize="sm"
                   style={{maxWidth: "6em"}}
@@ -274,7 +278,7 @@ class PantryList extends Component {
                 />
                 <Input
                   type="text"
-                  name="unitOm"
+                  name="unit"
                   id="newPantryUnit"
                   bsSize="sm"
                   style={{maxWidth: "10em"}}
@@ -291,7 +295,7 @@ class PantryList extends Component {
             <Form onSubmit={this.pantrySearch}>
               <ListGroup>
                 <FormGroup check>
-                  {pantryItems.map(({ _id, name, quantity, unitOm, checked }) => (
+                  {pantryItems.map(({ _id, name, qty, unit, checked }) => (
                     <ListGroupItem key={_id}>
                       <Label check>
                         <Input
@@ -303,7 +307,7 @@ class PantryList extends Component {
                           checked={checked}
                           onChange={this.handleTick}
                         />
-                        {} {name} ({quantity} {unitOm})
+                        {} {name} ({qty} {unit})
                       </Label>
                       <Button
                         className="remove-btn"

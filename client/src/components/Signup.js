@@ -8,7 +8,7 @@ class Signup extends Component {
     modal: false,
   };
 
-  submitForm = (e) => {
+  submitForm = e => {
     e.preventDefault();
     //take in and store form data
     const userName = this.state.inputUsername;
@@ -33,12 +33,12 @@ class Signup extends Component {
     .catch(err => console.error(err));
   };
 
-  handleUsernameChange = (event) => {
-    this.setState({ inputUsername: event.target.value });
+  handleUsernameChange = e => {
+    this.setState({ inputUsername: e.target.value });
   };
 
-  handlePasswordChange = (event) => {
-    this.setState({ inputPassword: event.target.value });
+  handlePasswordChange = e => {
+    this.setState({ inputPassword: e.target.value });
   };
 
   toggle = () => {
@@ -50,33 +50,33 @@ class Signup extends Component {
   render() {
     return (
       <div>
-      <Button onClick={this.toggle}>Signup</Button>
-      <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-      <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
-        <ModalBody>
-        <Form onSubmit={this.submitForm}>
-          <FormGroup>
-            <Label for="username">Username</Label>
-            <Input
-              type="text"
-              name="username"
-              id="username"
-              placeholder="Username"
-              onChange={this.handleUsernameChange}
-            />
-            <Label for="password">Password</Label>
-            <Input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="Password"
-              onChange={this.handlePasswordChange}
-            />
-          </FormGroup>
-          <Button>Submit</Button>
-        </Form>
-        </ModalBody>
-      </Modal>
+        <Button onClick={this.toggle}>Signup</Button>
+        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
+          <ModalBody>
+          <Form onSubmit={this.submitForm}>
+            <FormGroup>
+              <Label for="username">Username</Label>
+              <Input
+                type="text"
+                name="username"
+                id="username"
+                placeholder="Username"
+                onChange={this.handleUsernameChange}
+              />
+              <Label for="password">Password</Label>
+              <Input
+                type="password"
+                name="password"
+                id="password"
+                placeholder="Password"
+                onChange={this.handlePasswordChange}
+              />
+            </FormGroup>
+            <Button>Submit</Button>
+          </Form>
+          </ModalBody>
+        </Modal>
       </div>
     );
   }

@@ -6,11 +6,11 @@ const PantrySchema = new Schema({
     type: String
     //required: [true, "Pantry item name is required"]
   },
-  quantity: {
+  qty: {
     type: Number,
     default: 1
   },
-  unitOm: {
+  unit: {
     type: String,
     default: "unit"
   }

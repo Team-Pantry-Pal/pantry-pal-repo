@@ -51,17 +51,20 @@ router.post('/', (req, res) => {
           }
           return true;
         });
+
         // Update grocerylist and pantrylist before saving to Mongo
         userData.grocerylist = newGroceryList;
         userData.pantrylist = userData.pantrylist.concat(shoppingCart);
       }
-      // Update pantrylist before saving to Mongo
-      userData.pantrylist = userData.pantrylist.concat(newItem);
+      if (newItem !== undefined) { // If item was added from pantry list...
+        // Update pantrylist before saving to Mongo
+        userData.pantrylist = userData.pantrylist.concat(newItem);
+      }
 
       async function saveUserData() {
         try {
           const savedData = await userData.save();
-          const regex = /grocerylist$/; // RegEx to check if URL ends with "grocerlist"
+          const regex = /grocerylist$/; // RegEx to check if URL ends with "grocerylist"
           if (regex.test(source) === true) { // If req came from shopping cart...
             res.json({ success: true });
           } else { // If request is coming from PantryList...
