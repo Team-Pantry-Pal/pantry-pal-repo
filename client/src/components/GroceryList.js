@@ -1,23 +1,21 @@
 import React, { Component } from "react";
-import AsyncCreatableSelect from 'react-select/lib/AsyncCreatable';
-import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
-import Alert from "react-s-alert";
 import DashNav from "./DashNav";
+import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
 import "./GroceryList.css";
 
 class GroceryList extends Component {
+
   state = {
     groceryItems: [],
     shoppingCart: [],
-    autoCompInput: '',
-    newGrocery: '',
-    qtyVal: '',
-    unitOm: '',
+    item: '',
+    qty: '',
+    unit: '',
     gotIt: {}
   };
 
   componentDidMount() {
-    let userPayload = { user: this.props.user };
+    const userPayload = { user: this.props.user };
 
     fetch('api/grocerylist/list', {
       method: 'POST',
@@ -25,40 +23,37 @@ class GroceryList extends Component {
       headers: { 'Content-Type': 'application/json' }
     })
     .then(res => res.json())
-    .then(data => {
-      this.setState({ groceryItems: data.grocerylist })
-    })
+    .then(data => this.setState({ groceryItems: data.grocerylist }))
     .catch(err => console.error(err));
   }
 
   handleChange = e => {
     const target = e.target;
-    if (target.id === "newGroceryQty") {
-      // So value for qtyVal in state won't be null if input box is cleared
+    if (target.id === "newGroceryItem") {
+      this.setState({ item: target.value });
+    } else if (target.id === "newGroceryQty") {
+      // So value for qty in state won't be null if input box is cleared
       if (target.value) {
-        const qtyVal = parseInt(target.value, 10);
-        this.setState({ qtyVal });
-      }
-      if (!target.value) {
-          this.setState({ qtyVal: ''});
-      }
-    }
-    if (target.id === "newGroceryUnit") {
-      this.setState({ unitOm: target.value });
+        const qty = parseInt(target.value, 10);
+        this.setState({ qty });
+        } else if (!target.value) {
+          this.setState({ qty: ''});
+        }
+    } else if (target.id === "newGroceryUnit") {
+      this.setState({ unit: target.value });
     }
   };
 
   addItem = e => {
     e.preventDefault();
-    let payload = {
+    const payload = {
       newItems: [{
-        name: this.state.newGrocery,
-        qty: this.state.qtyVal,
-        unit: this.state.unitOm
+        name: this.state.item,
+        qty: this.state.qty,
+        unit: this.state.unit
       }],
       user: this.props.user
     };
-    console.log(payload);
 /*
     // Promise approach
     fetch('api/grocerylist', {
@@ -68,10 +63,9 @@ class GroceryList extends Component {
     })
       .then(res => res.json())
       .then(newItem => {
-        console.log(newItem);
-        let groceryItems = this.state.groceryItems;
-        groceryItems.push(newItem);
-        this.setState({ groceryItems, value: '' });
+        const groceryItems = this.state.groceryItems;
+        groceryItems.push(newItem.payload[0]);
+        this.setState({ groceryItems, item: '' });
       })
       .catch(err => console.error(err.message));
 */
@@ -84,16 +78,14 @@ class GroceryList extends Component {
           headers: { 'Content-Type': 'application/json' }
         });
         let newItem = await res.json();
-        console.log(newItem);
         newItem = newItem.payload[0];
         const groceryItems = this.state.groceryItems;
         groceryItems.push(newItem);
         this.setState({
           groceryItems,
-          autoCompInput: '',
-          newGrocery: '',
-          qtyVal: '',
-          unitOm: ''
+          item: '',
+          qty: '',
+          unit: ''
         });
       }
       catch (err) {
@@ -104,10 +96,11 @@ class GroceryList extends Component {
   };
 
   deleteItem = _id => {
-    let payload = {
+    const payload = {
       user: this.props.user,
       itemId: _id
     };
+
     fetch('api/grocerylist', {
       method: 'DELETE',
       body: JSON.stringify(payload),
@@ -149,7 +142,8 @@ class GroceryList extends Component {
     const payload = {
       user: this.props.user,
       shoppingCart: this.state.shoppingCart
-    }
+    };
+
     fetch('api/pantry', {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -159,15 +153,6 @@ class GroceryList extends Component {
     .then(msg => {
       console.log(msg);
       if (msg.success === true) {
-        Alert.success(
-          "<i class='fas fa-check-circle fa-lg'></i><p>Groceries are now in you Pantry!</p>",
-          {
-            position: "top-right",
-            effect: "stackslide",
-            html: true,
-            timeout: 4000
-          }
-        );
         this.setState({ shoppingCart: [] });
       }
       return msg;
@@ -175,79 +160,29 @@ class GroceryList extends Component {
     .catch(err => console.error(err.message))
   };
 
-  autoCompChange = newValue => {
-    const autoCompInput = newValue;
-    this.setState({ autoCompInput });
-    return autoCompInput;
-  };
-
-  promiseOptions = inputValue => {
-    return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
-      method: 'GET',
-      headers: {
-        'X-Mashape-Key': 'oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ',
-        'Accept': 'application/json'
-      }
-    })
-    .then(res => res.json())
-    .then((spoonData) => {
-      const options = spoonData.map((item, index) => {
-        return {
-          label: item.name,
-          value: index
-        }
-      });
-      return options;
-    })
-    .catch(err => console.error(err));
-  };
-
-  autoCompSelect = selection => {
-    this.setState({ newGrocery: selection.label });
-  };
-
-  autoCompStyles = {
-    container: (provided) => ({
-      ...provided,
-      maxWidth: '18em'
-    })
-  };
-  // Needed for a bug fix
-  bugFix = (inputValue, selectValue, selectOptions) => {
-    const isNotDuplicated = !selectOptions
-      .map(option => option.label)
-      .includes(inputValue);
-    const isNotEmpty = inputValue !== '';
-    return isNotEmpty && isNotDuplicated;
-  }
-
   render() {
-    const {
-      groceryItems,
-      shoppingCart,
-      autoCompInput,
-      qtyVal,
-      unitOm,
-      gotIt
-    } = this.state;
-
+    const { groceryItems } = this.state;
+    const { shoppingCart } = this.state;
     return (
       <div className="grocery-list">
-        <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
+        />
         <Container>
           <Jumbotron>
             <h3>Grocery List</h3>
             <Form onSubmit={this.addItem}>
               <FormGroup>
-                <AsyncCreatableSelect
-                  InputValue={autoCompInput}
-                  onInputChange={this.autoCompChange}
-                  loadOptions={this.promiseOptions}
-                  onChange={this.autoCompSelect}
-                  isClearable={true}
-                  styles={this.autoCompStyles}
-                  cacheOptions
-                  isValidNewOption={this.bugFix}
+                <Input
+                  type="text"
+                  name="item"
+                  id="newGroceryItem"
+                  bsSize="sm"
+                  style={{maxWidth: "18em"}}
+                  placeholder="new grocery item"
+                  value={this.state.item}
+                  onChange={this.handleChange}
                 />
                 <Input
                   type="number"
@@ -256,7 +191,7 @@ class GroceryList extends Component {
                   bsSize="sm"
                   style={{maxWidth: "6em"}}
                   placeholder="qty"
-                  value={qtyVal}
+                  value={this.state.qty}
                   onChange={this.handleChange}
                 />
                 <Input
@@ -266,7 +201,7 @@ class GroceryList extends Component {
                   bsSize="sm"
                   style={{maxWidth: "10em"}}
                   placeholder="unit"
-                  value={unitOm}
+                  value={this.state.unit}
                   onChange={this.handleChange}
                 />
               </FormGroup>
@@ -276,8 +211,8 @@ class GroceryList extends Component {
             </Form>
             <br />
             <ListGroup>
-              {groceryItems.map(({ _id, name, qty, unit }) => (
-                <ListGroupItem key={_id} style={gotIt}>
+              {groceryItems.map(({ _id, name, qty, unitOm }) => (
+                <ListGroupItem key={_id} style={this.state.gotIt}>
                   <Button
                     className="remove-btn"
                     color="danger"
@@ -286,7 +221,7 @@ class GroceryList extends Component {
                   >
                     &times;
                   </Button>
-                  {name} ({qty} {unit})
+                  {name} ({qty} {unitOm})
                   <Button
                     color="primary"
                     size="sm"
@@ -299,13 +234,13 @@ class GroceryList extends Component {
               ))}
             </ListGroup>
           </Jumbotron>
-          {shoppingCart.length > 0 &&
+          {this.state.shoppingCart.length > 0 &&
             <Jumbotron>
               <h3>Shopping Cart</h3>
               <ListGroup>
-                {shoppingCart.map(({_id, name, qty, unit}) => (
+                {shoppingCart.map(({_id, name, qty, unitOm}) => (
                   <ListGroupItem key={_id}>
-                    {name} ({qty} {unit})
+                    {name} ({qty} {unitOm})
                     <Button
                       color="danger"
                       size="sm"
@@ -322,7 +257,6 @@ class GroceryList extends Component {
             </Jumbotron>
           }
         </Container>
-        <Alert stack={{limit: 1}} />
       </div>
     );
   }
