@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import DashNav from "./DashNav";
 import UserWelcome from "./UserWelcome";
+import Alert from "react-s-alert";
 import {
   Container,
   CardDeck,
@@ -11,8 +12,7 @@ import {
   Button,
   Modal,
   ModalHeader,
-  ModalBody,
-  ModalFooter
+  ModalBody
 } from "reactstrap";
 //import things here
 
@@ -49,6 +49,49 @@ class RandomRecipes extends Component {
       .catch(err => console.log(err));
   }
 
+  addToFavs = () => {
+    const { details } = this.state;
+    console.log("details below");
+    console.log(details);
+    const favPayload = {
+      user: this.props.user,
+      newFav: {
+        servings: details.servings,
+        extendedIngredients: details.extendedIngredients,
+        id: details.id,
+        title: details.title,
+        readyInMinutes: details.readyInMinutes,
+        image: details.image,
+        instructions: details.instructions
+      }
+    };
+    console.log("favPayLoad below");
+    console.log(favPayload);
+    //then fetch request to the database
+    fetch("api/fav-recipes/addfav", {
+      method: "POST",
+      body: JSON.stringify(favPayload),
+      headers: { "Content-Type": "application/json" }
+    })
+      .then(res => res.json())
+      .then(success => {
+        // show user confirmation
+        console.log(success);
+        if (success.success === true) {
+          Alert.success(
+            "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
+            {
+              position: "bottom-right",
+              effect: "stackslide",
+              html: true,
+              timeout: 4000
+            }
+          );
+        }
+      })
+      .catch(err => console.log(err.message));
+  };
+
   viewDetails = _id => {
     this.toggle();
   };
@@ -68,7 +111,7 @@ class RandomRecipes extends Component {
         <Container>
           <CardDeck>
             <Card>
-              <h1>What's popular now</h1>
+              <h1>Try something new</h1>
               <CardImg top width="100%" src={details.image} />
               <CardBody>
                 <CardTitle>{details.title}</CardTitle>
@@ -102,17 +145,13 @@ class RandomRecipes extends Component {
                         </li>
                       ))}
                   </ul>
+                  <h6>Instructions: {details.instructions}</h6>
                 </CardBody>
               </Card>
-            </ModalBody>
-            <ModalFooter>
-              <Button color="primary" onClick={this.toggle}>
-                Do Something
-              </Button>{" "}
-              <Button color="secondary" onClick={this.toggle}>
-                Cancel
+              <Button color="primary" onClick={this.addToFavs}>
+                Add to Favs
               </Button>
-            </ModalFooter>
+            </ModalBody>
           </Modal>
         </Container>
       </div>
