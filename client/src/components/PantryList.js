@@ -291,7 +291,8 @@ class PantryList extends Component {
                 Add Item
               </Button>
             </Form>
-            <br />
+            </Jumbotron>
+            <Jumbotron>
             <Form onSubmit={this.pantrySearch}>
               <ListGroup>
                 <FormGroup check>
@@ -326,6 +327,7 @@ class PantryList extends Component {
                 </FormGroup>
               </ListGroup>
             </Form>
+            </Jumbotron>
             <br />
             <CardDeck>
               {searchResults.map(recipe => (
@@ -336,7 +338,6 @@ class PantryList extends Component {
                 />
               ))}
             </CardDeck>
-          </Jumbotron>
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}

@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 //const mongoD = require("./config/keys").mongoURI;
 const mLab = require('./config/keys').mLab;
 const passport = require("./config/passport-setup");
+const path = require('path');
+// Production middleware
+const helmet = require('helmet');
+const compression = require('compression');
 // Import routes
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require('./routes/api/recipe-search');
@@ -48,6 +52,18 @@ app.use('/user/api/fav-recipes', favRouter); // For "addToFavs" requests from us
 app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
+
+// For production...
+if(process.env.NODE_ENV === 'production') {
+  // ...reset static folder
+  app.use(express.static('client/build'));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+  // ...include production-only middleware
+  app.use(helmet());
+  app.use(compression());
+}
 
 const port = process.env.PORT || 5000; // "process.env.PORT" is for when we deploy to Heroku
 app.listen(port, function() {

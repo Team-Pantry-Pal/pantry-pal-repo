@@ -8,15 +8,21 @@
     "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install  --prefix client && npm run build --prefix client"
+  },
+  "engines": {
+    "node": "8.11.3"
   },
   "author": "Robin Anderson, Curtis Adams, Grant Thompson",
   "license": "MIT",
   "dependencies": {
+    "compression": "^1.7.3",
     "concurrently": "^3.6.1",
     "ejs": "^2.6.1",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "helmet": "^3.15.0",
     "mongoose": "^5.2.12",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
