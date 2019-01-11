@@ -1,53 +1,74 @@
 const express = require("express");
 const mongoose = require("mongoose");
 //const mongoD = require("./config/keys").mongoURI;
-const mLab = require('./config/keys').mLab;
+const mLab = require("./config/keys").mLab;
 const passport = require("./config/passport-setup");
 // Import routes
 const groceryRouter = require("./routes/api/groceryList");
-const searchRouter = require('./routes/api/recipe-search');
-const pantryRouter = require('./routes/api/pantry');
-const favRouter = require('./routes/api/fav-recipes');
-const passportRoutes = require('./routes/api/passportRoutes');
+const searchRouter = require("./routes/api/recipe-search");
+const pantryRouter = require("./routes/api/pantry");
+const favRouter = require("./routes/api/fav-recipes");
+const passportRoutes = require("./routes/api/passportRoutes");
+const path = require("path");
+const helmet = require("helmet");
+const compression = require("compression");
 
 const app = express();
 
 // Database switch (Local Mongo or mLab)
 let db;
-if (typeof mongoD === 'undefined') {
+if (typeof mongoD === "undefined") {
   db = mLab;
-} else if (typeof mLab === 'undefined') {
+} else if (typeof mLab === "undefined") {
   db = mongoD;
 }
 // Connect to MongoDB
-mongoose.connect(db, { useNewUrlParser: true })
+mongoose
+  .connect(
+    db,
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("MongoDB is connected..."))
-  .catch((err) => console.error(err));
+  .catch(err => console.error(err));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 // Express JSON-parsing middleware
 app.use(express.json());
 // Set up Express session
-app.use(require("express-session")({
-  secret: "blah blah blah",
-  resave: false,
-  saveUninitialized: false
-}));
+app.use(
+  require("express-session")({
+    secret: "blah blah blah",
+    resave: false,
+    saveUninitialized: false
+  })
+);
 // Initialize Passport
 app.use(passport.initialize());
 // Necessary to use persistent login sessions
 app.use(passport.session()); // make sure express-session is called first
 // Initialize routes
 app.use("/user/:id/api/grocerylist", groceryRouter);
-app.use('/user/:id/api/recipe-search', searchRouter); // search from /user page
-app.use('/user/api/recipe-search', searchRouter); // search from /user page
-app.use('/api/recipe-search', searchRouter); // search from Welcomage page
-app.use('/user/:id/api/pantry', pantryRouter);
-app.use('/user/:id/api/fav-recipes', favRouter);
-app.use('/user/api/fav-recipes', favRouter); // For "addToFavs" requests from user homepage (user/:id)
+app.use("/user/:id/api/recipe-search", searchRouter); // search from /user page
+app.use("/user/api/recipe-search", searchRouter); // search from /user page
+app.use("/api/recipe-search", searchRouter); // search from Welcomage page
+app.use("/user/:id/api/pantry", pantryRouter);
+app.use("/user/:id/api/fav-recipes", favRouter);
+app.use("/user/api/fav-recipes", favRouter); // For "addToFavs" requests from user homepage (user/:id)
 app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/buld"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+
+  //read docs later
+  app.use(helmet());
+  app.use(compression());
+}
 
 const port = process.env.PORT || 5000; // "process.env.PORT" is for when we deploy to Heroku
 app.listen(port, function() {
