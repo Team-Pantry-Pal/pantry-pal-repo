@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { MyContext } from './MyProvider';
-import Signup from './Signup';
+import React, { Component } from "react";
+import { MyContext } from "./MyProvider";
+import Signup from "./Signup";
 import {
   Collapse,
   Navbar,
@@ -14,8 +14,8 @@ import {
   Label,
   Input,
   Button
-} from 'reactstrap';
-import './AppNavbar.css';
+} from "reactstrap";
+import "./AppNavbar.css";
 
 class AppNavbar extends Component {
   state = {
@@ -30,15 +30,15 @@ class AppNavbar extends Component {
     });
   };
 
-  usernameField = (e) => {
+  usernameField = e => {
     this.setState({ usernameField: e.target.value });
   };
 
-  passwordField = (e) => {
+  passwordField = e => {
     this.setState({ passwordField: e.target.value });
   };
 
-  loginSubmit = (e) => {
+  loginSubmit = e => {
     e.preventDefault();
     const username = this.state.usernameField;
     const password = this.state.passwordField;
@@ -46,18 +46,18 @@ class AppNavbar extends Component {
       username: username,
       password: password
     };
-    fetch('auth/login', {
-      method: 'POST',
+    fetch("auth/login", {
+      method: "POST",
       body: JSON.stringify(credentials),
-      headers: {'content-type': 'application/json'}
+      headers: { "content-type": "application/json" }
     })
-    .then(res => res.json())
-    .then(user => {
-      //console.log(user);
-      this.props.logInUser(user.username);
-      this.props.push(`user/${user.username}`);
-    })
-    .catch(err => console.log(err));
+      .then(res => res.json())
+      .then(user => {
+        //console.log(user);
+        this.props.logInUser(user.username);
+        this.props.push(`user/${user.username}`);
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -65,14 +65,14 @@ class AppNavbar extends Component {
       <div>
         <Navbar color="dark" dark expand="sm">
           <Container fluid>
-            <NavbarBrand href="/">Pantry Pal</NavbarBrand>
+            <NavbarBrand href="/">My Pantry Pal</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" >
+              <Nav className="ml-auto">
                 <NavItem className="login">
                   <Form inline onSubmit={this.loginSubmit}>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                      <Label for="username" className="mr-sm-2"></Label>
+                      <Label for="username" className="mr-sm-2" />
                       <Input
                         type="text"
                         name="username"
@@ -82,18 +82,19 @@ class AppNavbar extends Component {
                       />
                     </FormGroup>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
-                      <Label for="examplePassword" className="mr-sm-2"></Label>
+                      <Label for="examplePassword" className="mr-sm-2" />
                       <Input
                         type="password"
-                          name="password"
-                          id="examplePassword" placeholder="password"
-                          onChange={this.passwordField}
-                        />
+                        name="password"
+                        id="examplePassword"
+                        placeholder="password"
+                        onChange={this.passwordField}
+                      />
                     </FormGroup>
                     <Button>Login</Button>
                   </Form>
                   <MyContext.Consumer>
-                    {(context) => (
+                    {context => (
                       <Signup
                         push={context.push}
                         logInUser={context.logInUser}
