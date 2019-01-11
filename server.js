@@ -13,9 +13,6 @@ const searchRouter = require("./routes/api/recipe-search");
 const pantryRouter = require("./routes/api/pantry");
 const favRouter = require("./routes/api/fav-recipes");
 const passportRoutes = require("./routes/api/passportRoutes");
-const path = require("path");
-const helmet = require("helmet");
-const compression = require("compression");
 
 const app = express();
 
