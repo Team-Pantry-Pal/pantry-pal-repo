@@ -3,10 +3,10 @@ const mongoose = require("mongoose");
 //const mongoD = require("./config/keys").mongoURI;
 const mLab = require("./config/keys").mLab;
 const passport = require("./config/passport-setup");
-const path = require('path');
+const path = require("path");
 // Production middleware
-const helmet = require('helmet');
-const compression = require('compression');
+const helmet = require("helmet");
+const compression = require("compression");
 // Import routes
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require("./routes/api/recipe-search");
@@ -74,7 +74,8 @@ if (process.env.NODE_ENV === "production") {
   app.use(compression());
 }
 
-const port = process.env.PORT || 5000; // "process.env.PORT" is for when we deploy to Heroku
+const port = process.env.PORT || 5000;
+// "process.env.PORT" is for when we deploy to Heroku
 app.listen(port, function() {
   console.log(`Server started on port ${port}...`);
 });
