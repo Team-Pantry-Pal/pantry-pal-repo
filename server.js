@@ -3,6 +3,10 @@ const mongoose = require("mongoose");
 //const mongoD = require("./config/keys").mongoURI;
 const mLab = require("./config/keys").mLab;
 const passport = require("./config/passport-setup");
+const path = require('path');
+// Production middleware
+const helmet = require('helmet');
+const compression = require('compression');
 // Import routes
 const groceryRouter = require("./routes/api/groceryList");
 const searchRouter = require("./routes/api/recipe-search");
