@@ -59,14 +59,15 @@ app.use("/user/:id/auth", passportRoutes);
 app.use("/user/auth", passportRoutes);
 app.use("/auth", passportRoutes);
 
+// For production...
 if (process.env.NODE_ENV === "production") {
+  // ... reset static folder
   app.use(express.static("client/build"));
-
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
   });
 
-  //read docs later
+  // ...include production-only middleware (read docs later)
   app.use(helmet());
   app.use(compression());
 }

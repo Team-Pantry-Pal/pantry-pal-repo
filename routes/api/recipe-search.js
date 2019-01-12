@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const request = require("request");
+const keys = require('../../config/keys');
 
 router.post("/", (req, res) => {
   // Process user input for API query string
@@ -22,10 +23,9 @@ router.post("/", (req, res) => {
   console.log(searchString);
 
   let recipeRequest = {
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/findByIngredients?ingredients=${searchString}&number=3`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${searchString}&number=3`,
     headers: {
-      "X-Mashape-Key": "oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ",
-      "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
+      "X-RapidAPI-Key": keys.rapidApiKey
     }
   };
 
@@ -42,15 +42,14 @@ router.post("/", (req, res) => {
   request(recipeRequest, callback);
 });
 
-//route for recipe details
+// route for recipe details
 router.post("/recipedetails", (req, res) => {
   // Process user input for API query string
   let recipeId = req.body.idNumber;
   let recipeDetailsRequest = {
-    url: `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/${recipeId}/information?includeNutrition=false`,
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipeId}/information?includeNutrition=false`,
     headers: {
-      "X-Mashape-Key": "oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ",
-      "X-Mashape-Host": "spoonacular-recipe-food-nutrition-v1.p.mashape.com"
+      "X-RapidAPI-Key": keys.rapidApiKey
     }
   };
 
@@ -72,7 +71,7 @@ router.get("/random", (req, res) => {
     url:
       "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random",
     headers: {
-      "X-RapidAPI-key": "aFG7BBsiy0mshBjk8nF6pllxvS2Rp1TQ9BujsnBxaotUfeEKk9"
+      "X-RapidAPI-key": keys.rapidApiKey
     }
   };
 
@@ -85,6 +84,28 @@ router.get("/random", (req, res) => {
   }
 
   const otherResponse = request(options, callback);
+});
+
+// This one is for the Spoonacular autocomplete call
+// from the AutoComp component
+router.post('/autocomp', (req, res) => {
+  const inputValue = req.body.inputValue;
+  console.log(inputValue);
+  const rapidCall = {
+    url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`,
+    headers: {
+      'X-Rapid-API-Key': keys.rapidApiKey
+    }
+  };
+
+  callback = (err, resp, body) => {
+    if (!err && resp.statusCode == 200) {
+      var returnData = JSON.parse(body);
+      res.json(returnData);
+    }
+  };
+
+  request(rapidCall, callback);
 });
 
 module.exports = router;
