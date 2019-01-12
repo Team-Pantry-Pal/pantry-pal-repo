@@ -12,9 +12,10 @@
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "engines": {
-    "node": "8.11.3"
+    "node": "8.10.0",
+    "npm": "5.6.0"
   },
-  "author": "Robin Anderson, Curtis Adams, Grant Thompson",
+  "author": "Curtis Adams, Grant Thompson",
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.3",
