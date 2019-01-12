@@ -80,6 +80,7 @@ router.get("/random", (req, res) => {
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
       //figure out how to send response
+      res.json(info);
     }
   }
 
