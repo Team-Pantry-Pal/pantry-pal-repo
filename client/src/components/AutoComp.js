@@ -10,10 +10,10 @@ class AutoComp extends Component {
   };
 
   promiseOptions = inputValue => {
-    return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
+    return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
       method: 'GET',
       headers: {
-        'X-Mashape-Key': 'oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ',
+        'X-RapidAPI-Key': 'aFG7BBsiy0mshBjk8nF6pllxvS2Rp1TQ9BujsnBxaotUfeEKk9',
         'Accept': 'application/json'
       }
     })
