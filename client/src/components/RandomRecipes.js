@@ -27,15 +27,7 @@ class RandomRecipes extends Component {
   componentWillMount(err) {
     console.log("componentWillMount worked");
     //fired before the render method
-    fetch(
-      `https://spoonacular-recipe-food-nutrition-v1.p.mashape.com/recipes/random`,
-      {
-        method: "GET",
-        headers: {
-          "X-Mashape-Key": "oAClzEfOdWmshwyHDlUeJVmEnmLdp1AKiOIjsnobfNbVPkxYvZ"
-        }
-      }
-    )
+    fetch("api/recipe-search/random")
       .then(res => res.json())
       .then(randomRecipe => {
         this.setState({ randomRecipes: randomRecipe });
