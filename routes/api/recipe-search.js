@@ -66,15 +66,12 @@ router.post("/recipedetails", (req, res) => {
 //route for random recipes
 router.get("/random", (req, res) => {
   console.log("connection good!");
-  //access api key in env variables
-  console.log(process.env.pantrypal_rapidApiKey);
-  const api_key = process.env.pantrypal_rapidApiKey;
   //make request to API
   const options = {
     url:
       "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random",
     headers: {
-      "X-RapidAPI-key": key.rapidApiKey
+      "X-RapidAPI-key": keys.rapidApiKey
     }
   };
 
