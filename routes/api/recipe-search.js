@@ -74,7 +74,7 @@ router.get("/random", (req, res) => {
     url:
       "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random",
     headers: {
-      "X-RapidAPI-key": api_key
+      "X-RapidAPI-key": key.rapidApiKey
     }
   };
 
