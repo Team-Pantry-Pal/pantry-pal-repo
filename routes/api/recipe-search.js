@@ -65,16 +65,12 @@ router.post("/recipedetails", (req, res) => {
 
 //route for random recipes
 router.get("/random", (req, res) => {
-  console.log("connection good!");
-  //access api key in env variables
-  console.log(process.env.pantrypal_rapidApiKey);
-  const api_key = process.env.pantrypal_rapidApiKey;
   //make request to API
   const options = {
     url:
       "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/random",
     headers: {
-      "X-RapidAPI-key": key.rapidApiKey
+      "X-RapidAPI-Key": keys.rapidApiKey
     }
   };
 
@@ -86,7 +82,7 @@ router.get("/random", (req, res) => {
     }
   }
 
-  const otherResponse = request(options, callback);
+  request(options, callback);
 });
 
 // This one is for the Spoonacular autocomplete call
@@ -94,10 +90,11 @@ router.get("/random", (req, res) => {
 router.post("/autocomp", (req, res) => {
   const inputValue = req.body.inputValue;
   console.log(inputValue);
+
   const rapidCall = {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`,
     headers: {
-      "X-Rapid-API-Key": keys.rapidApiKey
+      "X-RapidAPI-Key": keys.rapidApiKey
     }
   };
 
@@ -109,6 +106,8 @@ router.post("/autocomp", (req, res) => {
   };
 
   request(rapidCall, callback);
+
+  //res.json("shaddup, I'm testing");
 });
 
 module.exports = router;

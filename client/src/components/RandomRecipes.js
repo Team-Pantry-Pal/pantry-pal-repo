@@ -25,7 +25,6 @@ class RandomRecipes extends Component {
   };
 
   componentWillMount(err) {
-    console.log("componentWillMount worked");
     //fired before the render method
     fetch("api/recipe-search/random")
       .then(res => res.json())

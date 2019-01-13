@@ -8,18 +8,44 @@ class AutoComp extends Component {
     stateItems: [],
     stateShit: "Some shit in state"
   };
-
+/*
+  // This version of the promiseOptions function fetches
+  // directly to spoonacular, but requires our API key to
+  // reside on the front end.
   promiseOptions = inputValue => {
     return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
       method: 'GET',
       headers: {
-        'X-RapidAPI-Key': 'aFG7BBsiy0mshBjk8nF6pllxvS2Rp1TQ9BujsnBxaotUfeEKk9',
+        'X-RapidAPI-Key': '<<<--PASTE KEY HERE-->>>',
         'Accept': 'application/json'
       }
     })
     .then(res => res.json())
     .then((spoonData) => {
       let options = spoonData.map((item, index) => {
+        return {
+          label: item.name,
+          value: index
+        }
+      });
+      return options;
+    })
+    .catch(err => console.error(err));
+  };
+*/
+
+  // This version of the promiseOptions function fetches to our
+  // node server, and the spoonacular call is made from there,
+  // avoiding the need to keep the API key on the client side.
+  promiseOptions = inputValue => {
+    return fetch('api/recipe-search/autocomp', {
+      method: 'POST',
+      body: JSON.stringify({ inputValue: inputValue }),
+      headers: { 'Content-Type': 'application/json' }
+    })
+    .then(res => res.json())
+    .then(spoonData => {
+      const options = spoonData.map((item, index) => {
         return {
           label: item.name,
           value: index
