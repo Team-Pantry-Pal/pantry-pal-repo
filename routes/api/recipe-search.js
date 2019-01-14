@@ -4,25 +4,23 @@ const request = require("request");
 const keys = require("../../config/keys");
 
 router.post("/", (req, res) => {
-  // Process user input for API query string
-  let searchInput = req.body.ingredients;
-  console.log(searchInput);
+  let searchString;
+  inputVal = req => {
+    // Process user input for API query string
+    let searchInput = req.body.ingredients;
+    // Split the input string into an array
+    searchInput = searchInput.split(", ");
+    // Trim any errant white space from beg/end of search terms
+    searchInput.forEach(ing => {
+      ing = ing.replace(/^\s+|\s+$/g, "");
+    });
+    // Concat array back into string
+    searchString = searchInput.join();
+  };
 
-  // Split the input string into an array
-  searchInput = searchInput.split(", ");
-  console.log(searchInput);
+  inputVal(req);
 
-  // Trim any errant white space from beg/end of search terms
-  searchInput.forEach(ing => {
-    ing = ing.replace(/^\s+|\s+$/g, "");
-  });
-  console.log(searchInput);
-
-  // Concat array back into string
-  var searchString = searchInput.join();
-  console.log(searchString);
-
-  let recipeRequest = {
+  const recipeRequest = {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/findByIngredients?ingredients=${searchString}&number=3`,
     headers: {
       "X-RapidAPI-Key": keys.rapidApiKey
@@ -31,7 +29,7 @@ router.post("/", (req, res) => {
 
   callback = (err, resp, body) => {
     if (!err && resp.statusCode == 200) {
-      var returnData = JSON.parse(body);
+      const returnData = JSON.parse(body);
       res.json(returnData);
     } else if (err) {
       res.status(404).json({ success: false });
@@ -45,8 +43,8 @@ router.post("/", (req, res) => {
 // route for recipe details
 router.post("/recipedetails", (req, res) => {
   // Process user input for API query string
-  let recipeId = req.body.idNumber;
-  let recipeDetailsRequest = {
+  const recipeId = req.body.idNumber;
+  const recipeDetailsRequest = {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/recipes/${recipeId}/information?includeNutrition=false`,
     headers: {
       "X-RapidAPI-Key": keys.rapidApiKey
@@ -55,7 +53,7 @@ router.post("/recipedetails", (req, res) => {
 
   callback = (err, resp, body) => {
     if (!err && resp.statusCode == 200) {
-      var returnData = JSON.parse(body);
+      const returnData = JSON.parse(body);
       res.json(returnData);
     }
   };
@@ -76,7 +74,7 @@ router.get("/random", (req, res) => {
 
   function callback(error, response, body) {
     if (!error && response.statusCode == 200) {
-      var info = JSON.parse(body);
+      const info = JSON.parse(body);
       //figure out how to send response
       res.json(info);
     }
@@ -86,11 +84,9 @@ router.get("/random", (req, res) => {
 });
 
 // This one is for the Spoonacular autocomplete call
-// from the AutoComp component
+// from the AutoComp component.
 router.post("/autocomp", (req, res) => {
   const inputValue = req.body.inputValue;
-  console.log(inputValue);
-
   const rapidCall = {
     url: `https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`,
     headers: {
@@ -100,14 +96,12 @@ router.post("/autocomp", (req, res) => {
 
   callback = (err, resp, body) => {
     if (!err && resp.statusCode == 200) {
-      var returnData = JSON.parse(body);
+      const returnData = JSON.parse(body);
       res.json(returnData);
     }
   };
 
   request(rapidCall, callback);
-
-  //res.json("shaddup, I'm testing");
 });
 
 module.exports = router;
