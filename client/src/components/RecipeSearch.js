@@ -16,7 +16,7 @@ import {
 import DashNav from "./DashNav";
 import SearchCard from "./SearchCard";
 import AutoComp from './AutoComp';
-import "./RecipeSearch.css";
+import styles from '../styles/RecipeSearch.module.css';
 
 class RecipeSearch extends Component {
   state = {
@@ -25,6 +25,18 @@ class RecipeSearch extends Component {
     recipeDetails: {},
     modal: false
   };
+
+  componentDidMount() {
+    Alert.success(
+      "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
+      {
+        position: "bottom-right",
+        effect: "stackslide",
+        html: true,
+        timeout: 'none'
+      }
+    );
+  }
 
   handleChange = e => {
     this.setState({ value: e.target.value });
@@ -163,7 +175,7 @@ class RecipeSearch extends Component {
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}
-          className={this.props.className}
+          className={styles.detailsModal}
         >
           <ModalHeader toggle={this.toggle}>
             {recipeDetails.title}
@@ -190,7 +202,7 @@ class RecipeSearch extends Component {
             <Button onClick={this.addToFavs}>Add to Favs</Button>
           </ModalBody>
         </Modal>
-        <Alert stack={{limit: 1}} />
+        <Alert stack={{limit: 1}} className={styles.fas}/>
       </div>
     );
   }
