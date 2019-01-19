@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   Carousel,
   CarouselItem,
@@ -6,7 +6,7 @@ import {
   CarouselIndicators,
   CarouselCaption
 } from "reactstrap";
-import './WelcomeCarousel.css';
+import styles from '../styles/WelCar.module.css';
 
 const items = [
   {
@@ -30,7 +30,7 @@ const items = [
   }
 ];
 
-class WelcomeCarousel extends Component {
+class WelCar extends Component {
   state = { activeIndex: 0 };
 
   onExiting = () => {
@@ -69,8 +69,7 @@ class WelcomeCarousel extends Component {
 
     const slides = items.map(item => (
       <CarouselItem
-        className="custom-tag"
-        tag="div"
+        className={styles.carItem}
         onExiting={this.onExiting}
         onExited={this.onExited}
         key={item.src}
@@ -90,10 +89,10 @@ class WelcomeCarousel extends Component {
 
     return (
       <Carousel
-        activeIndex={activeIndex}
-        next={this.next}
-        previous={this.previous}
-        ride="carousel"
+      activeIndex={activeIndex}
+      next={this.next}
+      previous={this.previous}
+      ride="carousel"
       >
         <CarouselIndicators
           items={items}
@@ -116,4 +115,4 @@ class WelcomeCarousel extends Component {
   }
 }
 
-export default WelcomeCarousel;
+export default WelCar;

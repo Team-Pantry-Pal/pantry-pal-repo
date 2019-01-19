@@ -15,7 +15,7 @@ import {
   Input,
   Button
 } from "reactstrap";
-import "./AppNavbar.css";
+import styles from "../styles/AppNavbar.module.css";
 
 class AppNavbar extends Component {
   state = {
@@ -69,7 +69,7 @@ class AppNavbar extends Component {
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto">
-                <NavItem className="login">
+                <NavItem className={styles.login}>
                   <Form inline onSubmit={this.loginSubmit}>
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                       <Label for="username" className="mr-sm-2" />
@@ -91,7 +91,7 @@ class AppNavbar extends Component {
                         onChange={this.passwordField}
                       />
                     </FormGroup>
-                    <Button>Login</Button>
+                    <Button className={styles.loginBtn}>Login</Button>
                   </Form>
                   <MyContext.Consumer>
                     {context => (

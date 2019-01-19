@@ -1,4 +1,8 @@
-.login{
+.login {
     display: flex;
     justify-content: flex-end;
+}
+
+.loginBtn {
+  margin-right: 3px;
 }
