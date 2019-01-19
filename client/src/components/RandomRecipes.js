@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
-//import things here
 
 class RandomRecipes extends Component {
   state = {

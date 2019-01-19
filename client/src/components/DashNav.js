@@ -9,8 +9,6 @@ import {
   Button } from 'reactstrap';
 import './DashNav.css';
 
-
-
 export default class DashNav extends React.Component {
   constructor(props) {
     super(props);

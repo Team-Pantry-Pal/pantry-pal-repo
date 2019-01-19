@@ -5,9 +5,6 @@ import MyProvider from './MyProvider';
 import WelcomeCarousel from './WelcomeCarousel';
 import './Welcome.css';
 
-
-import './App.css';
-
 class Welcome extends Component {
   render() {
     return (

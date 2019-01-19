@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
+import './Signup.css';
 
 class Signup extends Component {
   state = {
@@ -51,7 +52,7 @@ class Signup extends Component {
     return (
       <div>
         <Button onClick={this.toggle}>Signup</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+        <Modal isOpen={this.state.modal} toggle={this.toggle}>
         <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
           <ModalBody>
           <Form onSubmit={this.submitForm}>
