@@ -14,7 +14,6 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
-//import things here
 
 class RandomRecipes extends Component {
   state = {
@@ -24,7 +23,7 @@ class RandomRecipes extends Component {
     details: {}
   };
 
-  componentWillMount(err) {
+  componentWillMount() {
     //fired before the render method
     fetch("api/recipe-search/random")
       .then(res => res.json())
@@ -42,8 +41,6 @@ class RandomRecipes extends Component {
 
   addToFavs = () => {
     const { details } = this.state;
-    console.log("details below");
-    console.log(details);
     const favPayload = {
       user: this.props.user,
       newFav: {
@@ -56,8 +53,6 @@ class RandomRecipes extends Component {
         instructions: details.instructions
       }
     };
-    console.log("favPayLoad below");
-    console.log(favPayload);
     //then fetch request to the database
     fetch("api/fav-recipes/addfav", {
       method: "POST",
@@ -98,7 +93,6 @@ class RandomRecipes extends Component {
       <div className="random-recipe">
         <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
         <UserWelcome user={this.props.user} />
-
         <Container>
           <CardDeck>
             <Card>
@@ -150,5 +144,4 @@ class RandomRecipes extends Component {
   }
 }
 
-//Next look at carousel
 export default RandomRecipes;

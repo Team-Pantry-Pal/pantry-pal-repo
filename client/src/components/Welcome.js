@@ -5,8 +5,6 @@ import MyProvider from './MyProvider';
 import WelCar from './WelCar';
 import styles from '../styles/Welcome.module.css';
 
-console.error('Need to fix background color for jumbo2!');
-
 class Welcome extends Component {
   render() {
     return (
