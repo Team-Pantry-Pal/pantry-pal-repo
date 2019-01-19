@@ -16,7 +16,6 @@ import {
 import DashNav from "./DashNav";
 import SearchCard from "./SearchCard";
 import AutoComp from './AutoComp';
-import styles from '../styles/RecipeSearch.module.css';
 
 class RecipeSearch extends Component {
   state = {
@@ -163,7 +162,6 @@ class RecipeSearch extends Component {
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}
-          className={styles.detailsModal}
         >
           <ModalHeader toggle={this.toggle}>
             {recipeDetails.title}
@@ -190,7 +188,7 @@ class RecipeSearch extends Component {
             <Button onClick={this.addToFavs}>Add to Favs</Button>
           </ModalBody>
         </Modal>
-        <Alert stack={{limit: 1}} className={styles.fas}/>
+        <Alert stack={{limit: 1}} />
       </div>
     );
   }

@@ -5,6 +5,7 @@ import registerServiceWorker from './registerServiceWorker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-s-alert/dist/s-alert-default.css';
 import 'react-s-alert/dist/s-alert-css-effects/stackslide.css';
+import './styles/_globalStyles.css';
 
 ReactDOM.render(<Router />, document.getElementById('root'));
 registerServiceWorker();

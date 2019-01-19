@@ -3,7 +3,6 @@ import DashNav from "./DashNav";
 import SearchCard from './SearchCard';
 import { Container, Jumbotron, Form, FormGroup, Label, Input, Button, ListGroup, ListGroupItem, CardDeck, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Alert from 'react-s-alert';
-import './PantryList.css';
 
 class PantryList extends Component {
   state = {
@@ -341,7 +340,6 @@ class PantryList extends Component {
           <Modal
             isOpen={this.state.modal}
             toggle={this.toggle}
-            className={this.props.className}
           >
             <ModalHeader toggle={this.toggle}>
               {recipeDetails.title}
