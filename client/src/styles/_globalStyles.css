@@ -3,6 +3,11 @@
   z-index: 1051;
 }
 
+/* Needed to add global rule for alert box in FavRecipes
+because of the way Heroku handles CSS modules.
+This class name is passed to the element as a string
+in the Alert.success method, instead of accessed
+from the module (e.g., {styles.checkIcon}). */
 .FavRecipes_checkIcon__24Y5- {
   margin-right: 8px;
 }

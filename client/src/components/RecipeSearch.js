@@ -25,18 +25,6 @@ class RecipeSearch extends Component {
     modal: false
   };
 
-  componentDidMount() {
-    Alert.success(
-      "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
-      {
-        position: "bottom-right",
-        effect: "stackslide",
-        html: true,
-        timeout: 'none'
-      }
-    );
-  }
-
   handleChange = e => {
     this.setState({ value: e.target.value });
   };
@@ -108,8 +96,7 @@ class RecipeSearch extends Component {
       console.log(success);
       if (success.success === true) {
         Alert.success(
-          "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
-          {
+          "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
             position: "bottom-right",
             effect: "stackslide",
             html: true,
