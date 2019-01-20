@@ -27,7 +27,7 @@ class RecipeSearch extends Component {
 
   componentDidMount() {
     Alert.success(
-      "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
+      "<i class='fas fa-check-circle fa-lg'></i><p>Dick Farts added to Favs!</p>",
       {
         position: "bottom-right",
         effect: "stackslide",
