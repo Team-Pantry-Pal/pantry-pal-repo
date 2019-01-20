@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
 import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
-import './Signup.css';
 
 class Signup extends Component {
   state = {
