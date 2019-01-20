@@ -7,7 +7,7 @@ import {
   Nav,
   NavItem,
   Button } from 'reactstrap';
-import './DashNav.css';
+import styles from '../styles/DashNav.module.css';
 
 export default class DashNav extends React.Component {
   constructor(props) {
@@ -39,16 +39,16 @@ export default class DashNav extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem className="nav-item" tag="div">
+              <NavItem className={styles.navItem}>
                 <NavLink to={`/user/${user}/grocerylist`}>Grocery List</NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem className={styles.navItem}>
                 <NavLink to={`/user/${user}/pantrylist`}>Pantry List</NavLink>
               </NavItem>
-              <NavItem>
+              <NavItem className={styles.navItem}>
                 <NavLink to={`/user/${user}/recipesearch`}>Recipe Search</NavLink>
               </NavItem>
-              <NavItem style={{marginRight: '10px'}}>
+              <NavItem className={styles.navItem}>
                 <NavLink to={`/user/${user}/fav_recipes`}>Fav Recipes</NavLink>
               </NavItem>
             </Nav>

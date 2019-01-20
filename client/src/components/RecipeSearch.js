@@ -16,7 +16,6 @@ import {
 import DashNav from "./DashNav";
 import SearchCard from "./SearchCard";
 import AutoComp from './AutoComp';
-import "./RecipeSearch.css";
 
 class RecipeSearch extends Component {
   state = {
@@ -163,7 +162,6 @@ class RecipeSearch extends Component {
         <Modal
           isOpen={this.state.modal}
           toggle={this.toggle}
-          className={this.props.className}
         >
           <ModalHeader toggle={this.toggle}>
             {recipeDetails.title}

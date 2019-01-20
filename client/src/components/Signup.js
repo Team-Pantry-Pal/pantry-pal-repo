@@ -52,30 +52,33 @@ class Signup extends Component {
     return (
       <div>
         <Button onClick={this.toggle}>Signup</Button>
-        <Modal isOpen={this.state.modal} toggle={this.toggle}>
-        <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
+        <Modal
+          isOpen={this.state.modal}
+          toggle={this.toggle}
+        >
+          <ModalHeader toggle={this.toggle}>Signup</ModalHeader>
           <ModalBody>
-          <Form onSubmit={this.submitForm}>
-            <FormGroup>
-              <Label for="username">Username</Label>
-              <Input
-                type="text"
-                name="username"
-                id="username"
-                placeholder="Username"
-                onChange={this.handleUsernameChange}
-              />
-              <Label for="password">Password</Label>
-              <Input
-                type="password"
-                name="password"
-                id="password"
-                placeholder="Password"
-                onChange={this.handlePasswordChange}
-              />
-            </FormGroup>
-            <Button>Submit</Button>
-          </Form>
+            <Form onSubmit={this.submitForm}>
+              <FormGroup>
+                <Label for="username">Username</Label>
+                <Input
+                  type="text"
+                  name="username"
+                  id="username"
+                  placeholder="Username"
+                  onChange={this.handleUsernameChange}
+                />
+                <Label for="password">Password</Label>
+                <Input
+                  type="password"
+                  name="password"
+                  id="password"
+                  placeholder="Password"
+                  onChange={this.handlePasswordChange}
+                />
+              </FormGroup>
+              <Button>Submit</Button>
+            </Form>
           </ModalBody>
         </Modal>
       </div>

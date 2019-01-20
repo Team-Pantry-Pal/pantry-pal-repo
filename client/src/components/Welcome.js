@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Container, Jumbotron, Row, Col } from 'reactstrap';
 import AppNavbar from './AppNavbar';
 import MyProvider from './MyProvider';
-import WelcomeCarousel from './WelcomeCarousel';
-import './Welcome.css';
+import WelCar from './WelCar';
+import styles from '../styles/Welcome.module.css';
 
 class Welcome extends Component {
   render() {
     return (
-      <div className="App">
+      <div className="app">
         <MyProvider
           push={this.props.history.push}
           logInUser={this.props.logInUser}
@@ -18,47 +18,39 @@ class Welcome extends Component {
           logInUser={this.props.logInUser}
         />
         </MyProvider>
-        <WelcomeCarousel fluid />
-        <Jumbotron>
+        <WelCar fluid />
+        <Jumbotron className={styles.jumbotron}>
           <Container>
             <Row>
               <Col
                 sm='6'
-                className='content'
-                tag='div'
+                className={styles.content}
               >
                 <img
                   alt='foodpic'
-                  className='content-img'
-                  tag='div'
+                  className={styles.contentImg}
                   src='img/potato.jpg'
                 />
               </Col>
               <Col
                 sm='6'
-                className='content'
-                tag='div'
+                className={styles.content}
               >
                 <p>Lorem ipsum dolor sit amet. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
               </Col>
             </Row>
           </Container>
         </Jumbotron>
-        <Jumbotron className='jumbo2' tag='div'>
+        <Jumbotron className={styles.jumbo2}>
           <Container>
             <Row>
-              <Col
-                className='jumbo2-content'
-                sm='6'
-                tag='div'
-              >
+              <Col className={styles.jumbo2Content} sm='6'>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
               </Col>
-              <Col sm='6' tag='div'>
+              <Col sm='6'>
                 <img
                   alt='foodpic'
-                  tag='div'
-                  className='jumbo2-img'
+                  className={styles.jumbo2Img}
                   src='img/grocerystore.jpg'
                 />
               </Col>
@@ -68,14 +60,14 @@ class Welcome extends Component {
         <Jumbotron>
           <Container>
             <Row>
-              <Col sm='6' className='content'>
+              <Col className={styles.content} sm='6'>
                 <img
                   alt='foodpic'
-                  className='content-img'
+                  className={styles.contentImg}
                   src='img/shoppinglist.jpg'
                 />
               </Col>
-              <Col sm='6' className='content'>
+              <Col className={styles.content} sm='6'>
                 <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim.</p>
               </Col>
             </Row>

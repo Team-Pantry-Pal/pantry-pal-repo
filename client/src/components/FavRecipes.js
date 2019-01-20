@@ -17,6 +17,7 @@ import {
   ModalFooter,
   Col
 } from "reactstrap";
+import '../styles/FavRecipes.module.css';
 
 class FavRecipes extends Component {
   state = {
@@ -26,7 +27,15 @@ class FavRecipes extends Component {
   };
 
   componentDidMount() {
-    let userPayload = { user: this.props.user };
+
+    Alert.success("<ul class='fa-ul'><li><span class='fa-li'><i class='fas fa-check-circle fa-lg FavRecipes_checkIcon__24Y5-'></i></span>Ingredients added to Grocery List!</li></ul>", {
+      position: 'bottom-right',
+      effect: 'stackslide',
+      html: true,
+      timeout: 'none'
+    });
+
+    const userPayload = { user: this.props.user };
 
     fetch("api/fav-recipes", {
       method: "POST",
@@ -99,7 +108,7 @@ class FavRecipes extends Component {
     .then(res => res.json())
     .then(res => {
       if (res.success === true) {
-        Alert.success("<i class='fas fa-check-circle fa-lg'></i><p>Ingredients added to Grocery List!</p>", {
+        Alert.success("<ul class='fa-ul'><li><span class='fa-li'><i class='fas fa-check-circle fa-lg FavRecipes_checkIcon__24Y5-'></i></span>Ingredients added to Grocery List!</li></ul>", {
           position: 'bottom-right',
           effect: 'stackslide',
           html: true,

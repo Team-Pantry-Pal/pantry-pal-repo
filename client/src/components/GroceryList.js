@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import DashNav from "./DashNav";
 import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
-import "./GroceryList.css";
+import styles from '../styles/GroceryList.module.css';
 
 class GroceryList extends Component {
 
@@ -214,7 +214,7 @@ class GroceryList extends Component {
               {groceryItems.map(({ _id, name, qty, unitOm }) => (
                 <ListGroupItem key={_id} style={this.state.gotIt}>
                   <Button
-                    className="remove-btn"
+                    className={styles.removeBtn}
                     color="danger"
                     size="sm"
                     onClick={this.deleteItem.bind(this, _id)}
