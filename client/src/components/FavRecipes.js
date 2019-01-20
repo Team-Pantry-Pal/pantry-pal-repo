@@ -27,7 +27,7 @@ class FavRecipes extends Component {
   };
 
   componentDidMount() {
-    Alert.success("<ul class='fa-ul'><li><span class='fa-li'><i class='fas fa-check-circle fa-lg FavRecipes_checkIcon__24Y5-'></i></span>Pickled Penis added to Grocery List!</li></ul>", {
+    Alert.success("<ul class='fa-ul'><li><span class='fa-li'><i class='fas fa-check-circle fa-lg FavRecipes_checkIcon__24Y5-'></i></span>Ingredients added to Grocery List!</li></ul>", {
       position: 'bottom-right',
       effect: 'stackslide',
       html: true,
