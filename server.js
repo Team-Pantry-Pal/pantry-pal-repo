@@ -71,7 +71,7 @@ if (process.env.NODE_ENV === "production") {
   app.use(compression());
 }
 
-const port = process.env.PORT || 5000; // "process.env.PORT" is for when we deploy to Heroku
+const port = process.env.PORT || 4000; // "process.env.PORT" is for when we deploy to Heroku
 app.listen(port, function() {
   console.log(`Server started on port ${port}...`);
 });
