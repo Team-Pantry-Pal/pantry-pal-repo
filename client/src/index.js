@@ -8,7 +8,7 @@ import ReactDOM from 'react-dom';
 import Router from './components/Router';
 import registerServiceWorker from './registerServiceWorker';
 // Import global stylesheet
-import './styles/_globalStyles.css';
+import './globalStyles.css';
 
 ReactDOM.render(<Router />, document.getElementById('root'));
 registerServiceWorker();
