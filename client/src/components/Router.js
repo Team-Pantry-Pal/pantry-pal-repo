@@ -16,13 +16,13 @@ class Router extends Component {
 
   // Persist state with data from local storage on page refresh
   componentWillMount() {
-    let user = localStorage.getItem('user');
-    let isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
+    const user = localStorage.getItem('user');
+    const isLoggedIn = JSON.parse(localStorage.getItem('isLoggedIn')) || false;
     this.setState({ user, isLoggedIn });
   }
 
   // Put user info in state and local storage upon successful sign in
-  logInUser = (user) => {
+  logInUser = user => {
     this.setState({
       user: user,
       isLoggedIn: true
@@ -31,7 +31,7 @@ class Router extends Component {
     localStorage.setItem('isLoggedIn', true);
   };
 
-  // Send logout request to back-end, set state to back to defaults, remove user info from local storage
+  // Send logout request to back-end, set state back to defaults, remove user info from local storage
   logOutUser = () => {
     fetch('auth/logout', {
       method: 'POST',
@@ -83,35 +83,35 @@ class Router extends Component {
             render={(props) => <Welcome {...props} logInUser={this.logInUser} />}
           />
           <PrivateRoute
-            path="/user/:id/grocerylist"
+            path="/:user/grocerylist"
             component={GroceryList}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             logOutUser={this.logOutUser}
           />
           <PrivateRoute
-            path="/user/:id/pantrylist"
+            path="/:user/pantrylist"
             component={PantryList}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             logOutUser={this.logOutUser}
           />
           <PrivateRoute
-            path="/user/:id/recipesearch"
+            path="/:user/recipesearch"
             component={RecipeSearch}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             logOutUser={this.logOutUser}
           />
           <PrivateRoute
-            path="/user/:id/fav_recipes"
+            path="/:user/fav_recipes"
             component={FavRecipes}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}
             logOutUser={this.logOutUser}
           />
           <PrivateRoute
-            path="/user/:id"
+            path="/:id"
             component={App}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}

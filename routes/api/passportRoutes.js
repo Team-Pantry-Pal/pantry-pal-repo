@@ -2,11 +2,12 @@ const express = require("express");
 const User = require("../../models/User");
 // Passport dependencies
 const passport = require("passport");
-const LocalStrategy = require("passport-local"); // required to call req.logout()
+// required to call req.logout()
+const LocalStrategy = require("passport-local");
 
 const app = express();
 
-//islogged in
+// islogged in
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated()) {
     return next();
@@ -14,8 +15,9 @@ function isLoggedIn(req, res, next) {
   res.redirect("/login");
 }
 
-//Logic for registering a user
+// Logic for registering a user
 app.post("/signup", function(req, res) {
+  console.log(req.body);
   var newUser = new User({ username: req.body.username });
   User.register(newUser, req.body.password, function(err, user) {
     if (err) {

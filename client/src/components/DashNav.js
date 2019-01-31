@@ -40,16 +40,16 @@ export default class DashNav extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem className={styles.navItem}>
-                <NavLink to={`/user/${user}/grocerylist`}>Grocery List</NavLink>
+                <NavLink to={`/${user}/grocerylist`}>Grocery List</NavLink>
               </NavItem>
               <NavItem className={styles.navItem}>
-                <NavLink to={`/user/${user}/pantrylist`}>Pantry List</NavLink>
+                <NavLink to={`/${user}/pantrylist`}>Pantry List</NavLink>
               </NavItem>
               <NavItem className={styles.navItem}>
-                <NavLink to={`/user/${user}/recipesearch`}>Recipe Search</NavLink>
+                <NavLink to={`/${user}/recipesearch`}>Recipe Search</NavLink>
               </NavItem>
               <NavItem className={styles.navItem}>
-                <NavLink to={`/user/${user}/fav_recipes`}>Fav Recipes</NavLink>
+                <NavLink to={`/${user}/fav_recipes`}>Fav Recipes</NavLink>
               </NavItem>
             </Nav>
             <Button onClick={this.logout}>Logout</Button>

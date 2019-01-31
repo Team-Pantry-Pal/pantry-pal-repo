@@ -13,10 +13,10 @@ class Welcome extends Component {
           push={this.props.history.push}
           logInUser={this.props.logInUser}
         >
-        <AppNavbar
-          push={this.props.history.push}
-          logInUser={this.props.logInUser}
-        />
+          <AppNavbar
+            push={this.props.history.push}
+            logInUser={this.props.logInUser}
+          />
         </MyProvider>
         <WelCar fluid />
         <Jumbotron className={styles.jumbotron}>
@@ -41,7 +41,7 @@ class Welcome extends Component {
             </Row>
           </Container>
         </Jumbotron>
-        <Jumbotron className={styles.jumbo2}>
+        <Jumbotron className={`${styles.jumbo2} ${styles.jumbotron}`}>
           <Container>
             <Row>
               <Col className={styles.jumbo2Content} sm='6'>
@@ -57,7 +57,7 @@ class Welcome extends Component {
             </Row>
           </Container>
         </Jumbotron>
-        <Jumbotron>
+        <Jumbotron className={styles.jumbotron}>
           <Container>
             <Row>
               <Col className={styles.content} sm='6'>

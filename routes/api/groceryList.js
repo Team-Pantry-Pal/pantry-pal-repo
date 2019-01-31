@@ -8,7 +8,7 @@ const handleError = (err) => console.error(err);
 // @desc     Get entire grocery list on page load
 // @access   Public
 router.post('/list', (req, res) => {
-  let user = req.body.user;
+  const user = req.body.user;
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {
@@ -58,8 +58,8 @@ router.post('/', (req, res) => {
 // @desc    Delete a grocery list item
 // @access  Public
 router.delete("/", (req, res) => {
-  let user = req.body.user;
-  let itemId = req.body.itemId;
+  const user = req.body.user;
+  const itemId = req.body.itemId;
 
   User.findOne({ 'username': user }, 'grocerylist', (err, result) => {
     if (err) {

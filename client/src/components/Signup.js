@@ -1,22 +1,22 @@
-import React, {Component} from 'react';
+import React, { Component, Fragment } from 'react';
 import { Button, Form, FormGroup, Label, Input, Modal, ModalHeader, ModalBody } from 'reactstrap';
 
 class Signup extends Component {
   state = {
-    inputUsername: '',
-    inputPassword: '',
+    username: '',
+    password: '',
     modal: false,
   };
 
   submitForm = e => {
     e.preventDefault();
     //take in and store form data
-    const userName = this.state.inputUsername;
-    const userPassword = this.state.inputPassword;
+    const { username, password } = this.state;
+    const { logInUser, push } = this.props;
     //send data to backend post method
     const userObject = {
-      username: userName,
-      password: userPassword
+      username,
+      password
     };
     fetch('auth/signup', {
       method: 'POST',
@@ -25,20 +25,19 @@ class Signup extends Component {
     })
     .then(res => res.json())
     .then(data => {
-      //console.log(data.username);
-      //console.log(data._id);
-      this.props.logInUser(data.username);
-      this.props.push(`user/${data.username}`);
+      const newUser = data.username;
+      logInUser(newUser);
+      push(`/${newUser}`);
     })
     .catch(err => console.error(err));
   };
 
   handleUsernameChange = e => {
-    this.setState({ inputUsername: e.target.value });
+    this.setState({ username: e.target.value });
   };
 
   handlePasswordChange = e => {
-    this.setState({ inputPassword: e.target.value });
+    this.setState({ password: e.target.value });
   };
 
   toggle = () => {
@@ -49,7 +48,7 @@ class Signup extends Component {
 
   render() {
     return (
-      <div>
+      <Fragment>
         <Button onClick={this.toggle}>Signup</Button>
         <Modal
           isOpen={this.state.modal}
@@ -80,7 +79,7 @@ class Signup extends Component {
             </Form>
           </ModalBody>
         </Modal>
-      </div>
+      </Fragment>
     );
   }
 }

@@ -89,10 +89,10 @@ class WelCar extends Component {
 
     return (
       <Carousel
-      activeIndex={activeIndex}
-      next={this.next}
-      previous={this.previous}
-      ride="carousel"
+        activeIndex={activeIndex}
+        next={this.next}
+        previous={this.previous}
+        ride="carousel"
       >
         <CarouselIndicators
           items={items}

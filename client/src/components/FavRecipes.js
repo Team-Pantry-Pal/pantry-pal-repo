@@ -36,7 +36,7 @@ class FavRecipes extends Component {
     })
       .then(res => res.json())
       .then(data => {
-        let favRecipes = data.favRecipes;
+        const favRecipes = data.favRecipes;
         this.setState({ favRecipes });
       })
       .catch(err => console.log(err));
@@ -144,7 +144,7 @@ class FavRecipes extends Component {
         <Container>
           <CardDeck>
             {favRecipes.map(({ _id, image, title }) => (
-              <Col key={_id} sm="6" md="3">
+              <Col key={_id} sm="6" md="4">
                 <Card>
                 <CardImg top width="100%" src={image} alt="Card image cap" />
                 <CardBody>

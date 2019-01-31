@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { MyContext } from "./MyProvider";
 import Signup from "./Signup";
 import {
@@ -39,30 +39,34 @@ class AppNavbar extends Component {
   };
 
   loginSubmit = e => {
-    e.preventDefault();
-    const username = this.state.usernameField;
-    const password = this.state.passwordField;
-    const credentials = {
-      username: username,
-      password: password
-    };
-    fetch("auth/login", {
-      method: "POST",
-      body: JSON.stringify(credentials),
-      headers: { "content-type": "application/json" }
-    })
-      .then(res => res.json())
-      .then(user => {
-        //console.log(user);
-        this.props.logInUser(user.username);
-        this.props.push(`user/${user.username}`);
+    // Check form id b/c bumbit button on Signup form on modal will cause this form to submit also
+    if (e.target.id === "loginForm") {
+      e.preventDefault();
+      //console.log("LoginSubmit function fired");
+      const username = this.state.usernameField;
+      const password = this.state.passwordField;
+      const credentials = {
+        username: username,
+        password: password
+      };
+      fetch("auth/login", {
+        method: "POST",
+        body: JSON.stringify(credentials),
+        headers: { "content-type": "application/json" }
       })
-      .catch(err => console.log(err));
+        .then(res => res.json())
+        .then(user => {
+          //console.log(user);
+          this.props.logInUser(user.username);
+          this.props.push(`/${user.username}`);
+        })
+        .catch(err => console.log(err));
+    }
   };
 
   render() {
     return (
-      <div>
+      <Fragment>
         <Navbar color="dark" dark expand="sm">
           <Container fluid>
             <NavbarBrand href="/">My Pantry Pal</NavbarBrand>
@@ -70,7 +74,11 @@ class AppNavbar extends Component {
             <Collapse isOpen={this.state.isOpen} navbar>
               <Nav className="ml-auto">
                 <NavItem className={styles.login}>
-                  <Form inline onSubmit={this.loginSubmit}>
+                  <Form
+                    id="loginForm"
+                    inline
+                    onSubmit={this.loginSubmit}
+                  >
                     <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                       <Label for="username" className="mr-sm-2" />
                       <Input
@@ -80,8 +88,6 @@ class AppNavbar extends Component {
                         placeholder="username"
                         onChange={this.usernameField}
                       />
-                    </FormGroup>
-                    <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
                       <Label for="examplePassword" className="mr-sm-2" />
                       <Input
                         type="password"
@@ -92,21 +98,21 @@ class AppNavbar extends Component {
                       />
                     </FormGroup>
                     <Button className={styles.loginBtn}>Login</Button>
+                    <MyContext.Consumer>
+                      {context => (
+                        <Signup
+                          push={context.push}
+                          logInUser={context.logInUser}
+                        />
+                      )}
+                    </MyContext.Consumer>
                   </Form>
-                  <MyContext.Consumer>
-                    {context => (
-                      <Signup
-                        push={context.push}
-                        logInUser={context.logInUser}
-                      />
-                    )}
-                  </MyContext.Consumer>
                 </NavItem>
               </Nav>
             </Collapse>
           </Container>
         </Navbar>
-      </div>
+      </Fragment>
     );
   }
 }

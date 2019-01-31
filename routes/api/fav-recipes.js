@@ -8,7 +8,7 @@ const handleError = (err) => console.error(err);
 // @desc      Retrieve list of favs on page load
 // @access    Public
 router.post('/', (req, res) => {
-  let user = req.body.user;
+  const user = req.body.user;
 
   User.findOne({ 'username': user }, 'favRecipes', (err, result) => {
     if (err) {
@@ -24,8 +24,8 @@ router.post('/', (req, res) => {
 // @desc      Add new recipe to favs
 // @access    Public
 router.post('/addfav', (req, res) => {
-  let user = req.body.user;
-  let newFav = req.body.newFav;
+  const user = req.body.user;
+  const newFav = req.body.newFav;
 
   User.findOne({ 'username': user }, 'favRecipes', (err, result) => {
     if (err) {
