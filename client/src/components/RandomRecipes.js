@@ -1,5 +1,4 @@
-import React, { Component } from "react";
-import DashNav from "./DashNav";
+import React, { Component, Fragment } from "react";
 import UserWelcome from "./UserWelcome";
 import Alert from "react-s-alert";
 import {
@@ -24,19 +23,18 @@ class RandomRecipes extends Component {
   };
 
   componentWillMount() {
-    //fired before the render method
     fetch("api/recipe-search/random")
-      .then(res => res.json())
-      .then(randomRecipe => {
-        this.setState({ randomRecipes: randomRecipe });
-        this.setState({
-          ingredients: randomRecipe.recipes[0].extendedIngredients
-        });
-        this.setState({
-          details: randomRecipe.recipes[0]
-        });
-      })
-      .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(randomRecipe => {
+      this.setState({ randomRecipes: randomRecipe });
+      this.setState({
+        ingredients: randomRecipe.recipes[0].extendedIngredients
+      });
+      this.setState({
+        details: randomRecipe.recipes[0]
+      });
+    })
+    .catch(err => console.log(err));
   }
 
   addToFavs = () => {
@@ -59,23 +57,23 @@ class RandomRecipes extends Component {
       body: JSON.stringify(favPayload),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => res.json())
-      .then(success => {
-        // show user confirmation
-        console.log(success);
-        if (success.success === true) {
-          Alert.success(
-            "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
-            {
-              position: "bottom-right",
-              effect: "stackslide",
-              html: true,
-              timeout: 4000
-            }
-          );
-        }
-      })
-      .catch(err => console.log(err.message));
+    .then(res => res.json())
+    .then(success => {
+      // show user confirmation
+      console.log(success);
+      if (success.success === true) {
+        Alert.success(
+          "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>",
+          {
+            position: "bottom-right",
+            effect: "stackslide",
+            html: true,
+            timeout: 4000
+          }
+        );
+      }
+    })
+    .catch(err => console.log(err.message));
   };
 
   viewDetails = _id => {
@@ -86,12 +84,10 @@ class RandomRecipes extends Component {
     this.setState({ modal: !this.state.modal });
   };
   render() {
-    const ingredients = this.state.ingredients;
-    const details = this.state.details;
+    const { details, ingredients } = this.state;
 
     return (
-      <div className="random-recipe">
-        <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
+      <Fragment>
         <UserWelcome user={this.props.user} />
         <Container>
           <CardDeck>
@@ -133,13 +129,16 @@ class RandomRecipes extends Component {
                   <h6>Instructions: {details.instructions}</h6>
                 </CardBody>
               </Card>
-              <Button color="primary" onClick={this.addToFavs}>
+              <Button
+                color="primary"
+                onClick={this.addToFavs}
+              >
                 Add to Favs
               </Button>
             </ModalBody>
           </Modal>
         </Container>
-      </div>
+      </Fragment>
     );
   }
 }

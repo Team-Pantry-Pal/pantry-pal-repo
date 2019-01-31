@@ -1,3 +1,7 @@
 .removeBtn {
     margin-right: 0.5rem;
 }
+
+.checkOutBtn {
+  float: right;
+}

@@ -18,6 +18,7 @@ class Signup extends Component {
       username,
       password
     };
+
     fetch('auth/signup', {
       method: 'POST',
       body: JSON.stringify(userObject),

@@ -1,10 +1,9 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import DashNav from "./DashNav";
 import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
 import styles from '../styles/GroceryList.module.css';
 
 class GroceryList extends Component {
-
   state = {
     groceryItems: [],
     shoppingCart: [],
@@ -61,13 +60,13 @@ class GroceryList extends Component {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
-      .then(res => res.json())
-      .then(newItem => {
-        const groceryItems = this.state.groceryItems;
-        groceryItems.push(newItem.payload[0]);
-        this.setState({ groceryItems, item: '' });
-      })
-      .catch(err => console.error(err.message));
+    .then(res => res.json())
+    .then(newItem => {
+      const groceryItems = this.state.groceryItems;
+      groceryItems.push(newItem.payload[0]);
+      this.setState({ groceryItems, item: '' });
+    })
+    .catch(err => console.error(err.message));
 */
     // Async/await approach
     const addItemDB = async () => {
@@ -119,22 +118,26 @@ class GroceryList extends Component {
   gotIt = _id => {
     const groceryItems = this.state.groceryItems.filter(item => item._id !== _id);
     const shoppingCart = this.state.shoppingCart;
+
     this.state.groceryItems.forEach(item => {
       if (item._id === _id) {
         shoppingCart.push(item);
       }
     });
+
     this.setState({ groceryItems, shoppingCart });
   };
 
   dontGotIt = _id => {
     const shoppingCart = this.state.shoppingCart.filter(item => item._id !== _id);
     const groceryItems = this.state.groceryItems;
+
     this.state.shoppingCart.forEach(item => {
       if (item._id === _id) {
         groceryItems.push(item);
       }
     });
+
     this.setState({ shoppingCart, groceryItems });
   };
 
@@ -151,7 +154,6 @@ class GroceryList extends Component {
     })
     .then(res => res.json())
     .then(msg => {
-      console.log(msg);
       if (msg.success === true) {
         this.setState({ shoppingCart: [] });
       }
@@ -161,10 +163,10 @@ class GroceryList extends Component {
   };
 
   render() {
-    const { groceryItems } = this.state;
-    const { shoppingCart } = this.state;
+    const { groceryItems, shoppingCart } = this.state;
+
     return (
-      <div className="grocery-list">
+      <Fragment>
         <DashNav
           user={this.props.user}
           logOutUser={this.props.logOutUser}
@@ -212,7 +214,10 @@ class GroceryList extends Component {
             <br />
             <ListGroup>
               {groceryItems.map(({ _id, name, qty, unitOm }) => (
-                <ListGroupItem key={_id} style={this.state.gotIt}>
+                <ListGroupItem
+                  key={_id}
+                  style={this.state.gotIt}
+                >
                   <Button
                     className={styles.removeBtn}
                     color="danger"
@@ -253,11 +258,16 @@ class GroceryList extends Component {
               ))}
               </ListGroup>
               <br />
-              <Button onClick={this.checkout} style={{float: "right"}}>Checkout</Button>
+              <Button
+                onClick={this.checkout}
+                className={styles.checkOutBtn}
+              >
+                Checkout
+              </Button>
             </Jumbotron>
           }
         </Container>
-      </div>
+      </Fragment>
     );
   }
 }

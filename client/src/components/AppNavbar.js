@@ -40,7 +40,7 @@ class AppNavbar extends Component {
 
   loginSubmit = e => {
     // Check form id b/c sumbit button on Signup form on modal will cause this form to submit also
-    if (e.target.id === "loginForm") {
+    //if (e.target.id === "loginForm") {
       e.preventDefault();
       //console.log("LoginSubmit function fired");
       const username = this.state.usernameField;
@@ -61,7 +61,7 @@ class AppNavbar extends Component {
           this.props.push(`/${user.username}`);
         })
         .catch(err => console.log(err));
-    }
+    //}
   };
 
   render() {

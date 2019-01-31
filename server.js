@@ -49,7 +49,7 @@ app.use(passport.initialize());
 app.use(passport.session()); // make sure express-session is called first
 // Initialize routes
 app.use("/:user/api/grocerylist", groceryRouter);
-app.use("/:user/api/recipe-search", searchRouter); // search from /user page
+app.use("/:user/api/recipe-search", searchRouter);
 app.use("/:user/api/pantry", pantryRouter);
 app.use("/:user/api/fav-recipes", favRouter);
 app.use("/:user/auth", passportRoutes);

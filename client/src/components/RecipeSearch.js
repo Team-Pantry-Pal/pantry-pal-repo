@@ -1,5 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Alert from "react-s-alert";
+import DashNav from "./DashNav";
+import SearchCard from "./SearchCard";
+import AutoComp from './AutoComp';
 import {
   Container,
   Form,
@@ -13,9 +16,6 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
-import DashNav from "./DashNav";
-import SearchCard from "./SearchCard";
-import AutoComp from './AutoComp';
 
 class RecipeSearch extends Component {
   state = {
@@ -31,7 +31,8 @@ class RecipeSearch extends Component {
 
   findRecipes = e => {
     e.preventDefault();
-    let searchData = { ingredients: this.state.value };
+    const searchData = { ingredients: this.state.value };
+
     fetch("api/recipe-search", {
       method: "POST",
       body: JSON.stringify(searchData),
@@ -44,7 +45,8 @@ class RecipeSearch extends Component {
   };
 
   autoCompSearch = autoCompItems => {
-    let searchData = { ingredients: autoCompItems };
+    const searchData = { ingredients: autoCompItems };
+
     fetch("api/recipe-search", {
       method: "POST",
       body: JSON.stringify(searchData),
@@ -58,7 +60,8 @@ class RecipeSearch extends Component {
   //second api request to get recipe details
   recipeDetails = (id, e) => {
     e.preventDefault();
-    let recipeId = { idNumber: id };
+    const recipeId = { idNumber: id };
+
     fetch("api/recipe-search/recipedetails", {
       method: "POST",
       body: JSON.stringify(recipeId),
@@ -92,8 +95,6 @@ class RecipeSearch extends Component {
     })
     .then(res => res.json())
     .then(success => {
-      // show user confirmation
-      console.log(success);
       if (success.success === true) {
         Alert.success(
           "<i class='fas fa-check-circle fa-lg'></i><p>Recipe added to Favs!</p>", {
@@ -123,11 +124,12 @@ class RecipeSearch extends Component {
     }
 
     return (
-      <div className="search-results">
-        <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
-        <AutoComp
-          search={this.autoCompSearch}
+      <Fragment>
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
         />
+        <AutoComp search={this.autoCompSearch} />
         <Container>
           <Jumbotron>
             <Form onSubmit={this.findRecipes}>
@@ -188,7 +190,7 @@ class RecipeSearch extends Component {
           </ModalBody>
         </Modal>
         <Alert stack={{limit: 1}} />
-      </div>
+      </Fragment>
     );
   }
 }

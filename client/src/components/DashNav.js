@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Collapse,
@@ -9,20 +9,16 @@ import {
   Button } from 'reactstrap';
 import styles from '../styles/DashNav.module.css';
 
-export default class DashNav extends React.Component {
-  constructor(props) {
-    super(props);
+class DashNav extends Component {
+  state = {
+    isOpen: false
+  };
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-  toggle() {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
 
   logout = () => {
     this.props.logOutUser();
@@ -30,8 +26,9 @@ export default class DashNav extends React.Component {
 
   render() {
     const { user } = this.props;
+
     return (
-      <div>
+      <Fragment>
         <Navbar color="dark" dark expand="sm">
           <div className="navbar-brand">
             <NavLink to={`/user/${user}`}>Pantry Pal</NavLink>
@@ -55,7 +52,9 @@ export default class DashNav extends React.Component {
             <Button onClick={this.logout}>Logout</Button>
           </Collapse>
         </Navbar>
-      </div>
+      </Fragment>
     );
   }
 }
+
+export default DashNav;

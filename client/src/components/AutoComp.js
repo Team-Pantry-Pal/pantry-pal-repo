@@ -11,7 +11,7 @@ class AutoComp extends Component {
 
   // This version of the promiseOptions function fetches
   // directly to spoonacular API.
-  promiseOptions = inputValue => {
+  promiseOptions(inputValue) {
     return fetch(`https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/food/ingredients/autocomplete?&number=10&query=${inputValue}`, {
       method: 'GET',
       headers: {
@@ -20,8 +20,8 @@ class AutoComp extends Component {
       }
     })
     .then(res => res.json())
-    .then((spoonData) => {
-      let options = spoonData.map((item, index) => {
+    .then(spoonData => {
+      const options = spoonData.map((item, index) => {
         return {
           label: item.name,
           value: index
@@ -30,12 +30,12 @@ class AutoComp extends Component {
       return options;
     })
     .catch(err => console.error(err));
-  };
+  }
 
 /*
   // This version of the promiseOptions function fetches to our
   // node server, and the spoonacular call is made from there.
-  promiseOptions = inputValue => {
+  promiseOptions(inputValue) {
     return fetch('api/recipe-search/autocomp', {
       method: 'POST',
       body: JSON.stringify({ inputValue: inputValue }),
@@ -52,7 +52,7 @@ class AutoComp extends Component {
       return options;
     })
     .catch(err => console.error(err));
-  };
+  }
 */
   handleInputChange = newValue => {
     const inputValue = newValue;
@@ -61,9 +61,8 @@ class AutoComp extends Component {
   };
 
   selectHandler = (selected, action) => {
-    console.log(selected, action)
     let stateItems = this.state.stateItems;
-    let selectArray = selected;
+    const selectArray = selected;
     // 1. For every item of the selectArray we fire the stateChecker function on it.
     selectArray.forEach(selection => {
       // 4. If stateChecker returns false (meaning the current selection is NOT in the stateArray), that selection gets pushed onto the stateArray. If it returns true, nothing happens.

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Alert from 'react-s-alert';
 import DashNav from "./DashNav";
 import {
@@ -34,15 +34,15 @@ class FavRecipes extends Component {
       body: JSON.stringify(userPayload),
       headers: { "Content-Type": "application/json" }
     })
-      .then(res => res.json())
-      .then(data => {
-        const favRecipes = data.favRecipes;
-        this.setState({ favRecipes });
-      })
-      .catch(err => console.log(err));
+    .then(res => res.json())
+    .then(data => {
+      const favRecipes = data.favRecipes;
+      this.setState({ favRecipes });
+    })
+    .catch(err => console.log(err));
   }
 
-  deleteFav = (_id) => {
+  deleteFav = _id => {
     const payload = {
       user: this.props.user,
       recipeId: _id
@@ -56,8 +56,7 @@ class FavRecipes extends Component {
     .then(res => res.json())
     .then(success => {
       console.log(success);
-      let newFavs = this.state.favRecipes.filter(recipe => recipe._id !== _id);
-      console.log(newFavs);
+      const newFavs = this.state.favRecipes.filter(recipe => recipe._id !== _id);
       this.setState({ favRecipes: newFavs });
     })
     .catch(err => console.log(err));
@@ -75,10 +74,15 @@ class FavRecipes extends Component {
   };
 
   makeRecipe = () => {
+    const payload = {
+      user: this.props.user,
+      newItems: ingList
+    };
     let ingList = [];
     const recipeId = this.state.favDetails.id;
+
     this.state.favDetails.extendedIngredients.map(ing => {
-      let ingredient = {
+      const ingredient = {
         name: ing.name,
         spoonId: ing.id,
         qty: ing.measures.us.amount,
@@ -88,10 +92,7 @@ class FavRecipes extends Component {
       ingList.push(ingredient);
       return ingList;
     });
-    let payload = {
-      user: this.props.user,
-      newItems: ingList
-    };
+
     fetch('api/grocerylist', {
       method: 'POST',
       body: JSON.stringify(payload),
@@ -120,17 +121,18 @@ class FavRecipes extends Component {
     });
     // Use Promise to reference modal status AFTER it's been set
     favModalReset
-      .then(() => {
-        if (this.state.modal === false) {
-          this.setState({ favDetails: {} });
-        }
-      });
+    .then(() => {
+      if (this.state.modal === false) {
+        this.setState({ favDetails: {} });
+      }
+    });
   };
 
   render() {
     const favRecipes = this.state.favRecipes;
     const favDetails = this.state.favDetails;
     let ingredients;
+
     if (this.state.favDetails.extendedIngredients) {
       ingredients = this.state.favDetails.extendedIngredients;
       //console.log(ingredients);
@@ -139,14 +141,22 @@ class FavRecipes extends Component {
     }
 
     return (
-      <div className="fav-recipes">
-        <DashNav user={this.props.user} logOutUser={this.props.logOutUser} />
+      <Fragment>
+        <DashNav
+          user={this.props.user}
+          logOutUser={this.props.logOutUser}
+        />
         <Container>
           <CardDeck>
             {favRecipes.map(({ _id, image, title }) => (
               <Col key={_id} sm="6" md="4">
                 <Card>
-                <CardImg top width="100%" src={image} alt="Card image cap" />
+                <CardImg
+                  src={image}
+                  top
+                  width="100%"
+                  alt="Card image cap"
+                />
                 <CardBody>
                   <CardTitle>{title}</CardTitle>
                   <CardSubtitle>Card subtitle</CardSubtitle>
@@ -166,7 +176,10 @@ class FavRecipes extends Component {
               </Col>
             ))}
           </CardDeck>
-          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+          <Modal
+            isOpen={this.state.modal}
+            toggle={this.toggle}
+          >
             <ModalHeader toggle={this.toggle} />
             <ModalBody>
               <Card>
@@ -196,7 +209,7 @@ class FavRecipes extends Component {
           </Modal>
         </Container>
         <Alert stack={{limit: 1}} />
-      </div>
+      </Fragment>
     );
   }
 }
