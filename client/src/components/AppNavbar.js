@@ -39,7 +39,7 @@ class AppNavbar extends Component {
   };
 
   loginSubmit = e => {
-    // Check form id b/c bumbit button on Signup form on modal will cause this form to submit also
+    // Check form id b/c sumbit button on Signup form on modal will cause this form to submit also
     if (e.target.id === "loginForm") {
       e.preventDefault();
       //console.log("LoginSubmit function fired");
