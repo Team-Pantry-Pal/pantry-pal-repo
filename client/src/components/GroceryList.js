@@ -105,14 +105,14 @@ class GroceryList extends Component {
       body: JSON.stringify(payload),
       headers: { 'Content-Type': 'application/json' }
     })
-    .then(res => res.json())
-    .then(success => {
-      this.setState(state => ({
-        groceryItems: state.groceryItems.filter(item => item._id !== _id)
-      }));
-      console.log(success);
-    })
-    .catch(err => console.log(err));
+      .then(res => res.json())
+      .then(success => {
+        this.setState(state => ({
+          groceryItems: state.groceryItems.filter(item => item._id !== _id)
+        }));
+        console.log(success);
+      })
+      .catch(err => console.log(err));
   };
 
   gotIt = _id => {

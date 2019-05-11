@@ -1,0 +1,111 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Should render Header correctly 1`] = `
+<Fragment>
+  <Navbar
+    color="dark"
+    dark={true}
+    expand="sm"
+    tag="nav"
+  >
+    <Container
+      fluid={true}
+      tag="div"
+    >
+      <NavbarBrand
+        href="/"
+        tag="a"
+      >
+        PantryPal
+      </NavbarBrand>
+      <NavbarToggler
+        onClick={[Function]}
+        tag="button"
+        type="button"
+      />
+      <Collapse
+        appear={false}
+        enter={true}
+        exit={true}
+        in={false}
+        isOpen={false}
+        mountOnEnter={false}
+        navbar={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        tag="div"
+        timeout={350}
+        unmountOnExit={false}
+      >
+        <Nav
+          className="ml-auto"
+          navbar={true}
+          tag="ul"
+          vertical={false}
+        >
+          <SignInNav />
+        </Nav>
+      </Collapse>
+    </Container>
+  </Navbar>
+</Fragment>
+`;
+
+exports[`Should render Header with AppNav content 1`] = `
+<Fragment>
+  <Navbar
+    color="dark"
+    dark={true}
+    expand="sm"
+    tag="nav"
+  >
+    <Container
+      fluid={true}
+      tag="div"
+    >
+      <NavbarBrand
+        href="/"
+        tag="a"
+      >
+        PantryPal
+      </NavbarBrand>
+      <NavbarToggler
+        onClick={[Function]}
+        tag="button"
+        type="button"
+      />
+      <Collapse
+        appear={false}
+        enter={true}
+        exit={true}
+        in={false}
+        isOpen={false}
+        mountOnEnter={false}
+        navbar={true}
+        onEnter={[Function]}
+        onEntered={[Function]}
+        onEntering={[Function]}
+        onExit={[Function]}
+        onExited={[Function]}
+        onExiting={[Function]}
+        tag="div"
+        timeout={350}
+        unmountOnExit={false}
+      >
+        <Nav
+          className="ml-auto"
+          navbar={true}
+          tag="ul"
+          vertical={false}
+        >
+          <DashNav />
+        </Nav>
+      </Collapse>
+    </Container>
+  </Navbar>
+</Fragment>
+`;
