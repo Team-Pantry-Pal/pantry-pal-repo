@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
 import { NavItem, Button } from 'reactstrap';
-import styles from '../styles/DashNav.module.css';
+import styles from '../styles/AppNav.module.css';
 
-class DashNav extends Component {
+class AppNav extends Component {
   logout = () => {
     this.props.logOutUser();
   };
@@ -31,4 +31,4 @@ class DashNav extends Component {
   }
 }
 
-export default DashNav;
+export default AppNav;

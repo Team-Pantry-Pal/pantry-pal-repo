@@ -102,7 +102,7 @@ exports[`Should render Header with AppNav content 1`] = `
           tag="ul"
           vertical={false}
         >
-          <DashNav />
+          <AppNav />
         </Nav>
       </Collapse>
     </Container>
