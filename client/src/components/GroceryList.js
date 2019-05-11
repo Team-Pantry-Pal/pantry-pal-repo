@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
-import DashNav from "./DashNav";
 import { Container, ListGroup, ListGroupItem, Button, Input, Form, FormGroup, Jumbotron } from "reactstrap";
+import Header from "./Header";
 import styles from '../styles/GroceryList.module.css';
 
 class GroceryList extends Component {
@@ -167,8 +167,9 @@ class GroceryList extends Component {
 
     return (
       <Fragment>
-        <DashNav
+        <Header
           user={this.props.user}
+          isLoggedIn={this.props.isLoggedIn}
           logOutUser={this.props.logOutUser}
         />
         <Container>

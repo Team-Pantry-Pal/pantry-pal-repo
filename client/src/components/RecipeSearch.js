@@ -1,8 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Alert from "react-s-alert";
-import DashNav from "./DashNav";
-import SearchCard from "./SearchCard";
-import AutoComp from './AutoComp';
 import {
   Container,
   Form,
@@ -16,6 +12,10 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
+import Alert from "react-s-alert";
+import Header from "./Header";
+import SearchCard from "./SearchCard";
+import AutoComp from './AutoComp';
 
 class RecipeSearch extends Component {
   state = {
@@ -125,8 +125,9 @@ class RecipeSearch extends Component {
 
     return (
       <Fragment>
-        <DashNav
+        <Header
           user={this.props.user}
+          isLoggedIn={this.props.isLoggedIn}
           logOutUser={this.props.logOutUser}
         />
         <AutoComp search={this.autoCompSearch} />

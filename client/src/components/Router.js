@@ -53,34 +53,29 @@ class Router extends Component {
   };
 
   render() {
-    // Make-shift Route component for protected routes
-    const PrivateRoute = ({ component: Component, ...rest }) => {
-      return (
-        <Route {...rest} render={(props) => {
-          // rest is all the props passed to PrivateRoute
-          // props is all of Route's props
-          // I need to get all of them passed to the component being rendered on the route so that props can be passed from here
-          const both = { ...rest, ...props };
-          // Now the component being rendered takes with it any prop given straight to the PrivateRoute inline
-          if (this.state.isLoggedIn === true) {
-            return (
-              <Component {...both} />
-            )
-          } else {
-              return (
-                <Redirect to="/" />
-              )
-            }
-        }} />
-      );
-    };
+    const PrivateRoute = ({ component: Component, ...rest }) => (
+      <Route
+        {...rest}
+        render={(props) => {
+          return this.state.isLoggedIn === true
+            ? <Component {...rest} {...props} />
+            : <Redirect to="/" />;
+        }}
+      />
+    );
 
     return (
       <BrowserRouter>
         <Switch>
           <Route
-            exact path="/"
-            render={(props) => <Welcome {...props} logInUser={this.logInUser} />}
+            exact
+            path="/"
+            render={(props) => (
+              <Welcome
+                logInUser={this.logInUser}
+                push={props.history.push}
+              />
+            )}
           />
           <PrivateRoute
             path="/:user/grocerylist"
@@ -111,7 +106,7 @@ class Router extends Component {
             logOutUser={this.logOutUser}
           />
           <PrivateRoute
-            path="/:id"
+            path="/:user"
             component={App}
             user={this.state.user}
             isLoggedIn={this.state.isLoggedIn}

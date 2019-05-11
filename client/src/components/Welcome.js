@@ -1,22 +1,16 @@
 import React, { Fragment } from 'react';
 import { Container, Jumbotron, Row, Col } from 'reactstrap';
-import AppNavbar from './AppNavbar';
-import MyProvider from './MyProvider';
+import Header from './Header';
 import WelCar from './WelCar';
 import styles from '../styles/Welcome.module.css';
 
 function Welcome(props) {
   return (
     <Fragment>
-      <MyProvider
-        push={props.history.push}
+      <Header
+        push={props.push}
         logInUser={props.logInUser}
-      >
-        <AppNavbar
-          push={props.history.push}
-          logInUser={props.logInUser}
-        />
-      </MyProvider>
+      />
       <WelCar fluid />
       <Jumbotron className={styles.jumbotron}>
         <Container>

@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from 'react';
-import DashNav from "./DashNav";
-import SearchCard from './SearchCard';
+import React, { Component } from 'react';
 import { Container, Jumbotron, Form, FormGroup, Label, Input, Button, ListGroup, ListGroupItem, CardDeck, Modal, ModalHeader, ModalBody } from 'reactstrap';
 import Alert from 'react-s-alert';
+import Header from "./Header";
+import SearchCard from './SearchCard';
 
 class PantryList extends Component {
   state = {
@@ -147,7 +147,6 @@ class PantryList extends Component {
           return item;
         }
       });
-
       this.setState({ pantryItems });
       // If the checkbox was unchecked...
     } else if (target.checked === false) {
@@ -160,7 +159,6 @@ class PantryList extends Component {
           return item;
         }
       });
-
       this.setState({ pantryItems });
     }
   };
@@ -176,14 +174,12 @@ class PantryList extends Component {
         return item;
       }
     });
-
     this.setState({ pantryItems });
   };
 
   recipeDetails = (id, e) => {
     e.preventDefault();
-
-    const recipeId = { idNumber: id };
+    let recipeId = { idNumber: id };
 
     fetch("api/recipe-search/recipedetails", {
       method: "POST",
@@ -249,9 +245,10 @@ class PantryList extends Component {
     }
 
     return (
-      <Fragment>
-        <DashNav
+      <div className="pantrylist">
+        <Header
           user={this.props.user}
+          isLoggedIn={this.props.isLoggedIn}
           logOutUser={this.props.logOutUser}
         />
         <Container>
@@ -326,12 +323,7 @@ class PantryList extends Component {
                   ))}
                   <br />
                   <Button type="submit">Get Recipes</Button>
-                  <Button
-                    style={{'float': 'right'}}
-                    onClick={this.clearChecks}
-                  >
-                    Clear checkboxes
-                  </Button>
+                  <Button style={{'float': 'right'}} onClick={this.clearChecks}>Clear checkboxes</Button>
                 </FormGroup>
               </ListGroup>
             </Form>
@@ -377,7 +369,7 @@ class PantryList extends Component {
           </Modal>
         </Container>
         <Alert stack={{limit: 1}} />
-      </Fragment>
+      </div>
     );
   }
 }

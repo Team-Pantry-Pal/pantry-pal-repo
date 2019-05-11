@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Alert from 'react-s-alert';
-import DashNav from "./DashNav";
 import {
   Container,
   Card,
@@ -17,6 +15,8 @@ import {
   ModalFooter,
   Col
 } from "reactstrap";
+import Alert from 'react-s-alert';
+import Header from "./Header";
 import '../styles/FavRecipes.module.css';
 
 class FavRecipes extends Component {
@@ -142,8 +142,9 @@ class FavRecipes extends Component {
 
     return (
       <Fragment>
-        <DashNav
+        <Header
           user={this.props.user}
+          isLoggedIn={this.props.isLoggedIn}
           logOutUser={this.props.logOutUser}
         />
         <Container>

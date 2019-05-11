@@ -1,12 +1,13 @@
 import React, { Fragment } from "react";
-import DashNav from "./DashNav";
+import Header from "./Header";
 import RandomRecipes from "./RandomRecipes";
 
 function App(props) {
   return (
     <Fragment>
-      <DashNav
+      <Header
         user={props.user}
+        isLoggedIn={props.isLoggedIn}
         logOutUser={props.logOutUser}
       />
       <RandomRecipes user={props.user} />

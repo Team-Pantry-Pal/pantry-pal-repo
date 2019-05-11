@@ -1,6 +1,4 @@
 import React, { Component, Fragment } from "react";
-import UserWelcome from "./UserWelcome";
-import Alert from "react-s-alert";
 import {
   Container,
   CardDeck,
@@ -13,6 +11,8 @@ import {
   ModalHeader,
   ModalBody
 } from "reactstrap";
+import Alert from "react-s-alert";
+import UserWelcome from "./UserWelcome";
 
 class RandomRecipes extends Component {
   state = {
@@ -22,7 +22,7 @@ class RandomRecipes extends Component {
     details: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
     fetch("api/recipe-search/random")
     .then(res => res.json())
     .then(randomRecipe => {
